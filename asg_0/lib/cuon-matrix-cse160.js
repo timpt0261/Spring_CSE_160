@@ -149,7 +149,7 @@ class Vector3 {
     normalize() {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
-        this = this / this.magnitude;
+        // this = this / this.magnitude;
         // Don't delete the return statement.
         return this;
     };

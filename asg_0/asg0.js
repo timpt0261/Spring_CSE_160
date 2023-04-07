@@ -1,6 +1,5 @@
 // DrawRectangle.js
 function main() {
-    let center = 200; //center of the canvas
     var canvas = document.getElementById('example');
     var ctx = canvas.getContext('2d');
     if (!canvas) {
@@ -9,7 +8,6 @@ function main() {
     }
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)'; // Set a black color
     ctx.fillRect(0, 0, 400, 400); // Fill a rectangle with the color
-   handleDrawEvent();
    handleDrawEvent();
 }
 
@@ -22,9 +20,8 @@ function drawVector(v=new Vector3([0,0,0]), color="")
         console.log('Failed to retrieve the <canvas> element');
         return;
     }
-    ctx.fillStyle = 'rgba(0, 0, 0, 1.0)'; // Set a black color
-    ctx.fillRect(0, 0, 400, 400); // Fill a rectangle with the color
 
+    // Drawing on Canvas
     ctx.strokeStyle = color;
     ctx.beginPath();
     ctx.moveTo(canvas.width/2, canvas.height/2);
@@ -34,7 +31,6 @@ function drawVector(v=new Vector3([0,0,0]), color="")
 
 function handleDrawEvent()
 {
-    let v = new Vector3([0,0,0]);
     var canvas = document.getElementById('example');
     var ctx = canvas.getContext('2d');
     if (!canvas) {
@@ -44,19 +40,24 @@ function handleDrawEvent()
     // Clear canvas
     const draw = document.getElementById("draw");
     draw.onclick = () => {
+        console.log("Drawing");
         ctx.fillStyle = 'rgba(0, 0, 0, 1.0)'; // Set a black color
         ctx.fillRect(0, 0, 400, 400); // Fill a rectangle with the color
         console.log("Clearing Canvas")
 
         // Read values 
-        const input = document.querySelector("input");
+        const x1_value = document.getElementById("x1-coor");
+        const y1_value = document.getElementById("y1-coor");
         
-        const x_value = document.getElementById("x-coor");
-        const y_value = document.getElementById("y-coor");
+        const x2_value = document.getElementById("x2-coor");
+        const y2_value = document.getElementById("y2-coor");
         
-        v = new Vector3([x_value.value, y_value.value, 0]);
-        // Draw vector
-        drawVector(v, "red");
+        let v1 = new Vector3([x1_value.value, y1_value.value, 0]);
+        let v2 = new Vector3([x2_value.value, y2_value.value, 0]);
+
+        // Draw vectors
+        drawVector(v1, "red");
+        drawVector(v2,"blue");
     }
     
 }
