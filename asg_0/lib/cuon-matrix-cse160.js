@@ -137,7 +137,7 @@ class Vector3 {
     magnitude() {
         // Insert your code here.
         let m = 0; // Modify this line to calculate this vector's magnitude.
-        m = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
+        m = Math.sqrt(Math.pow(this.elements[0], 2) + Math.pow(this.elements[1], 2) + Math.pow(this.elements[2], 2));
         // Don't delete the return statement.
         return m;
     };
@@ -149,7 +149,10 @@ class Vector3 {
     normalize() {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
-        // this = this / this.magnitude;
+        let m = this.magnitude();
+        for (var i = 0; i < 3; i++) {
+          this.elements[i] /= m;
+        }
         // Don't delete the return statement.
         return this;
     };

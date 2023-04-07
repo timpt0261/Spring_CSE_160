@@ -90,7 +90,6 @@ function handleDrawOperationEvent()
 
         let v1 = new Vector3([x1_value.value, y1_value.value, 0]);
         let v2 = new Vector3([x2_value.value, y2_value.value, 0]);
-        let v3;
 
         // Draw vectors
         drawVector(v1, "red");
@@ -99,26 +98,26 @@ function handleDrawOperationEvent()
 
         switch(operation.value){
             case "add":
-                v3 = v1.add(v2);
-                drawVector(v3, "green"); 
+                drawVector(v1.add(v2), "green"); 
                 break;
             case "sub":
-                v3 = v1.sub(v2);
-                drawVector(v3, "green");
+                drawVector(v1.sub(v2), "green");
                 break;
             case "mul": 
-                v3 = v1.mul(scaler.value);
-                drawVector(v3,"green");
-
-                v3 = v2.mul(scaler.value);
-                drawVector(v3, "green");
+                drawVector(v1.mul(scaler.value),"green");
+                drawVector(v2.mul(scaler.value), "green");
                 break;
             case "div":
-                v3 = v1.div(scaler.value);
-                drawVector(v3, "green");
-                
-                v3 = v2.div(scaler.value);
-                drawVector(v3, "green");
+                drawVector(v1.div(scaler.value), "green");
+                drawVector(v2.div(scaler.value), "green");
+                break;
+            case "mag":
+                console.log("Magnitude v1: " +v1.magnitude());
+                console.log("Magnitude v2: " + v2.magnitude());
+                break;
+            case "norm":
+                drawVector(v1.normalize(), "green");
+                drawVector(v2.normalize(), "green");
                 break;
         }
     }
