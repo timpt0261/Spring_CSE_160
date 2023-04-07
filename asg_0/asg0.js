@@ -1,14 +1,12 @@
 // DrawRectangle.js
 function main() {
-    let v1 =  new Vector3([100,100,0]);
+    let v1 = new Vector3([2.25, 2.25,0]);
     drawVector(v1,"red");
 }
 
-function drawVector(v, color)
+function drawVector(v=new Vector3([0,0,0]), color="")
 {
-    let xoff = 20;
-    let yoff = 20;
-    let lw = 15;
+    let center = 200; //center of the canvas
     var canvas = document.getElementById('example');
     var ctx = canvas.getContext('2d');
     if (!canvas) {
@@ -19,10 +17,8 @@ function drawVector(v, color)
     ctx.fillRect(0, 0, 400, 400); // Fill a rectangle with the color
 
     ctx.strokeStyle = color;
-    ctx.lineWidth = lw;
     ctx.beginPath();
     ctx.moveTo(canvas.width/2, canvas.height/2);
-    ctx.lineTo(v[0] + xoff, v[1] + yoff);
+    ctx.lineTo(center + v.elements[0] * 20,center-v.elements[1] *20);
     ctx.stroke();
-    console.log("Here");
 }
