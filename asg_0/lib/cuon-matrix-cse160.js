@@ -46,7 +46,10 @@ class Vector3 {
     add(other) {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
-
+        for(var i = 0; i < 3; i++)
+        {
+          this.elements[i] += other.elements[i];
+        }
         // Don't delete the return statement.
         return this;
     };
@@ -58,7 +61,10 @@ class Vector3 {
     sub(other) {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
-
+        for (var i = 0; i < 3; i++) 
+        {
+          this.elements[i] -= other.elements[i];
+        }
         // Don't delete the return statement.
         return this;
     };
@@ -70,7 +76,9 @@ class Vector3 {
     div(scalar) {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
-
+        for (var i = 0; i < 3; i++) {
+          this.elements[i] /= scalar;
+        }
         // Don't delete the return statement.
         return this;
     };
@@ -82,6 +90,9 @@ class Vector3 {
     mul(scalar) {
         // Insert your code here.
         // This function should change this vector (this.elements) and not create a new vector.
+        for (var i = 0; i < 3; i++) {
+          this.elements[i] *= scalar;
+        }
 
         // Don't delete the return statement.
         return this;
@@ -94,7 +105,12 @@ class Vector3 {
     static dot(other1, other2) {
         // Insert your code here.
         let d = 0; // Modify this line to calculate this vector's magnitude.
-
+        
+        var tmp;
+        for (var i = 0; i < 3; i++) {
+          tmp = other1.elements[i] * other2.elements[i];
+          d += tmp;
+        }
         // Don't delete the return statement.
         return d;
     }
@@ -107,7 +123,7 @@ class Vector3 {
         // Insert your code here.
         // This function should create and return a new vector.
         let v3 = new Vector3(); // Modify this line to calculate cross product between other1 and other2.
-
+        
         // Don't delete the return statement.
         return v3;
     }
@@ -119,7 +135,7 @@ class Vector3 {
     magnitude() {
         // Insert your code here.
         let m = 0; // Modify this line to calculate this vector's magnitude.
-
+        m = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2));
         // Don't delete the return statement.
         return m;
     };
