@@ -16,7 +16,6 @@
 
     <fieldset>
         <legend> Draw Vector 1 </legend>
-        
         <label for="x1-coor">x-coordinate</label>
         <input id="x1-coor" type="number" name="x1-coor" value="0" min="-10" max="20" size=5>
         <label for="y1-coor">y-coordinate</label>
@@ -32,6 +31,24 @@
     </fieldset> 
     
     <input id="draw" type="button" value="Draw">
+
+
+    <fieldset>
+        <legend> Operations</legend>
+        <label for="operation"> Operations:</label>
+        <select name="operation" id="operation">
+            <option value="">--Select Operation--</option>
+            <option value="add">Add</option>
+            <option value="sub">Subtract</option>
+            <option value="mul">Multiply</option>
+            <option value="divide">Divide</option>
+        </select>
+        <label for="scalar">Scaler</label>
+        <input id="scaler" name="scaler" type="number" value="0" size="5">
+
+    </fieldset>
+
+    <input id="draw_op" type="button" value="Draw">
 </body>
 
 </html>
