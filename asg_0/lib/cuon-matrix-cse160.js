@@ -99,17 +99,14 @@ class Vector3 {
     };
 
     /**
-      * Calcualte the dop product between this vector and other.
+      * Calcualte the dot product between this vector and other.
       * @return scalar
       */
     static dot(other1, other2) {
         // Insert your code here.
         let d = 0; // Modify this line to calculate this vector's magnitude.
-        
-        var tmp;
         for (var i = 0; i < 3; i++) {
-          tmp = other1.elements[i] * other2.elements[i];
-          d += tmp;
+          d += other1.elements[i] * other2.elements[i];
         }
         // Don't delete the return statement.
         return d;
@@ -136,8 +133,10 @@ class Vector3 {
       */
     magnitude() {
         // Insert your code here.
-        let m = 0; // Modify this line to calculate this vector's magnitude.
-        m = Math.sqrt(Math.pow(this.elements[0], 2) + Math.pow(this.elements[1], 2) + Math.pow(this.elements[2], 2));
+        let xCoor = Math.pow(this.elements[0], 2);
+        let yCoor = Math.pow(this.elements[1], 2);
+        let zCoor = Math.pow(this.elements[2], 2)
+        let m = Math.sqrt(xCoor + yCoor + zCoor); // Modify this line to calculate this vector's magnitude.
         // Don't delete the return statement.
         return m;
     };

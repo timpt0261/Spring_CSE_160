@@ -111,6 +111,9 @@ function handleDrawOperationEvent()
                 drawVector(v1.div(scaler.value), "green");
                 drawVector(v2.div(scaler.value), "green");
                 break;
+            case "ang_btw":
+                angleBetween(v1, v2);
+                break;
             case "mag":
                 console.log("Magnitude v1: " +v1.magnitude());
                 console.log("Magnitude v2: " + v2.magnitude());
@@ -121,4 +124,13 @@ function handleDrawOperationEvent()
                 break;
         }
     }
+}
+
+function angleBetween(v1 = new Vector3([0, 0, 0]), v2 = new Vector3([0, 0, 0]))
+{
+    let theta = Vector3.dot(v1, v2) / (v1.magnitude() * v2.magnitude()) ; // calculate the angle
+    theta = Math.acos(theta);
+    theta = theta * 180 / Math.PI;
+    console.log("Angle Between v1 anf v2:" + theta);
+    return;
 }
