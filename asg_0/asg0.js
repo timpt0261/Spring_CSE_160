@@ -114,6 +114,9 @@ function handleDrawOperationEvent()
             case "ang_btw":
                 angleBetween(v1, v2);
                 break;
+            case "area":
+                areaTriangle(v1,v2);
+                break;
             case "mag":
                 console.log("Magnitude v1: " +v1.magnitude());
                 console.log("Magnitude v2: " + v2.magnitude());
@@ -133,4 +136,13 @@ function angleBetween(v1 = new Vector3([0, 0, 0]), v2 = new Vector3([0, 0, 0]))
     theta = theta * 180 / Math.PI;
     console.log("Angle Between v1 anf v2:" + theta);
     return;
+}
+
+function areaTriangle(v1 = new Vector3([0, 0, 0]), v2 = new Vector3([0, 0, 0]))
+{
+    let cross = Vector3.cross(v1,v2);
+    let area = cross.magnitude() * .5; 
+    console.log("Area is: " + area);
+    return;
+
 }
