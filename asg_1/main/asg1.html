@@ -11,6 +11,8 @@
         Please use a browser that supports "canvas"
     </canvas>
 
+    <p id="numdot">XXX</p>
+
     <p>
         <input id="clear" name="clear" type="button" value="Clear Drawing"><br>
     </p>
@@ -25,11 +27,11 @@
     <p>
         <label >Shape Color</label><br>
         <label for="red">Red</label>
-        <input id="red" name="red" type="range" value="0" min="0" max="1" step=".01">
+        <input id="red" name="red" type="range" value="100" min="0" max="100">
         <label for="green">Green</label>
-        <input id="green" name="green" type="range" value="0" min="0" max="1" step=".01">
+        <input id="green" name="green" type="range" value="100" min="0" max="100">
         <label for="blue">Blue</label>
-        <input id="blue" name="blue" type="range" value="0" min="0" max="1" step=".01">
+        <input id="blue" name="blue" type="range" value="100" min="0" max="100">
     </p>
 
     <p>
@@ -43,7 +45,8 @@
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
     <script src="../lib/cuon-utils.js"></script>
+    <script src="Point.js"></script>
     <script src="asg1.js"></script>
-</body>
-
+    
+    </body>
 </html>
