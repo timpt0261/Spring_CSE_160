@@ -35,8 +35,8 @@ let g_Clear;
 let g_selectedType = POINT;
 
 let g_SelectedColor = [1.0,1.0,1.0,1.0];
-let g_SelectedSize = 0;
-let g_SegmentCount = 0;
+let g_SelectedSize = 1;
+let g_SegmentCount = 10;
 
 function setupWebGL()
 {
@@ -101,7 +101,7 @@ function addActionsFromHtmlUI()
     document.getElementById("size").addEventListener("mouseup", function(){ g_SelectedSize = this.value;});
 
     // Segements slider e
-    document.getElementById("segments").addEventListener('mouseup', function(){g_SegmentCount = (g_selectedType == circle) ? this.value: 0;});
+    document.getElementById("segments").addEventListener("mouseup", function(){g_SegmentCount = this.value;});
 
 }
 
@@ -123,8 +123,7 @@ function main()
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     // Sets up all gloabal variables in the document
-    addActionsFromHtmlUI()
-    g_Clear.onclick = clearDrawing();
+    addActionsFromHtmlUI();
 }
 
 var g_ShapesList = [];
@@ -143,11 +142,17 @@ function click(ev) {
     }else if(g_selectedType == TRIANGLE)
     {
         point = new Triangle();
+    }else
+    {
+        point = new Circle();
     }
 
     point.postion = [x,y];
     point.color = g_SelectedColor.slice();
     point.size = g_SelectedSize;
+    if(point.type == "circle"){
+        point.segments = g_SegmentCount;
+    } 
     g_ShapesList.push(point);
     
     renderAllShapes();    
