@@ -25,9 +25,14 @@ let a_Position;
 let u_FragColor;
 let u_Size;
 
+// Constants
+const POINT = 0;
+const TRIANGLE = 1;
+const CIRCLE = 2;
+
 // Global Variables for UI elements
 let g_Clear;
-let g_Mode = "";
+let g_selectedType = POINT;
 
 let g_SelectedColor = [1.0,1.0,1.0,1.0];
 let g_SelectedSize = 0;
@@ -83,10 +88,10 @@ function addActionsFromHtmlUI()
     
     // setup Action Types for buttons
     document.getElementById("clear").onclick = function (){g_ShapesList = []; renderAllShapes();};
-    document.getElementById("circle").onclick = function (){g_Mode = "circle";};
-    document.getElementById("square").onclick = function () { g_Mode = "square"; };
-    document.getElementById("triangle").onclick = function () { g_Mode = "triangle"; };
-    
+    document.getElementById("square").onclick = function () { g_selectedType=POINT; };
+    document.getElementById("triangle").onclick = function () { g_selectedType=TRIANGLE; };
+    document.getElementById("circle").onclick = function () { g_selectedType = CIRCLE; };
+
     // Slider Events
     document.getElementById("red").addEventListener("mouseup", function(){g_SelectedColor[0] = this.value/100; });
     document.getElementById("green").addEventListener("mouseup", function () { g_SelectedColor[1] = this.value / 100; });
@@ -96,7 +101,7 @@ function addActionsFromHtmlUI()
     document.getElementById("size").addEventListener("mouseup", function(){ g_SelectedSize = this.value;});
 
     // Segements slider e
-    document.getElementById("segments").addEventListener('mouseup', function(){g_SegmentCount = (g_Mode == circle) ? this.value: 0;});
+    document.getElementById("segments").addEventListener('mouseup', function(){g_SegmentCount = (g_selectedType == circle) ? this.value: 0;});
 
 }
 
@@ -129,7 +134,17 @@ function click(ev) {
     let [x,y] = convertCoordinatesEventToGL(ev);
 
     // Create and store the nre point
-    let point = new Point();
+    let point;
+
+    if(g_selectedType == POINT)
+    {
+        point = new Point();
+
+    }else if(g_selectedType == TRIANGLE)
+    {
+        point = new Triangle();
+    }
+
     point.postion = [x,y];
     point.color = g_SelectedColor.slice();
     point.size = g_SelectedSize;
@@ -164,7 +179,7 @@ function renderAllShapes()
         g_ShapesList[i].render();
     }
 
-    var duration = performance.now() - startTimek;
+    var duration = performance.now() - startTime;
     sendTextToHTML("numdot " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
 }
 
