@@ -32,6 +32,7 @@ const CIRCLE = 2;
 
 // Global Variables for UI elements
 let g_Clear;
+let g_SelectedStroke = POINT;
 let g_selectedType = POINT;
 
 let g_SelectedColor = [1.0,1.0,1.0,1.0];
@@ -85,6 +86,8 @@ function connectVariablesGLSL()
 function addActionsFromHtmlUI()
 {
     document.getElementById("clear");
+
+    // setup Action Types for Stroke 
     
     // setup Action Types for buttons
     document.getElementById("clear").onclick = function (){g_ShapesList = []; renderAllShapes();};
