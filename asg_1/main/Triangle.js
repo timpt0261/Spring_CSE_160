@@ -46,6 +46,6 @@ function drawTriangle(verticies)
     // Enable the assignment to a_Position variable
     gl.enableVertexAttribArray(a_Position);
 
-    gl.drawArrays(gl.POINTS, 0, n);
+    gl.drawArrays(gl.TRIANGLES, 0, n);
 
 }
