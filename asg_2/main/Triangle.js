@@ -38,7 +38,7 @@ function drawTriangle(verticies)
     // Bind the buffer object to target
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     // Write date into the buffer object
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(verticies), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(verticies), gl.DYNAMIC_DRAW);
 
     // Assign the buffer object to a_Position variable
     gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
@@ -65,7 +65,7 @@ function drawTriangle3d(verticies)
     // Bind the buffer object to target
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     // Write date into the buffer object
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(verticies), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(verticies), gl.DYNAMIC_DRAW);
 
     // Assign the buffer object to a_Position variable
     gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0);
