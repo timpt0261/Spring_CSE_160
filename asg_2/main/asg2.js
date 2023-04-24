@@ -3,10 +3,9 @@
 
 var VSHADER_SOURCE =`
     attribute vec4 a_Position;
-    uniform float u_Size;
+    uniform mat4 u_ModelMatrix;
     void main() {
-      gl_Position = a_Position;
-      gl_PointSize = u_Size;
+      gl_Position = u_ModelMatrix * a_Position;
     }`
 
 // Fragment shader program
@@ -22,7 +21,7 @@ let canvas;
 let gl;
 let a_Position;
 let u_FragColor;
-let u_Size;
+let u_ModelMatrix;
 
 // Constants
 const POINT = 0;
@@ -31,7 +30,6 @@ const CIRCLE = 2;
 
 // Global Variables for UI elements
 let g_Clear;
-let g_SelectedStroke = POINT;
 let g_selectedType = POINT;
 
 let g_SelectedColor = [1.0,1.0,1.0,1.0];
@@ -74,12 +72,16 @@ function connectVariablesGLSL()
         return;
     }
 
-    // Get the Storage location of u_Size
-    u_Size = gl.getUniformLocation(gl.program, 'u_Size');
-    if (!u_Size) {
-        console.log('Failed to get the storage location of u_Size');
+    // Get the Storage location of u_ModelMatrix
+    u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
+    if (!u_ModelMatrix) {
+        console.log('Failed to get the storage location of u_ModelMatrix');
         return;
     }
+
+    // Set inital storage location of u_ModelMatrix
+    var identityM = new Matrix4();
+    gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
 
 function addActionsFromHtmlUI()
@@ -183,18 +185,23 @@ function renderAllShapes()
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // var len = g_ShapesList.length;
-    // for (var i = 0; i < len; i++) {
-    //     g_ShapesList[i].render();
-    // }
-
     // Draw a test Triangle
     drawTriangle3d([-1.0,0.0,0.0,  -0.5,-1.0,0.0, 0.0,0.0,0.0] );
 
-    // Draw a cube 
+    // Draw the body Cube
     var body = new Cube();
     body.color = [1.0,0.0,0.0,1.0];
+    body.matrix.translate(-.25,-.5,0.0);
+    body.matrix.scale(0.5,1,0.5);
     body.render();
+
+    // Drae left arm
+    var leftArm = new Cube();
+    leftArm.color = [1,1,0,1];
+    leftArm.matrix.setTranslate(.7,0,0.0);
+    leftArm.matrix.rotate(45,0,0,1);
+    leftArm.matrix.scale(0.25,.7,.5);
+    leftArm.render();
 
     var duration = performance.now() - startTime;
     sendTextToHTML("numdot " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
