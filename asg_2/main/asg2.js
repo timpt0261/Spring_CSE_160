@@ -47,12 +47,13 @@ function setupWebGL()
     canvas = document.getElementById('webgl');
 
     // Get the rendering context for WebGL
-    // gl = getWebGLContext(canvas);
     gl = canvas.getContext("webgl" , {preserveDrawingBuffer: true});
     if (!gl) {
         console.log('Failed to get the rendering context for WebGL');
         return;
     }
+
+    gl.enable(gl.DEPTH_TEST);
 }
 
 function connectVariablesGLSL()
@@ -104,7 +105,6 @@ function addActionsFromHtmlUI()
     // setup Action Types for Stroke 
     
     // setup Action Types for buttons
-    document.getElementById("clear").onclick = function (){g_ShapesList = []; renderAllShapes();};
     document.getElementById("square").onclick = function () { g_selectedType=POINT; };
     document.getElementById("triangle").onclick = function () { g_selectedType=TRIANGLE; };
     document.getElementById("circle").onclick = function () { g_selectedType = CIRCLE; };
@@ -117,8 +117,7 @@ function addActionsFromHtmlUI()
     // Size slider events
     document.getElementById("angleSlider").addEventListener("mousemove", function(){ g_globalAngle = this.value; renderAllShapes();});
 
-    // Segements slider e
-    //document.getElementById("segments").addEventListener("mouseup", function(){g_SegmentCount = this.value;});
+   
 
 }
 
@@ -134,13 +133,10 @@ function main()
     // Register function (event handler) to be called on a mouse press
     canvas.onmousedown = click;
     canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
-
+  
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-    // Clear <canvas>
-    //gl.clear(gl.COLOR_BUFFER_BIT);
-
+  
     // Sets up all gloabal variables in the document
     renderAllShapes();
 }
@@ -200,7 +196,8 @@ function renderAllShapes()
     gl.uniformMatrix4fv(u_GlobalRotateMatrix,false, globalRotMat.elements);
 
     // Clear <canvas>
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BITs);
 
     // Draw a test Triangle
     // drawTriangle3d([-1.0,0.0,0.0,  -0.5,-1.0,0.0, 0.0,0.0,0.0] );
@@ -208,20 +205,31 @@ function renderAllShapes()
     // Draw the body Cube
     var body = new Cube();
     body.color = [1.0,0.0,0.0,1.0];
-    body.matrix.translate(-.25,-.5,0.0);
-    body.matrix.scale(0.5,1,0.5);
+    body.matrix.translate(-.25,-.75,0.0);
+    body.matrix.rotate(-5,1,0,0);
+    body.matrix.scale(0.5,.3,.5);
     body.render();
 
     // Draw left arm
     var leftArm = new Cube();
     leftArm.color = [1,1,0,1];
-    leftArm.matrix.setTranslate(.7,0,0.0);
-    leftArm.matrix.rotate(45,0,0,1);
-    leftArm.matrix.scale(0.25,.7,.5);
+    leftArm.matrix.setTranslate(0,-0.5,0.0);
+    leftArm.matrix.rotate(-5,1,0,1);
+    leftArm.matrix.rotate(0,0,0,1);
+    leftArm.matrix.scale(0.25,0.7,0.5);
+    leftArm.matrix.translate(-.5,0,0);
     leftArm.render();
 
+    // Test Box
+    var box = new Cube();
+    box.color = [1,0,1,1];
+    box.matrix.translate(-0.1,0.1,0,0);
+    box.matrix.rotate(-30,1,0,0);
+    box.matrix.scale(.2,.4,.2);
+    box.render();
+
     var duration = performance.now() - startTime;
-    sendTextToHTML("numdot " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
+    sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
 }
 
 function sendTextToHTML(text, htmlID)
