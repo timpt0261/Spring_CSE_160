@@ -22,5 +22,12 @@ class Cube {
         // Front of cube
         drawTriangle3d([0.0,0.0,0.0, 1.0,1.0,0.0, 1.0,0.0,0.0]);
         drawTriangle3d([0.0,0.0,0.0, 0.0,1.0,0.0, 1.0,1.0,0.0]);
+
+        // Pass the color of a point to FragColor uniform variable
+        gl.uniform4f(u_FragColor, rgba[0]*.9,rgba[1]*.9,rgba[2]*.9,rgba[3]);
+
+        // Top of the cube
+        drawTriangle3d([0,1,0, 0,1,1, 1,1,1]);
+        drawTriangle3d([0,1,0 ,1,1,1, 1,1,0]);
     }
 }
