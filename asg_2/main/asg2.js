@@ -40,6 +40,10 @@ let g_SelectedColor = [1.0,1.0,1.0,1.0];
 let g_SelectedSize = 5;
 let g_SegmentCount = 10;
 let g_globalAngle = 0;
+let g_yellowAngle = 0;
+let g_magentaAngle = 0;
+let g_yellowAnimation = false;
+let g_magentaAnimation = false;
 
 function setupWebGL()
 {
@@ -100,24 +104,18 @@ function connectVariablesGLSL()
 
 function addActionsFromHtmlUI()
 {
-    document.getElementById("clear");
+    // Button Events
+    document.getElementById("animationYellowOffButton").onclick = function(){g_yellowAnimation = false;};
+    document.getElementById("animationYellowOnButton").onclick = function(){g_yellowAnimation = true;};
+    document.getElementById("animationMagentaOffButton").onclick = function(){g_magentaAnimation = false;};
+    document.getElementById("animationMagentaOnButton").onclick = function(){ g_magentaAnimation = true;};
 
-    // setup Action Types for Stroke 
+    // Color Slider Events
+    document.getElementById("yellowSlider").addEventListener("mousemove", function(){ g_yellowAngle = this.value; renderAllShapes();});
+    document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
     
-    // setup Action Types for buttons
-    document.getElementById("square").onclick = function () { g_selectedType=POINT; };
-    document.getElementById("triangle").onclick = function () { g_selectedType=TRIANGLE; };
-    document.getElementById("circle").onclick = function () { g_selectedType = CIRCLE; };
-
-    // Slider Events
-    document.getElementById("red").addEventListener("mouseup", function(){g_SelectedColor[0] = this.value/100; });
-    document.getElementById("green").addEventListener("mouseup", function () { g_SelectedColor[1] = this.value / 100; });
-    document.getElementById("blue").addEventListener("mouseup", function () { g_SelectedColor[2] = this.value / 100; });
-
     // Size slider events
     document.getElementById("angleSlider").addEventListener("mousemove", function(){ g_globalAngle = this.value; renderAllShapes();});
-
-   
 
 }
 
@@ -130,62 +128,44 @@ function main()
     
     addActionsFromHtmlUI();
 
-    // Register function (event handler) to be called on a mouse press
-    canvas.onmousedown = click;
-    canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
+    // // Register function (event handler) to be called on a mouse press
+    // canvas.onmousedown = click;
+    // canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
   
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
   
     // Sets up all gloabal variables in the document
-    renderAllShapes();
+    requestAnimationFrame(tick);
 }
 
-var g_ShapesList = [];
+var g_startTime=performance.now()/1000.0;
+var g_seconds=performance.now()/1000.0 - g_startTime;
 
-function click(ev) {
-    // Extract the event click and return it in WebGL coordinates
-    let [x,y] = convertCoordinatesEventToGL(ev);
+function tick()
+{
+    // Print some debug information so we know we are running
+    g_seconds=performance.now()/1000.0-g_startTime;
+    console.log(performance.now());
 
-    // Create and store the nre point
-    let point;
+    // Update Animation Angles
+    updateAnimationAngles();
 
-    if(g_selectedType == POINT)
-    {
-        point = new Point();
+    // Draw Everything
+    renderAllShapes();
 
-    }else if(g_selectedType == TRIANGLE)
-    {
-        point = new Triangle();
-    }else
-    {
-        point = new Circle();
+    // Tell  the browser to update againn when it has time
+    requestAnimationFrame(tick);
+}
+function updateAnimationAngles(){
+    if(g_yellowAnimation){
+        g_yellowAngle = (45*Math.sin(g_seconds));
     }
 
-    point.postion = [x,y];
-    point.color = g_SelectedColor.slice();
-    point.size = g_SelectedSize;
-    if(point.type == "circle"){
-        point.segments = g_SegmentCount;
-    } 
-    g_ShapesList.push(point);
-    
-    renderAllShapes();    
+    if(g_magentaAnimation){
+        g_magentaAngle= (45*Math.sin(3*g_seconds));
+    }
 }
-
-// Extract the event click and return it to WebGL coordinates
-function convertCoordinatesEventToGL(ev)
-{
-    var x = ev.clientX; // x coordinate of a mouse pointer
-    var y = ev.clientY; // y coordinate of a mouse pointer
-    var rect = ev.target.getBoundingClientRect();
-
-    x = ((x - rect.left) - canvas.width / 2) / (canvas.width / 2);
-    y = (canvas.height / 2 - (y - rect.top)) / (canvas.height / 2);
-
-    return([x,y]);
-}
-
 // Draw every shape that is suppose to be on the Canvas
 function renderAllShapes()
 {
@@ -210,23 +190,32 @@ function renderAllShapes()
     body.matrix.scale(0.5,.3,.5);
     body.render();
 
-    // Draw left arm
-    var leftArm = new Cube();
-    leftArm.color = [1,1,0,1];
-    leftArm.matrix.setTranslate(0,-0.5,0.0);
-    leftArm.matrix.rotate(-5,1,0,1);
-    leftArm.matrix.rotate(0,0,0,1);
-    leftArm.matrix.scale(0.25,0.7,0.5);
-    leftArm.matrix.translate(-.5,0,0);
-    leftArm.render();
+    // Yellow Cube
+    var yellow = new Cube();
+    yellow.color = [1,1,0,1];
+    yellow.matrix.setTranslate(0,-0.5,0.0);
+    yellow.matrix.rotate(-5,1,0,0);
+    yellow.matrix.rotate(-g_yellowAngle,0,0,1);
 
-    // Test Box
-    var box = new Cube();
-    box.color = [1,0,1,1];
-    box.matrix.translate(-0.1,0.1,0,0);
-    box.matrix.rotate(-30,1,0,0);
-    box.matrix.scale(.2,.4,.2);
-    box.render();
+    
+
+    
+    var yellowCoordinatesMat = new Matrix4(yellow.matrix);
+    yellow.matrix.scale(0.25,0.7,0.5);
+    yellow.matrix.translate(-.5,0,0);
+    yellow.render();
+
+    // magenta box
+    var magenta = new Cube();
+    magenta.color = [1,0,1,1];
+    magenta.matrix = yellowCoordinatesMat;
+    magenta.matrix.translate(0,.65,0);
+    magenta.matrix.rotate(g_magentaAngle,0,0,1);
+    magenta.matrix.scale(.3,.3,.3);
+    magenta.matrix.translate(-.5,0,-0.001);
+    magenta.render();
+
+
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
