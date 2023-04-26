@@ -182,44 +182,46 @@ function renderAllShapes()
     // Draw a test Triangle
     // drawTriangle3d([-1.0,0.0,0.0,  -0.5,-1.0,0.0, 0.0,0.0,0.0] );
 
-    // Draw the body Cube
-    var body = new Cube();
-    body.color = [1.0,0.0,0.0,1.0];
-    body.matrix.translate(-.25,-.75,0.0);
-    body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.5,.3,.5);
-    body.render();
+    // // Draw the body Cube
+    // var body = new Cube();
+    // body.color = [1.0,0.0,0.0,1.0];
+    // body.matrix.translate(-.25,-.75,0.0);
+    // body.matrix.rotate(-5,1,0,0);
+    // body.matrix.scale(0.5,.3,.5);
+    // body.render();
 
-    // Yellow Cube
-    var yellow = new Cube();
-    yellow.color = [1,1,0,1];
-    yellow.matrix.setTranslate(0,-0.5,0.0);
-    yellow.matrix.rotate(-5,1,0,0);
-    yellow.matrix.rotate(-g_yellowAngle,0,0,1);
+    // // Yellow Cube
+    // var yellow = new Cube();
+    // yellow.color = [1,1,0,1];
+    // yellow.matrix.setTranslate(0,-0.5,0.0);
+    // yellow.matrix.rotate(-5,1,0,0);
+    // yellow.matrix.rotate(-g_yellowAngle,0,0,1);
+    // var yellowCoordinatesMat = new Matrix4(yellow.matrix);
+    // yellow.matrix.scale(0.25,0.7,0.5);
+    // yellow.matrix.translate(-.5,0,0);
+    // yellow.render();
 
-    
+    // // magenta box
+    // var magenta = new Cube();
+    // magenta.color = [1,0,1,1];
+    // magenta.matrix = yellowCoordinatesMat;
+    // magenta.matrix.translate(0,.65,0);
+    // magenta.matrix.rotate(g_magentaAngle,0,0,1);
+    // magenta.matrix.scale(.3,.3,.3);
+    // magenta.matrix.translate(-.5,0,-0.001);
+    // magenta.render();
 
-    
-    var yellowCoordinatesMat = new Matrix4(yellow.matrix);
-    yellow.matrix.scale(0.25,0.7,0.5);
-    yellow.matrix.translate(-.5,0,0);
-    yellow.render();
-
-    // magenta box
-    var magenta = new Cube();
-    magenta.color = [1,0,1,1];
-    magenta.matrix = yellowCoordinatesMat;
-    magenta.matrix.translate(0,.65,0);
-    magenta.matrix.rotate(g_magentaAngle,0,0,1);
-    magenta.matrix.scale(.3,.3,.3);
-    magenta.matrix.translate(-.5,0,-0.001);
-    magenta.render();
-
-
+    // Test sphere
+    var test = new Sphere();
+    test.color = [1,0,1,1];
+    test.matrix.setTranslate(0,-0.5,0);
+    test.render();
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
 }
+
+
 
 function sendTextToHTML(text, htmlID)
 {
@@ -230,4 +232,3 @@ function sendTextToHTML(text, htmlID)
     }
     htmlElm.innerHTML = text;
 }
-
