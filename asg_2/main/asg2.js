@@ -212,9 +212,9 @@ function renderAllShapes()
     // magenta.render();
 
     // Test sphere
-    var test = new Sphere(1);
+    var test = new Sphere(.2);
     test.color = [0,1,1,1];
-    test.matrix.setTranslate(1);
+    test.matrix.setTranslate(0,0,0);
     test.render();
 
     var duration = performance.now() - startTime;
