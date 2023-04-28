@@ -179,9 +179,8 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
 
-    // Draw a test Triangle
-    // drawTriangle3d([-1.0,0.0,0.0,  -0.5,-1.0,0.0, 0.0,0.0,0.0] );
-
+    // // Draw a test Triangle
+    // drawTriangle3d([-1.0,0.0,0.0,  0.5,-1.0,0.0, 0.0,0.0,0.0] );
     // // Draw the body Cube
     // var body = new Cube();
     // body.color = [1.0,0.0,0.0,1.0];
@@ -212,9 +211,10 @@ function renderAllShapes()
     // magenta.render();
 
     // Test sphere
-    var test = new Sphere(.2);
+    var test = new Icosphere;
     test.color = [0,1,1,1];
     test.matrix.setTranslate(0,0,0);
+    test.matrix.scale(.5,.5,.5);
     test.render();
 
     var duration = performance.now() - startTime;
@@ -232,3 +232,5 @@ function sendTextToHTML(text, htmlID)
     }
     htmlElm.innerHTML = text;
 }
+
+
