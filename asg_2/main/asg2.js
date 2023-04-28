@@ -127,7 +127,7 @@ function addActionsFromHtmlUI()
     document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
     
     // Size slider events
-    document.getElementById("angleSlider").addEventListener("mousemove", function(){ g_globalAngle = this.value; renderAllShapes();});
+    addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.1; renderAllShapes();});
 
 }
 
@@ -244,7 +244,7 @@ function sendTextToHTML(text, htmlID)
     htmlElm.innerHTML = text;
 }
 
-function head()
+function drawHead()
 { 
     // Create Head
 
