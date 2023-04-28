@@ -255,7 +255,7 @@ function drawHead()
 
 function drawTentacle(){
     var tentacle_base_001 = new Cube();
-    tentacle_base_001.color = [.5,0,1,1];
+    tentacle_base_001.color = [.5,.06,.9,1];
     tentacle_base_001.matrix.translate(-.2,-.1,0);
     tentacle_base_001.matrix.scale(.6,.1,.1);
     tentacle_base_001.matrix.rotate( 0,1,1,1);
