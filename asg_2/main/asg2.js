@@ -69,7 +69,7 @@ function setupWebGL()
         return;
     }
 
-    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.DEPTH_head);
 }
 
 function connectVariablesGLSL()
@@ -127,7 +127,7 @@ function addActionsFromHtmlUI()
     document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
     
     // Size slider events
-    addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.1; renderAllShapes();});
+    addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
 
 }
 
@@ -145,7 +145,7 @@ function main()
     // canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
   
     // Specify the color for clearing <canvas>
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clearColor(0.0, 0.5, 0.76, 1.0);
   
     // Sets up all gloabal variables in the document
     requestAnimationFrame(tick);
@@ -191,42 +191,39 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
 
- 
-    // Draw the body Cube
-    var body = new Cube();
-    body.color = [1.0,0.0,0.0,1.0];
-    body.matrix.translate(-.25,-.75,0.0);
-    body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.5,.3,.5);
-    body.render();
+    // Drawing Head Componets
+    drawHead();
 
-    // Yellow Cube
-    var yellow = new Cube();
-    yellow.color = [1,1,0,1];
-    yellow.matrix.setTranslate(0,-0.5,0.0);
-    yellow.matrix.rotate(-5,1,0,0);
-    yellow.matrix.rotate(-g_yellowAngle,0,0,1);
-    var yellowCoordinatesMat = new Matrix4(yellow.matrix);
-    yellow.matrix.scale(0.25,0.7,0.5);
-    yellow.matrix.translate(-.5,0,0);
-    yellow.render();
+    drawTentacle();
+    // // Draw the body Cube
+    // var body = new Cube();
+    // body.color = [1.0,0.0,0.0,1.0];
+    // body.matrix.translate(-.25,-.75,0.0);
+    // body.matrix.rotate(-5,1,0,0);
+    // body.matrix.scale(0.5,.3,.5);
+    // body.render();
 
-    // magenta box
-    var magenta = new Cube();
-    magenta.color = [1,0,1,1];
-    magenta.matrix = yellowCoordinatesMat;
-    magenta.matrix.translate(0,.65,0);
-    magenta.matrix.rotate(g_magentaAngle,0,0,1);
-    magenta.matrix.scale(.3,.3,.3);
-    magenta.matrix.translate(-.5,0,-0.001);
-    magenta.render();
+    // // Yellow Cube
+    // var yellow = new Cube();
+    // yellow.color = [1,1,0,1];
+    // yellow.matrix.setTranslate(0,-0.5,0.0);
+    // yellow.matrix.rotate(-5,1,0,0);
+    // yellow.matrix.rotate(-g_yellowAngle,0,0,1);
+    // var yellowCoordinatesMat = new Matrix4(yellow.matrix);
+    // yellow.matrix.scale(0.25,0.7,0.5);
+    // yellow.matrix.translate(-.5,0,0);
+    // yellow.render();
 
-    // // Test sphere
-    // var test = new Icosphere;
-    // test.color = [0,1,1,1];
-    // test.matrix.setTranslate(0,0,0);
-    // test.matrix.scale(.4,.5,.3);
-    // test.render();
+    // // magenta box
+    // var magenta = new Cube();
+    // magenta.color = [1,0,1,1];
+    // magenta.matrix = yellowCoordinatesMat;
+    // magenta.matrix.translate(0,.65,0);
+    // magenta.matrix.rotate(g_magentaAngle,0,0,1);
+    // magenta.matrix.scale(.3,.3,.3);
+    // magenta.matrix.translate(-.5,0,-0.001);
+    // magenta.render();
+
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
@@ -246,11 +243,22 @@ function sendTextToHTML(text, htmlID)
 
 function drawHead()
 { 
-    // Create Head
-
+    //   // head sphere
+    //   var head = new Icosphere();
+    //   head.color = [.5,0,1,1];
+    //   head.matrix.setTranslate(0,.45,0);
+    //   head.matrix.scale(.4,.5,.4);
+    //   head.matrix.rotate(0,0,0,1);
+    //   var headCoordinatemat = new Matrix4(head.matrix);
+    //   head.render();
 }
 
-function tentacle()
-{
-
+function drawTentacle(){
+    var tentacle_base_001 = new Cube();
+    tentacle_base_001.color = [.5,0,1,1];
+    tentacle_base_001.matrix.translate(-.2,-.1,0);
+    tentacle_base_001.matrix.scale(.6,.1,.1);
+    tentacle_base_001.matrix.rotate( 0,1,1,1);
+    tentacle_base_001.render();
 }
+
