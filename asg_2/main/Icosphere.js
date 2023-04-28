@@ -3,7 +3,7 @@ const Z = 0.850650808352039932;
 
 class Icosphere {
     constructor(radius,subdivisions) {
-      this.type = "sphere";
+      this.type = "icosphere";
       this.radius = radius;
       this.subdivisions = subdivisions;
       this.color = [1,1,1,1];
@@ -69,7 +69,7 @@ class Icosphere {
                             verticies[verts_2][0], verticies[verts_2][1], verticies[verts_2][2],
                             verticies[verts_3][0], verticies[verts_3][1], verticies[verts_3][2],
                             ];
-        if(i>=3){
+        if(i==14){
             // Pass the color of a point to FragColor uniform variable
             gl.uniform4f(u_FragColor, rgba[0]*.9,rgba[1]*.9,rgba[2]*.9,rgba[3]);
 

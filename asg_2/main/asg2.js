@@ -45,6 +45,18 @@ let g_magentaAngle = 0;
 let g_yellowAnimation = false;
 let g_magentaAnimation = false;
 
+// Octo head
+let g_headAngle =0;
+let g_eyeAngle_1=0;
+let g_eyeAngle_2=0
+
+//Octo body
+let g_tentacleAngle_000 = 0;
+let g_tentacleAngle_001 = 0;
+let g_tentacleAngle_002 = 0;
+let g_tentacleAngle_003 = 0;
+
+
 function setupWebGL()
 {
     // Retrieve <canvas> element
@@ -179,43 +191,42 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
 
-    // // Draw a test Triangle
-    // drawTriangle3d([-1.0,0.0,0.0,  0.5,-1.0,0.0, 0.0,0.0,0.0] );
-    // // Draw the body Cube
-    // var body = new Cube();
-    // body.color = [1.0,0.0,0.0,1.0];
-    // body.matrix.translate(-.25,-.75,0.0);
-    // body.matrix.rotate(-5,1,0,0);
-    // body.matrix.scale(0.5,.3,.5);
-    // body.render();
+ 
+    // Draw the body Cube
+    var body = new Cube();
+    body.color = [1.0,0.0,0.0,1.0];
+    body.matrix.translate(-.25,-.75,0.0);
+    body.matrix.rotate(-5,1,0,0);
+    body.matrix.scale(0.5,.3,.5);
+    body.render();
 
-    // // Yellow Cube
-    // var yellow = new Cube();
-    // yellow.color = [1,1,0,1];
-    // yellow.matrix.setTranslate(0,-0.5,0.0);
-    // yellow.matrix.rotate(-5,1,0,0);
-    // yellow.matrix.rotate(-g_yellowAngle,0,0,1);
-    // var yellowCoordinatesMat = new Matrix4(yellow.matrix);
-    // yellow.matrix.scale(0.25,0.7,0.5);
-    // yellow.matrix.translate(-.5,0,0);
-    // yellow.render();
+    // Yellow Cube
+    var yellow = new Cube();
+    yellow.color = [1,1,0,1];
+    yellow.matrix.setTranslate(0,-0.5,0.0);
+    yellow.matrix.rotate(-5,1,0,0);
+    yellow.matrix.rotate(-g_yellowAngle,0,0,1);
+    var yellowCoordinatesMat = new Matrix4(yellow.matrix);
+    yellow.matrix.scale(0.25,0.7,0.5);
+    yellow.matrix.translate(-.5,0,0);
+    yellow.render();
 
-    // // magenta box
-    // var magenta = new Cube();
-    // magenta.color = [1,0,1,1];
-    // magenta.matrix = yellowCoordinatesMat;
-    // magenta.matrix.translate(0,.65,0);
-    // magenta.matrix.rotate(g_magentaAngle,0,0,1);
-    // magenta.matrix.scale(.3,.3,.3);
-    // magenta.matrix.translate(-.5,0,-0.001);
-    // magenta.render();
+    // magenta box
+    var magenta = new Cube();
+    magenta.color = [1,0,1,1];
+    magenta.matrix = yellowCoordinatesMat;
+    magenta.matrix.translate(0,.65,0);
+    magenta.matrix.rotate(g_magentaAngle,0,0,1);
+    magenta.matrix.scale(.3,.3,.3);
+    magenta.matrix.translate(-.5,0,-0.001);
+    magenta.render();
 
-    // Test sphere
-    var test = new Icosphere;
-    test.color = [0,1,1,1];
-    test.matrix.setTranslate(0,0,0);
-    test.matrix.scale(.5,.5,.5);
-    test.render();
+    // // Test sphere
+    // var test = new Icosphere;
+    // test.color = [0,1,1,1];
+    // test.matrix.setTranslate(0,0,0);
+    // test.matrix.scale(.4,.5,.3);
+    // test.render();
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
@@ -233,4 +244,13 @@ function sendTextToHTML(text, htmlID)
     htmlElm.innerHTML = text;
 }
 
+function head()
+{ 
+    // Create Head
 
+}
+
+function tentacle()
+{
+
+}
