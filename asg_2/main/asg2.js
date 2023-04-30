@@ -197,7 +197,7 @@ function renderAllShapes()
     
     var parentMatrix = new Matrix4();
     parentMatrix.setTranslate(0,0,0);
-    var octo = new Octopus(.5,1)
+    var octo = new Octopus(.5,1.1)
     octo.render(parentMatrix);
 
     var duration = performance.now() - startTime;

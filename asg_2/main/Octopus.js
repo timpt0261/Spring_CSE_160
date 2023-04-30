@@ -2,7 +2,7 @@ class Octopus {
     constructor(headSize, bodySize) {
       // Create the head
       this.head = new Icosphere();
-      this.head.color = [1, 0.75, 0.79, 1];
+      this.head.color = [1, 0.75, 0, 1];
       this.head.matrix.setTranslate(0, 0, 0);
       this.head.matrix.scale(headSize, 1, headSize);
   
@@ -41,13 +41,13 @@ class Octopus {
   
       // Create the joints
       arm.joint1 = new Cube();
-      arm.joint1.color = [0.7, 0.7, 0.7, 1];
+      arm.joint1.color = [0.7, 0, 0, 1];
       arm.joint1.matrix = new Matrix4(arm.base.matrix);
       arm.joint1.matrix.translate(0, -0.4 * baseSize / jointSize, 0);
       arm.joint1.matrix.scale(jointSize, jointSize, jointSize);
   
       arm.joint2 = new Cube();
-      arm.joint2.color = [0.7, 0.7, 0.7, 1];
+      arm.joint2.color = [0.8, 0.7, 0.7, 1];
       arm.joint2.matrix = new Matrix4(arm.joint1.matrix);
       arm.joint2.matrix.translate(0, -0.4 * jointSize / endSize, 0);
       arm.joint2.matrix.scale(endSize, endSize, endSize);
