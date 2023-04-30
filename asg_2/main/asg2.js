@@ -69,7 +69,7 @@ function setupWebGL()
         return;
     }
 
-    gl.enable(gl.DEPTH_head);
+    gl.enable(gl.DEPTH_TEST);
 }
 
 function connectVariablesGLSL()
