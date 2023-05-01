@@ -28,14 +28,18 @@ class Octopus {
       this.body.matrix.scale(.1,.1,.1);
   
       // Create the arms
-      const armBaseSize = bodySize / 6;
+      const armBaseSize = bodySize / 12;
       const armJointSize = bodySize/1.5;
       const armEndSize = bodySize / 6;
       const armLength = bodySize / 2.4;
-      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 1, 0, 0, armLength);
-      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -1, 0, 0, armLength);
-      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 1, armLength);
-      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -1, armLength);
+      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 0.1, 0, 0, armLength);
+      this.arm1.matrix = new Matrix4(this.head.matrix);
+      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -.3, 0, 0, armLength);
+      this.arm2.matrix = new Matrix4(this.head.matrix);
+      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 0.3, armLength);
+      this.arm3.matrix = new Matrix4(this.head.matrix);
+      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -.1, armLength);
+      this.arm4.matrix = new Matrix4(this.head.matrix);
 
     }
   
@@ -45,7 +49,7 @@ class Octopus {
       // Create the base
       arm.base = new Cube();
       arm.base.color = [0.5, 0.5, 0.5, 1];
-      arm.base.matrix.setTranslate(x * length, 0.3, z * length);
+      arm.base.matrix.setTranslate(x * length, -0.438888, z * length);
       arm.base.matrix.rotate(-90, 1, 0, 0);
       arm.base.matrix.scale(baseSize, baseSize, baseSize+.4);
 
@@ -55,8 +59,8 @@ class Octopus {
       arm.joint1.color = [0.7, 0, 0, 1];
       arm.joint1.matrix = new Matrix4(arm.base.matrix);
       arm.joint1.matrix.translate(0, 0, 0);
-      arm.joint1.matrix.scale(jointSize, jointSize, jointSize);
-      arm.joint1.matrix.translate(.2,.2,-1.001);
+      arm.joint1.matrix.scale(jointSize, jointSize, jointSize*.4);
+      arm.joint1.matrix.translate(.3,.3,-.9001);
   
       arm.joint2 = new Cube();
       arm.joint2.color = [0.8, 0.7, 0.7, 1];
