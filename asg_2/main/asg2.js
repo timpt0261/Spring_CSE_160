@@ -46,14 +46,14 @@ let g_yellowAnimation = false;
 let g_magentaAnimation = false;
 
 // Octo head
-let g_headAngle =0;
-let g_eyeAngle_1=0;
-let g_eyeAngle_2=0
+let g_headAngles = [0,0,0];
 
 //Octo body
-let g_tentacleAngle_base_001_x = 0;
-let g_tentacleAngle_base_001_y = 0;
-let g_tentacleAngle_base_001_z = 0;
+let g_tentacleAngle_base_001_x = [0,0,0];
+let g_tentacleAngle_segegment1_001_x = [0,0,0];
+let g_tentacleAngle_segegment2_001_x = [0, 0, 0];
+let g_tentacleAngle_tail_001_x = [0, 0, 0];
+
 
 
 
@@ -129,9 +129,12 @@ function addActionsFromHtmlUI()
     // document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
 
     //Rotate events
-    document.getElementById("tentacle_base_001_x").addEventListener("mousemove",function(){g_tentacleAngle_base_001_x = this.value; renderAllShapes();})
-    document.getElementById("tentacle_base_001_y").addEventListener("mousemove",function(){g_tentacleAngle_base_001_y = this.value; renderAllShapes();})
-    document.getElementById("tentacle_base_001_z").addEventListener("mousemove",function(){g_tentacleAngle_base_001_z = this.value; renderAllShapes();})
+    document.getElementById("tentacle_head_001_x").addEventListener("mousemove",function(){g_headAngles[0] = this.value; renderAllShapes();})
+    document.getElementById("tentacle_head_001_y").addEventListener("mousemove", function () { g_headAngles[1] = this.value; renderAllShapes();})
+    document.getElementById("tentacle_head_001_z").addEventListener("mousemove", function () { g_headAngles[2] = this.value; renderAllShapes();})
+
+    
+
     // Size slider events
     canvas.addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
 
@@ -198,6 +201,36 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
     
+    // Draw the body Cube
+    // var body = new Cube();
+    // body.color = [1.0,0.0,0.0,1.0];
+    // body.matrix.translate(-.25,-.75,0.0);
+    // body.matrix.rotate(-5,1,0,0);
+    // body.matrix.scale(0.5,.3,.5);
+    // body.render();
+
+    // // Yellow Cube
+    // var yellow = new Cube();
+    // yellow.color = [1,1,0,1];
+    // yellow.matrix.setTranslate(0,-0.5,0.0);
+    // yellow.matrix.rotate(-5,1,0,0);
+    // yellow.matrix.rotate(-g_yellowAngle,0,0,1);
+    // var yellowCoordinatesMat = new Matrix4(yellow.matrix);
+    // yellow.matrix.scale(0.25,0.7,0.5);
+    // yellow.matrix.translate(-.5,0,0);
+    // yellow.render();
+
+    // // magenta box
+    // var magenta = new Cube();
+    // magenta.color = [1,0,1,1];
+    // magenta.matrix = yellowCoordinatesMat;
+    // magenta.matrix.translate(0,.65,0);
+    // magenta.matrix.rotate(g_magentaAngle,0,0,1);
+    // magenta.matrix.scale(.3,.3,.3);
+    // magenta.matrix.translate(-.5,0,-0.001);
+    // magenta.render();
+
+
     var parentMatrix = new Matrix4([1,1,0]);
     var octo = new Octopus(.5,1.1);
     octo.render(parentMatrix);
