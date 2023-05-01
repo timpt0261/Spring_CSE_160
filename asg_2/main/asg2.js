@@ -116,22 +116,24 @@ function connectVariablesGLSL()
 
 function addActionsFromHtmlUI()
 {
-    // Button Events
-    document.getElementById("animationYellowOffButton").onclick = function(){g_yellowAnimation = false;};
-    document.getElementById("animationYellowOnButton").onclick = function(){g_yellowAnimation = true;};
-    document.getElementById("animationMagentaOffButton").onclick = function(){g_magentaAnimation = false;};
-    document.getElementById("animationMagentaOnButton").onclick = function(){ g_magentaAnimation = true;};
 
-    // Color Slider Events
-    document.getElementById("yellowSlider").addEventListener("mousemove", function(){ g_yellowAngle = this.value; renderAllShapes();});
-    document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
+
+    // // Button Events
+    // document.getElementById("animationYellowOffButton").onclick = function(){g_yellowAnimation = false;};
+    // document.getElementById("animationYellowOnButton").onclick = function(){g_yellowAnimation = true;};
+    // document.getElementById("animationMagentaOffButton").onclick = function(){g_magentaAnimation = false;};
+    // document.getElementById("animationMagentaOnButton").onclick = function(){ g_magentaAnimation = true;};
+
+    // // Color Slider Events
+    // document.getElementById("yellowSlider").addEventListener("mousemove", function(){ g_yellowAngle = this.value; renderAllShapes();});
+    // document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
 
     //Rotate events
     document.getElementById("tentacle_base_001_x").addEventListener("mousemove",function(){g_tentacleAngle_base_001_x = this.value; renderAllShapes();})
     document.getElementById("tentacle_base_001_y").addEventListener("mousemove",function(){g_tentacleAngle_base_001_y = this.value; renderAllShapes();})
     document.getElementById("tentacle_base_001_z").addEventListener("mousemove",function(){g_tentacleAngle_base_001_z = this.value; renderAllShapes();})
     // Size slider events
-    addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
+    canvas.addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
 
 }
 
@@ -149,7 +151,7 @@ function main()
     // canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
   
     // Specify the color for clearing <canvas>
-    gl.clearColor(0.0, 0, 0, 1.0);
+    gl.clearColor(0.0, 0, 1, 1.0);
   
     // Sets up all gloabal variables in the document
     requestAnimationFrame(tick);
@@ -187,22 +189,23 @@ function renderAllShapes()
 {
     var startTime = performance.now();
 
-    // Pass the matrix to u_Modelmatrix attribute
-    var globalRotMat = new Matrix4().rotate(g_globalAngle,0,1,0);
-    gl.uniformMatrix4fv(u_GlobalRotateMatrix,false, globalRotMat.elements);
+    // Create a new matrix to hold the global rotation
+    var globalRotateM = new Matrix4();
+    globalRotateM.setRotate(g_globalAngle, 0, 1, 0);
+    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotateM.elements);
 
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
     
-    var parentMatrix = new Matrix4();
-    parentMatrix.setTranslate(0,0,0);
-    var octo = new Octopus(.5,1.1)
+    var parentMatrix = new Matrix4([1,1,0]);
+    var octo = new Octopus(.5,1.1);
     octo.render(parentMatrix);
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration)/10, "numdot");
 }
+
 
 function sendTextToHTML(text, htmlID)
 {
