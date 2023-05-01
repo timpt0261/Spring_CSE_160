@@ -47,7 +47,7 @@ let g_magentaAnimation = false;
 
 // Octo head
 let g_headAngles = [0,0,0];
-let g_headAnimation = false;
+let g_headAnimation = [false,false,false];
 
 //Octo body
 let g_tentacleAngle_001 = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -120,20 +120,186 @@ function connectVariablesGLSL()
 
 }
 
+function buttonEventforTentacle_001()
+{
+    
+    document.getElementById("animationtentacle_base_001_xOnButton").onclick = function () { g_tentacleAnimation_001[0][0] = false; };
+    document.getElementById("animationtentacle_base_001_xOffButton").onclick = function () { g_tentacleAnimation_001[0][0] = true; };
+
+    document.getElementById("animationtentacle_base_001_yOnButton").onclick = function () { g_tentacleAnimation_001[0][1] = false; };
+    document.getElementById("animationtentacle_base_001_yOffButton").onclick = function () { g_tentacleAnimation_001[0][1] = true; };
+
+    document.getElementById("animationtentacle_base_001_zOnButton").onclick = function () { g_tentacleAnimation_001[0][2] = false; };
+    document.getElementById("animationtentacle_base_001_zOffButton").onclick = function () { g_tentacleAnimation_001[0][2] = true; };
+
+    document.getElementById("animationtentacle_segment1_001_xOnButton").onclick = function () { g_tentacleAnimation_001[1][0] = false; };
+    document.getElementById("animationtentacle_segment1_001_xOffButton").onclick = function () { g_tentacleAnimation_001[1][0] = true; };
+
+    document.getElementById("animationtentacle_segment1_001_yOnButton").onclick = function () { g_tentacleAnimation_001[1][1] = false; };
+    document.getElementById("animationtentacle_segment1_001_yOffButton").onclick = function () { g_tentacleAnimation_001[1][1] = true; };
+
+    document.getElementById("animationtentacle_segment1_001_zOnButton").onclick = function () { g_tentacleAnimation_001[1][2] = false; };
+    document.getElementById("animationtentacle_segment1_001_001_zOffButton").onclick = function () { g_tentacleAnimation_001[1][2] = true; };
+
+    document.getElementById("animationtentacle_segment2_001_xOnButton").onclick = function () { g_tentacleAnimation_001[2][0] = false; };
+    document.getElementById("animationtentacle_segment2_001_xOffButton").onclick = function () { g_tentacleAnimation_001[2][0] = true; };
+
+    document.getElementById("animationtentacle_segment2_001_yOnButton").onclick = function () { g_tentacleAnimation_001[2][1] = false; };
+    document.getElementById("animationtentacle_segment2_001_yOffButton").onclick = function () { g_tentacleAnimation_001[2][1] = true; };
+
+    document.getElementById("animationtentacle_segment2_001_zOnButton").onclick = function () { g_tentacleAnimation_001[2][2] = false; };
+    document.getElementById("animationtentacle_segment2_001_zOffButton").onclick = function () { g_tentacleAnimation_001[2][2] = true; };
+
+    document.getElementById("animationtentacle_tail_001_xOnButton").onclick = function () { g_tentacleAnimation_001[3][0] = false; };
+    document.getElementById("animationtentacle_tail_001_xOffButton").onclick = function () { g_tentacleAnimation_001[3][0] = true; };
+
+    document.getElementById("animationtentacle_tail_001_yOnButton").onclick = function () { g_tentacleAnimation_001[3][1] = false; };
+    document.getElementById("animationtentacle_tail_001_yOffButton").onclick = function () { g_tentacleAnimation_001[3][1] = true; };
+
+    document.getElementById("animationtentacle_tail_001_zOnButton").onclick = function () { g_tentacleAnimation_001[3][2] = false; };
+    document.getElementById("animationtentacle_tail_001_zOffButton").onclick = function () { g_tentacleAnimation_001[3][2] = true; };
+
+}
+
+function buttonEventforTentacle_002() {
+
+    document.getElementById("animationtentacle_base_002_xOnButton").onclick = function () { g_tentacleAnimation_002[0][0] = false; };
+    document.getElementById("animationtentacle_base_002_xOffButton").onclick = function () { g_tentacleAnimation_002[0][0] = true; };
+
+    document.getElementById("animationtentacle_base_002_yOnButton").onclick = function () { g_tentacleAnimation_002[0][1] = false; };
+    document.getElementById("animationtentacle_base_002_yOffButton").onclick = function () { g_tentacleAnimation_002[0][1] = true; };
+
+    document.getElementById("animationtentacle_base_002_zOnButton").onclick = function () { g_tentacleAnimation_002[0][2] = false; };
+    document.getElementById("animationtentacle_base_002_zOffButton").onclick = function () { g_tentacleAnimation_002[0][2] = true; };
+
+    document.getElementById("animationtentacle_segment1_002_xOnButton").onclick = function () { g_tentacleAnimation_002[1][0] = false; };
+    document.getElementById("animationtentacle_segment1_002_xOffButton").onclick = function () { g_tentacleAnimation_002[1][0] = true; };
+
+    document.getElementById("animationtentacle_segment1_002_yOnButton").onclick = function () { g_tentacleAnimation_002[1][1] = false; };
+    document.getElementById("animationtentacle_segment1_002_yOffButton").onclick = function () { g_tentacleAnimation_002[1][1] = true; };
+
+    document.getElementById("animationtentacle_segment1_002_zOnButton").onclick = function () { g_tentacleAnimation_002[1][2] = false; };
+    document.getElementById("animationtentacle_segment1_002_002_zOffButton").onclick = function () { g_tentacleAnimation_002[1][2] = true; };
+
+    document.getElementById("animationtentacle_segment2_002_xOnButton").onclick = function () { g_tentacleAnimation_002[2][0] = false; };
+    document.getElementById("animationtentacle_segment2_002_xOffButton").onclick = function () { g_tentacleAnimation_002[2][0] = true; };
+
+    document.getElementById("animationtentacle_segment2_002_yOnButton").onclick = function () { g_tentacleAnimation_002[2][1] = false; };
+    document.getElementById("animationtentacle_segment2_002_yOffButton").onclick = function () { g_tentacleAnimation_002[2][1] = true; };
+
+    document.getElementById("animationtentacle_segment2_002_zOnButton").onclick = function () { g_tentacleAnimation_002[2][2] = false; };
+    document.getElementById("animationtentacle_segment2_002_zOffButton").onclick = function () { g_tentacleAnimation_002[2][2] = true; };
+
+    document.getElementById("animationtentacle_tail_002_xOnButton").onclick = function () { g_tentacleAnimation_002[3][0] = false; };
+    document.getElementById("animationtentacle_tail_002_xOffButton").onclick = function () { g_tentacleAnimation_002[3][0] = true; };
+
+    document.getElementById("animationtentacle_tail_002_yOnButton").onclick = function () { g_tentacleAnimation_002[3][1] = false; };
+    document.getElementById("animationtentacle_tail_002_yOffButton").onclick = function () { g_tentacleAnimation_002[3][1] = true; };
+
+    document.getElementById("animationtentacle_tail_002_zOnButton").onclick = function () { g_tentacleAnimation_002[3][2] = false; };
+    document.getElementById("animationtentacle_tail_002_zOffButton").onclick = function () { g_tentacleAnimation_002[3][2] = true; };
+
+}
+
+
+function buttonEventforTentacle_003() {
+
+    document.getElementById("animationtentacle_base_003_xOnButton").onclick = function () { g_tentacleAnimation_003[0][0] = false; };
+    document.getElementById("animationtentacle_base_003_xOffButton").onclick = function () { g_tentacleAnimation_003[0][0] = true; };
+
+    document.getElementById("animationtentacle_base_003_yOnButton").onclick = function () { g_tentacleAnimation_003[0][1] = false; };
+    document.getElementById("animationtentacle_base_003_yOffButton").onclick = function () { g_tentacleAnimation_003[0][1] = true; };
+
+    document.getElementById("animationtentacle_base_003_zOnButton").onclick = function () { g_tentacleAnimation_003[0][2] = false; };
+    document.getElementById("animationtentacle_base_003_zOffButton").onclick = function () { g_tentacleAnimation_003[0][2] = true; };
+
+    document.getElementById("animationtentacle_segment1_003_xOnButton").onclick = function () { g_tentacleAnimation_003[1][0] = false; };
+    document.getElementById("animationtentacle_segment1_003_xOffButton").onclick = function () { g_tentacleAnimation_003[1][0] = true; };
+
+    document.getElementById("animationtentacle_segment1_003_yOnButton").onclick = function () { g_tentacleAnimation_003[1][1] = false; };
+    document.getElementById("animationtentacle_segment1_003_yOffButton").onclick = function () { g_tentacleAnimation_003[1][1] = true; };
+
+    document.getElementById("animationtentacle_segment1_003_zOnButton").onclick = function () { g_tentacleAnimation_003[1][2] = false; };
+    document.getElementById("animationtentacle_segment1_003_003_zOffButton").onclick = function () { g_tentacleAnimation_003[1][2] = true; };
+
+    document.getElementById("animationtentacle_segment2_003_xOnButton").onclick = function () { g_tentacleAnimation_003[2][0] = false; };
+    document.getElementById("animationtentacle_segment2_003_xOffButton").onclick = function () { g_tentacleAnimation_003[2][0] = true; };
+
+    document.getElementById("animationtentacle_segment2_003_yOnButton").onclick = function () { g_tentacleAnimation_003[2][1] = false; };
+    document.getElementById("animationtentacle_segment2_003_yOffButton").onclick = function () { g_tentacleAnimation_003[2][1] = true; };
+
+    document.getElementById("animationtentacle_segment2_003_zOnButton").onclick = function () { g_tentacleAnimation_003[2][2] = false; };
+    document.getElementById("animationtentacle_segment2_003_zOffButton").onclick = function () { g_tentacleAnimation_003[2][2] = true; };
+
+    document.getElementById("animationtentacle_tail_003_xOnButton").onclick = function () { g_tentacleAnimation_003[3][0] = false; };
+    document.getElementById("animationtentacle_tail_003_xOffButton").onclick = function () { g_tentacleAnimation_003[3][0] = true; };
+
+    document.getElementById("animationtentacle_tail_003_yOnButton").onclick = function () { g_tentacleAnimation_003[3][1] = false; };
+    document.getElementById("animationtentacle_tail_003_yOffButton").onclick = function () { g_tentacleAnimation_003[3][1] = true; };
+
+    document.getElementById("animationtentacle_tail_003_zOnButton").onclick = function () { g_tentacleAnimation_003[3][2] = false; };
+    document.getElementById("animationtentacle_tail_003_zOffButton").onclick = function () { g_tentacleAnimation_003[3][2] = true; };
+
+}
+
+function buttonEventforTentacle_004() {
+
+    document.getElementById("animationtentacle_base_004_xOnButton").onclick = function () { g_tentacleAnimation_004[0][0] = false; };
+    document.getElementById("animationtentacle_base_004_xOffButton").onclick = function () { g_tentacleAnimation_004[0][0] = true; };
+
+    document.getElementById("animationtentacle_base_004_yOnButton").onclick = function () { g_tentacleAnimation_004[0][1] = false; };
+    document.getElementById("animationtentacle_base_004_yOffButton").onclick = function () { g_tentacleAnimation_004[0][1] = true; };
+
+    document.getElementById("animationtentacle_base_004_zOnButton").onclick = function () { g_tentacleAnimation_004[0][2] = false; };
+    document.getElementById("animationtentacle_base_004_zOffButton").onclick = function () { g_tentacleAnimation_004[0][2] = true; };
+
+    document.getElementById("animationtentacle_segment1_004_xOnButton").onclick = function () { g_tentacleAnimation_004[1][0] = false; };
+    document.getElementById("animationtentacle_segment1_004_xOffButton").onclick = function () { g_tentacleAnimation_004[1][0] = true; };
+
+    document.getElementById("animationtentacle_segment1_004_yOnButton").onclick = function () { g_tentacleAnimation_004[1][1] = false; };
+    document.getElementById("animationtentacle_segment1_004_yOffButton").onclick = function () { g_tentacleAnimation_004[1][1] = true; };
+
+    document.getElementById("animationtentacle_segment1_004_zOnButton").onclick = function () { g_tentacleAnimation_004[1][2] = false; };
+    document.getElementById("animationtentacle_segment1_004_004_zOffButton").onclick = function () { g_tentacleAnimation_004[1][2] = true; };
+
+    document.getElementById("animationtentacle_segment2_004_xOnButton").onclick = function () { g_tentacleAnimation_004[2][0] = false; };
+    document.getElementById("animationtentacle_segment2_004_xOffButton").onclick = function () { g_tentacleAnimation_004[2][0] = true; };
+
+    document.getElementById("animationtentacle_segment2_004_yOnButton").onclick = function () { g_tentacleAnimation_004[2][1] = false; };
+    document.getElementById("animationtentacle_segment2_004_yOffButton").onclick = function () { g_tentacleAnimation_004[2][1] = true; };
+
+    document.getElementById("animationtentacle_segment2_004_zOnButton").onclick = function () { g_tentacleAnimation_004[2][2] = false; };
+    document.getElementById("animationtentacle_segment2_004_zOffButton").onclick = function () { g_tentacleAnimation_004[2][2] = true; };
+
+    document.getElementById("animationtentacle_tail_004_xOnButton").onclick = function () { g_tentacleAnimation_004[3][0] = false; };
+    document.getElementById("animationtentacle_tail_004_xOffButton").onclick = function () { g_tentacleAnimation_004[3][0] = true; };
+
+    document.getElementById("animationtentacle_tail_004_yOnButton").onclick = function () { g_tentacleAnimation_004[3][1] = false; };
+    document.getElementById("animationtentacle_tail_004_yOffButton").onclick = function () { g_tentacleAnimation_004[3][1] = true; };
+
+    document.getElementById("animationtentacle_tail_004_zOnButton").onclick = function () { g_tentacleAnimation_004[3][2] = false; };
+    document.getElementById("animationtentacle_tail_004_zOffButton").onclick = function () { g_tentacleAnimation_004[3][2] = true; };
+
+}
+
 function addActionsFromHtmlUI()
 {
 
 
-    // // Button Events
-    // document.getElementById("animationYellowOffButton").onclick = function(){g_yellowAnimation = false;};
-    // document.getElementById("animationYellowOnButton").onclick = function(){g_yellowAnimation = true;};
-   
-    // document.getElementById("animationMagentaOffButton").onclick = function(){g_magentaAnimation = false;};
-    // document.getElementById("animationMagentaOnButton").onclick = function(){ g_magentaAnimation = true;};
+    // Button Events
+    document.getElementById("animationtentacle_head_001_xOnButton").onclick = function () { g_headAnimation[0]= false; };
+    document.getElementById("animationtentacle_head_001_xOffButton").onclick = function () { g_headAnimation[0] = true; };
 
-    // // Color Slider Events
-    // document.getElementById("yellowSlider").addEventListener("mousemove", function(){ g_yellowAngle = this.value; renderAllShapes();});
-    // document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
+    document.getElementById("animationtentacle_head_001_yOnButton").onclick = function () { g_headAnimation[1] = false; };
+    document.getElementById("animationtentacle_head_001_yOffButton").onclick = function () { g_headAnimation[1] = true; };
+
+    document.getElementById("animationtentacle_head_001_zOnButton").onclick = function () { g_headAnimation[2] = false; };
+    document.getElementById("animationtentacle_head_001_zOffButton").onclick = function () { g_headAnimation[2] = true; };
+
+    // buttonEventforTentacle_001();
+    // buttonEventforTentacle_002();
+    // buttonEventforTentacle_003();
+    // buttonEventforTentacle_004();   
 
     //Rotate events
 
@@ -177,38 +343,77 @@ function addActionsFromHtmlUI()
     document.getElementById("tentacle_tail_002_z").addEventListener("mousemove", function () { g_tentacleAngle_002[3][2] = this.value; renderAllShapes(); })
 
     // Tentacle 3
-    document.getElementById("tentacle_base_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[0][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_base_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[0][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_base_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[0][2] = this.value; renderAllShapes(); })
+    // Set up event listeners for range sliders and buttons
+    document.getElementById("tentacle_base_003_x").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[0][0] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_base_003_y").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[0][1] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_base_003_z").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[0][2] = this.value;
+        renderAllShapes();
+    })
 
-    document.getElementById("tentacle_segment1_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[1][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment1_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[1][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment1_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[1][2] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_003_x").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[1][0] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_segment1_003_y").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[1][1] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_segment1_003_z").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[1][2] = this.value;
+        renderAllShapes();
+    })
 
-    document.getElementById("tentacle_segment2_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[2][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment2_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[2][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment2_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[2][2] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_003_x").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[2][0] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_segment2_003_y").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[2][1] = this.value;
+        renderAllShapes();
+    })
 
-    document.getElementById("tentacle_tail_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[3][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_tail_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[3][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_tail_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[3][2] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_003_z").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[2][2] = this.value;
+        renderAllShapes();
+    })
+
+    document.getElementById("tentacle_tail_003_x").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[3][0] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_tail_003_y").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[3][1] = this.value;
+        renderAllShapes();
+    })
+    document.getElementById("tentacle_tail_003_z").addEventListener("mousemove", function () {
+        g_tentacleAngle_003[3][2] = this.value;
+        renderAllShapes();
+    })
+
 
     // Tentacle 4
     document.getElementById("tentacle_base_004_x").addEventListener("mousemove", function () { g_tentacleAngle_004[0][0] = this.value; renderAllShapes(); })
     document.getElementById("tentacle_base_004_y").addEventListener("mousemove", function () { g_tentacleAngle_004[0][1] = this.value; renderAllShapes(); })
     document.getElementById("tentacle_base_004_z").addEventListener("mousemove", function () { g_tentacleAngle_004[0][2] = this.value; renderAllShapes(); })
 
-    document.getElementById("tentacle_segment1_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[1][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment1_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[1][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_004_x").addEventListener("mousemove", function () { g_tentacleAngle_004[1][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_004_y").addEventListener("mousemove", function () { g_tentacleAngle_004[1][1] = this.value; renderAllShapes(); })
     document.getElementById("tentacle_segment1_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[1][2] = this.value; renderAllShapes(); })
 
-    document.getElementById("tentacle_segment2_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[2][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment2_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[2][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_segment2_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[2][2] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_004_x").addEventListener("mousemove", function () { g_tentacleAngle_004[2][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_004_y").addEventListener("mousemove", function () { g_tentacleAngle_004[2][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_004_z").addEventListener("mousemove", function () { g_tentacleAngle_004[2][2] = this.value; renderAllShapes(); })
 
-    document.getElementById("tentacle_tail_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[3][0] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_tail_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[3][1] = this.value; renderAllShapes(); })
-    document.getElementById("tentacle_tail_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[3][2] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_004_x").addEventListener("mousemove", function () { g_tentacleAngle_004[3][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_004_y").addEventListener("mousemove", function () { g_tentacleAngle_004[3][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_004_z").addEventListener("mousemove", function () { g_tentacleAngle_004[3][2] = this.value; renderAllShapes(); })
 
     // Size slider events
     canvas.addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
@@ -253,14 +458,24 @@ function tick()
     // Tell  the browser to update againn when it has time
     requestAnimationFrame(tick);
 }
-function updateAnimationAngles(){
-    if(g_yellowAnimation){
-        g_yellowAngle = (45*Math.sin(g_seconds));
-    }
 
-    if(g_magentaAnimation){
-        g_magentaAngle= (45*Math.sin(3*g_seconds));
-    }
+
+function updateAnimationAngles(){
+
+    // if(g_headAnimation[0])
+    // {
+    //     g_headAngles[0] = (45*Math.sin(g_seconds));
+    // }
+
+
+    // if (g_headAnimation[1]) {
+    //     g_headAngles[1] = (45 * Math.sin(g_seconds));
+    // }
+
+
+    // if (g_headAnimation[2]) {
+    //     g_headAngles[2] = (45 * Math.sin(g_seconds));
+    // }
 }
 // Draw every shape that is suppose to be on the Canvas
 function renderAllShapes()
@@ -276,36 +491,6 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
     
-    // Draw the body Cube
-    // var body = new Cube();
-    // body.color = [1.0,0.0,0.0,1.0];
-    // body.matrix.translate(-.25,-.75,0.0);
-    // body.matrix.rotate(-5,1,0,0);
-    // body.matrix.scale(0.5,.3,.5);
-    // body.render();
-
-    // // Yellow Cube
-    // var yellow = new Cube();
-    // yellow.color = [1,1,0,1];
-    // yellow.matrix.setTranslate(0,-0.5,0.0);
-    // yellow.matrix.rotate(-5,1,0,0);
-    // yellow.matrix.rotate(-g_yellowAngle,0,0,1);
-    // var yellowCoordinatesMat = new Matrix4(yellow.matrix);
-    // yellow.matrix.scale(0.25,0.7,0.5);
-    // yellow.matrix.translate(-.5,0,0);
-    // yellow.render();
-
-    // // magenta box
-    // var magenta = new Cube();
-    // magenta.color = [1,0,1,1];
-    // magenta.matrix = yellowCoordinatesMat;
-    // magenta.matrix.translate(0,.65,0);
-    // magenta.matrix.rotate(g_magentaAngle,0,0,1);
-    // magenta.matrix.scale(.3,.3,.3);
-    // magenta.matrix.translate(-.5,0,-0.001);
-    // magenta.render();
-
-
     var parentMatrix = new Matrix4([1,1,0]);
     var octo = new Octopus(.5,1.1);
     octo.render(parentMatrix);
