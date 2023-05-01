@@ -1,6 +1,6 @@
 class Octopus {
-    constructor(headSize, bodySize) {
-      this.color = [1, 0.75, 0, 1];
+    constructor(headSize, bodySize, color) {
+      this.color = color;
 
       //Create Body
       this.body = new Cube();

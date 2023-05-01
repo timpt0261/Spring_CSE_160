@@ -40,10 +40,8 @@ let g_SelectedColor = [1.0,1.0,1.0,1.0];
 let g_SelectedSize = 5;
 let g_SegmentCount = 10;
 let g_globalAngle = 0;
-let g_yellowAngle = 0;
-let g_magentaAngle = 0;
-let g_yellowAnimation = false;
-let g_magentaAnimation = false;
+let g_color = [1, 0.75, 0, 1];
+let g_colorAnimation = false;
 
 // Octo head
 let g_headAngles = [0,0,0];
@@ -430,8 +428,8 @@ function main()
     addActionsFromHtmlUI();
 
     // // Register function (event handler) to be called on a mouse press
-    // canvas.onmousedown = click;
-    // canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
+    canvas.onmousedown = click;
+    canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
   
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0, 1, 1.0);
@@ -459,6 +457,15 @@ function tick()
     requestAnimationFrame(tick);
 }
 
+function click(ev) {
+    // Extract the event click and return it in WebGL coordinates
+    for(var i =0; i < g_color.length -1;i++)
+    {
+        g_color[i] = (g_color[i] * Math.cos(g_seconds));
+    }
+
+    renderAllShapes();
+}
 
 function updateAnimationAngles(){
 
@@ -522,7 +529,7 @@ function renderAllShapes()
     gl.clear(gl.COLOR_BUFFER_BITs);
     
     var parentMatrix = new Matrix4([1,1,0]);
-    var octo = new Octopus(.5,1.1);
+    var octo = new Octopus(.5,1.1,g_color);
     octo.render(parentMatrix);
 
     var duration = performance.now() - startTime;
