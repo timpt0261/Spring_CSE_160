@@ -12,19 +12,27 @@
     </canvas>
 
     <p id="numdot">XXX</p>
-
     <p>Scroll with mouse Wheel</p>
+
     
     <div style="display:flex;">
-
         <fieldset style="flex:1;">
+            
             <legend>Head</legend>
         
-            <p>
                 <label> Rotate</label><br>
-                X<input id="tentacle_head_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_head_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_head_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_head_001_x" type="range" class="slide" value="0" min="-12.5" max="12" step="1">
+                <button type="button" id="animationtentacle_head_001_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_head_001_xOffButton">OFF</button><br>
+                
+                Y<input id="tentacle_head_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_head_001_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_head_001_yOffButton">OFF</button><br>
+                
+                Z<input id="tentacle_head_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_head_001_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_head_001_zOffButton">OFF</button><br>
+
             </p>
         </fieldset>
         <fieldset style="flex:1;">
@@ -32,31 +40,50 @@
     
             <p>
                 <label>Base Rotate</label><br>
-                X<input id="tentacle_base_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_base_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_base_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_base_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_001_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_001_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_base_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_001_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_001_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_base_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_001_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_001_zOffButton">OFF</button><br>
             </p>
-    
+            
             <p>
                 <label>Segment_1 Rotate</label><br>
-                X<input id="tentacle_segment1_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment1_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment1_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_segment1_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_001_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_001_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment1_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_001_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_001_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_segment1_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_001_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_001_zOffButton">OFF</button><br>
             </p>
-    
+            
             <p>
                 <label>Segment_2 Rotate</label><br>
-                X<input id="tentacle_segment2_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment2_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment2_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
-    
-            <p>
-                <label>Tail Rotate</label><br>
-                X<input id="tentacle_tail_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_tail_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_tail_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
+                X<input id="tentacle_segment2_001_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_001_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_001_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment2_001_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_001_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_001_yOffButton">OFF</button><br>
+                
+                Z<input id="tentacle_segment2_001_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_001_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_001_zOffButton">OFF</button><br>
+                
+                </p>
+
         </fieldset>
 
         <fieldset style="flex:1;">
@@ -64,31 +91,49 @@
         
             <p>
                 <label>Base Rotate</label><br>
-                X<input id="tentacle_base_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_base_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_base_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_base_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_002_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_002_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_base_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_002_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_002_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_base_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_002_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_002_zOffButton">OFF</button><br>
             </p>
-        
+            
             <p>
                 <label>Segment_1 Rotate</label><br>
-                X<input id="tentacle_segment1_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment1_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment1_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_segment1_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_002_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_002_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment1_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_002_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_002_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_segment1_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_002_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_002_zOffButton">OFF</button><br>
             </p>
-        
+            
             <p>
                 <label>Segment_2 Rotate</label><br>
-                X<input id="tentacle_segment2_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment2_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment2_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_segment2_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_002_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_002_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment2_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_002_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_002_yOffButton">OFF</button><br>
+
+                Z<input id="tentacle_segment2_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_002_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_002_zOffButton">OFF</button><br>
             </p>
-        
-            <p>
-                <label>Tail Rotate</label><br>
-                X<input id="tentacle_tail_002_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_tail_002_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_tail_002_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
+
         </fieldset>
         
         <fieldset style="flex:1;">
@@ -96,63 +141,111 @@
         
             <p>
                 <label>Base Rotate</label><br>
-                X<input id="tentacle_base_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_base_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_base_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_base_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_003_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_003_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_base_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_003_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_003_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_base_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_base_003_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_base_003_zOffButton">OFF</button><br>
             </p>
-        
+            
             <p>
                 <label>Segment_1 Rotate</label><br>
-                X<input id="tentacle_segment1_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment1_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment1_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_segment1_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_003_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_003_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment1_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_003_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_003_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_segment1_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment1_003_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment1_003_zOffButton">OFF</button><br>
             </p>
-        
+            
             <p>
                 <label>Segment_2 Rotate</label><br>
-                X<input id="tentacle_segment2_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment2_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment2_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                X<input id="tentacle_segment2_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_003_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_003_xOffButton">OFF</button><br>
+            
+                Y<input id="tentacle_segment2_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_segment2_003_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_segment2_003_yOffButton">OFF</button>
             </p>
-        
+
             <p>
-                <label>Tail Rotate</label><br>
-                X<input id="tentacle_tail_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_tail_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_tail_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+                <label>Segment_3 Rotate</label><br>
+                X<input id="tentacle_tail_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_tail_003_xOnButton">ON</button>
+                <button type="button" id="animationtentacle_tail_003_xOffButton">OFF</button><br>
+                Y<input id="tentacle_tail_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_tail_003_yOnButton">ON</button>
+                <button type="button" id="animationtentacle_tail_003_yOffButton">OFF</button><br>
+            
+                Z<input id="tentacle_tail_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+                <button type="button" id="animationtentacle_tail_003_zOnButton">ON</button>
+                <button type="button" id="animationtentacle_tail_003_zOffButton">OFF</button><br>
+            
             </p>
+
         </fieldset>
 
         <fieldset style="flex:1;">
             <legend>Tentacle_004</legend>
         
-            <p>
-                <label>Base Rotate</label><br>
-                X<input id="tentacle_base_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_base_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_base_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
+        <p>
+            <label>Base Rotate</label><br>
+            X<input id="tentacle_base_004_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_base_004_xOnButton">ON</button>
+            <button type="button" id="animationtentacle_base_004_xOffButton">OFF</button><br>
         
-            <p>
-                <label>Segment_1 Rotate</label><br>
-                X<input id="tentacle_segment1_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment1_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment1_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
+            Y<input id="tentacle_base_004_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_base_004_yOnButton">ON</button>
+            <button type="button" id="animationtentacle_base_004_yOffButton">OFF</button><br>
         
-            <p>
-                <label>Segment_2 Rotate</label><br>
-                X<input id="tentacle_segment2_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_segment2_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_segment2_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-            </p>
+            Z<input id="tentacle_base_004_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_base_004_zOnButton">ON</button>
+            <button type="button" id="animationtentacle_base_004_zOffButton">OFF</button><br>
+        </p>
         
-            <p>
-                <label>Tail Rotate</label><br>
-                X<input id="tentacle_tail_003_x" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Y<input id="tentacle_tail_003_y" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
-                Z<input id="tentacle_tail_003_z" type="range" class="slide" value="0" min="-45" max="45" step="1"><br>
+        <p>
+            <label>Segment_1 Rotate</label><br>
+            X<input id="tentacle_segment1_004_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment1_004_xOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment1_004_xOffButton">OFF</button><br>
+        
+            Y<input id="tentacle_segment1_004_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment1_004_yOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment1_004_yOffButton">OFF</button><br>
+        
+            Z<input id="tentacle_segment1_004_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment1_004_zOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment1_004_zOffButton">OFF</button><br>
+        </p>
+        
+        <p>
+            <label>Segment_2 Rotate</label><br>
+            X<input id="tentacle_segment2_004_x" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment2_004_xOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment2_004_xOffButton">OFF</button><br>
+        
+            Y<input id="tentacle_segment2_004_y" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment2_004_yOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment2_004_yOffButton">OFF</button><br>
+
+            Z<input id="tentacle_segment2_004_z" type="range" class="slide" value="0" min="-45" max="45" step="1">
+            <button type="button" id="animationtentacle_segment2_004_zOnButton">ON</button>
+            <button type="button" id="animationtentacle_segment2_004_zOffButton">OFF</button><br>
+
             </p>
+
         </fieldset>
     </div>
     

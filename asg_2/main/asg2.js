@@ -47,12 +47,18 @@ let g_magentaAnimation = false;
 
 // Octo head
 let g_headAngles = [0,0,0];
+let g_headAnimation = false;
 
 //Octo body
-let g_tentacleAngle_base_001_x = [0,0,0];
-let g_tentacleAngle_segegment1_001_x = [0,0,0];
-let g_tentacleAngle_segegment2_001_x = [0, 0, 0];
-let g_tentacleAngle_tail_001_x = [0, 0, 0];
+let g_tentacleAngle_001 = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+let g_tentacleAngle_002 = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+let g_tentacleAngle_003 = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+let g_tentacleAngle_004 = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+let g_tentacleAnimation_001 = [[false, false, false], [false, false, false], [false, false, false], [false, false, false]];
+let g_tentacleAnimation_002 = [[false, false, false], [false, false, false], [false, false, false], [false, false, false]];
+let g_tentacleAnimation_003 = [[false, false, false], [false, false, false], [false, false, false], [false, false, false]];
+let g_tentacleAnimation_004 = [[false, false, false], [false, false, false], [false, false, false], [false, false, false]];
 
 
 
@@ -121,6 +127,7 @@ function addActionsFromHtmlUI()
     // // Button Events
     // document.getElementById("animationYellowOffButton").onclick = function(){g_yellowAnimation = false;};
     // document.getElementById("animationYellowOnButton").onclick = function(){g_yellowAnimation = true;};
+   
     // document.getElementById("animationMagentaOffButton").onclick = function(){g_magentaAnimation = false;};
     // document.getElementById("animationMagentaOnButton").onclick = function(){ g_magentaAnimation = true;};
 
@@ -129,11 +136,79 @@ function addActionsFromHtmlUI()
     // document.getElementById("magentaSlider").addEventListener("mousemove", function(){ g_magentaAngle = this.value; renderAllShapes();});
 
     //Rotate events
+
+    //Head
     document.getElementById("tentacle_head_001_x").addEventListener("mousemove",function(){g_headAngles[0] = this.value; renderAllShapes();})
     document.getElementById("tentacle_head_001_y").addEventListener("mousemove", function () { g_headAngles[1] = this.value; renderAllShapes();})
     document.getElementById("tentacle_head_001_z").addEventListener("mousemove", function () { g_headAngles[2] = this.value; renderAllShapes();})
-
     
+    // Tentacle 1
+    document.getElementById("tentacle_base_001_x").addEventListener("mousemove", function () { g_tentacleAngle_001[0][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_001_y").addEventListener("mousemove", function () { g_tentacleAngle_001[0][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_001_z").addEventListener("mousemove", function () { g_tentacleAngle_001[0][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment1_001_x").addEventListener("mousemove", function () { g_tentacleAngle_001[1][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_001_y").addEventListener("mousemove", function () { g_tentacleAngle_001[1][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_001_z").addEventListener("mousemove", function () { g_tentacleAngle_001[1][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment2_001_x").addEventListener("mousemove", function () { g_tentacleAngle_001[2][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_001_y").addEventListener("mousemove", function () { g_tentacleAngle_001[2][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_001_z").addEventListener("mousemove", function () { g_tentacleAngle_001[2][2] = this.value; renderAllShapes(); })
+    
+    document.getElementById("tentacle_tail_001_x").addEventListener("mousemove", function () { g_tentacleAngle_001[3][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_001_y").addEventListener("mousemove", function () { g_tentacleAngle_001[3][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_001_z").addEventListener("mousemove", function () { g_tentacleAngle_001[3][2] = this.value; renderAllShapes(); })
+
+    // Tentacle 2
+    document.getElementById("tentacle_base_002_x").addEventListener("mousemove", function () { g_tentacleAngle_002[0][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_002_y").addEventListener("mousemove", function () { g_tentacleAngle_002[0][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_002_z").addEventListener("mousemove", function () { g_tentacleAngle_002[0][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment1_002_x").addEventListener("mousemove", function () { g_tentacleAngle_002[1][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_002_y").addEventListener("mousemove", function () { g_tentacleAngle_002[1][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_002_z").addEventListener("mousemove", function () { g_tentacleAngle_002[1][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment2_002_x").addEventListener("mousemove", function () { g_tentacleAngle_002[2][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_002_y").addEventListener("mousemove", function () { g_tentacleAngle_002[2][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_002_z").addEventListener("mousemove", function () { g_tentacleAngle_002[2][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_tail_002_x").addEventListener("mousemove", function () { g_tentacleAngle_002[3][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_002_y").addEventListener("mousemove", function () { g_tentacleAngle_002[3][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_002_z").addEventListener("mousemove", function () { g_tentacleAngle_002[3][2] = this.value; renderAllShapes(); })
+
+    // Tentacle 3
+    document.getElementById("tentacle_base_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[0][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[0][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[0][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment1_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[1][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[1][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[1][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment2_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[2][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[2][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[2][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_tail_003_x").addEventListener("mousemove", function () { g_tentacleAngle_003[3][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_003_y").addEventListener("mousemove", function () { g_tentacleAngle_003[3][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_003_z").addEventListener("mousemove", function () { g_tentacleAngle_003[3][2] = this.value; renderAllShapes(); })
+
+    // Tentacle 4
+    document.getElementById("tentacle_base_004_x").addEventListener("mousemove", function () { g_tentacleAngle_004[0][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_004_y").addEventListener("mousemove", function () { g_tentacleAngle_004[0][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_base_004_z").addEventListener("mousemove", function () { g_tentacleAngle_004[0][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment1_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[1][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[1][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment1_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[1][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_segment2_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[2][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[2][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_segment2_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[2][2] = this.value; renderAllShapes(); })
+
+    document.getElementById("tentacle_tail_004_x").addEventListener("mousemove", function () { g_tentacleAngle_003[3][0] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_004_y").addEventListener("mousemove", function () { g_tentacleAngle_003[3][1] = this.value; renderAllShapes(); })
+    document.getElementById("tentacle_tail_004_z").addEventListener("mousemove", function () { g_tentacleAngle_003[3][2] = this.value; renderAllShapes(); })
 
     // Size slider events
     canvas.addEventListener("wheel", function(event){ g_globalAngle += event.deltaY * -0.01; renderAllShapes();});
