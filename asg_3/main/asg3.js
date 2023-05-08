@@ -31,7 +31,6 @@ let gl;
 let a_Position;
 let a_UV;
 let u_FragColor;
-let u_Size;
 let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
@@ -84,10 +83,30 @@ function connectVariablesGLSL() {
         return;
     }
 
+    a_UV = gl.getAttribLocation(gl.program, 'a_UV');
+    if (a_UV < 0) {
+        console.log('Failed to get the storage location of a_UV');
+        return;
+    }
+
     // Get the storage location of u_FragColor
     u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
     if (!u_FragColor) {
         console.log('Failed to get the storage location of u_FragColor');
+        return;
+    }
+
+    // Get the storage location of u_ProjectionMatrix
+    u_ProjectionMatrix = gl.getUniformLocation(gl.program, 'u_ProjectionMatrix');
+    if (!u_ProjectionMatrix) {
+        console.log('Failed to get the storage location of u_ProjectionMatrix');
+        return;
+    }
+
+    // Get the storage location of u_ViewMatrix
+    u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+    if (!u_ViewMatrix) {
+        console.log('Failed to get the storage location of u_ViewMatrix');
         return;
     }
 
@@ -184,8 +203,6 @@ function renderAllShapes() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BITs);
 
-    // Draw a test Triangle
-    // drawTriangle3d([-1.0,0.0,0.0,  -0.5,-1.0,0.0, 0.0,0.0,0.0] );
 
     // Draw the body Cube
     var body = new Cube();
@@ -201,9 +218,6 @@ function renderAllShapes() {
     yellow.matrix.setTranslate(0, -0.5, 0.0);
     yellow.matrix.rotate(-5, 1, 0, 0);
     yellow.matrix.rotate(-g_yellowAngle, 0, 0, 1);
-
-
-
 
     var yellowCoordinatesMat = new Matrix4(yellow.matrix);
     yellow.matrix.scale(0.25, 0.7, 0.5);
