@@ -31,6 +31,7 @@ let gl;
 let a_Position;
 let a_UV;
 let u_FragColor;
+let u_Size;
 let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
@@ -42,7 +43,7 @@ const TRIANGLE = 1;
 const CIRCLE = 2;
 
 
-let g_Clear;
+// let g_Clear;
 // let g_selectedType = POINT;
 
 // Global Variables for UI elements
@@ -96,20 +97,6 @@ function connectVariablesGLSL() {
         return;
     }
 
-    // Get the storage location of u_ProjectionMatrix
-    u_ProjectionMatrix = gl.getUniformLocation(gl.program, 'u_ProjectionMatrix');
-    if (!u_ProjectionMatrix) {
-        console.log('Failed to get the storage location of u_ProjectionMatrix');
-        return;
-    }
-
-    // Get the storage location of u_ViewMatrix
-    u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
-    if (!u_ViewMatrix) {
-        console.log('Failed to get the storage location of u_ViewMatrix');
-        return;
-    }
-
     // Get the Storage location of u_ModelMatrix
     u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
     if (!u_ModelMatrix) {
@@ -123,6 +110,22 @@ function connectVariablesGLSL() {
         console.log('Failed to get the storage location of u_GlobalRotateMatrix');
         return;
     }
+
+    // Get the storage location of u_ViewMatrix
+    u_ViewMatrix = gl.getUniformLocation(gl.program, 'u_ViewMatrix');
+    if (!u_ViewMatrix) {
+        console.log('Failed to get the storage location of u_ViewMatrix');
+        return;
+    }
+
+
+    // Get the storage location of u_ProjectionMatrix
+    u_ProjectionMatrix = gl.getUniformLocation(gl.program, 'u_ProjectionMatrix');
+    if (!u_ProjectionMatrix) {
+        console.log('Failed to get the storage location of u_ProjectionMatrix');
+        return;
+    }
+    
 
     // Set inital storage location of u_ModelMatrix
     var identityM = new Matrix4();
@@ -155,8 +158,8 @@ function main() {
     addActionsFromHtmlUI();
 
     // // Register function (event handler) to be called on a mouse press
-    // canvas.onmousedown = click;
-    // canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
+    //canvas.onmousedown = click;
+    //canvas.onmousemove = function(ev) {if(ev.buttons == 1) {click(ev)} };
 
     // Specify the color for clearing <canvas>
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -201,7 +204,7 @@ function renderAllShapes() {
 
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.clear(gl.COLOR_BUFFER_BITs);
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
 
     // Draw the body Cube

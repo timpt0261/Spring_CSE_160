@@ -526,7 +526,7 @@ function renderAllShapes()
 
     // Clear <canvas>
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.clear(gl.COLOR_BUFFER_BITs);
+    gl.clear(gl.COLOR_BUFFER_BIT);
     
     var parentMatrix = new Matrix4([1,1,0]);
     var octo = new Octopus(.5,1.1,g_color);
