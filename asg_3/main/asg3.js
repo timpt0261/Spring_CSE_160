@@ -415,17 +415,6 @@ function renderScene() {
     skybox.matrix.scale(160, 160, 160);
     skybox.render();
 
-    spider_bus_rotation = (spider_bus_rotation + 0.5) % 360;
-    var spider_bus_rotationMatrix = new Matrix4();
-    spider_bus_rotationMatrix.scale(10, 10, 10);
-    spider_bus_rotationMatrix.translate(2, 2, 2);
-    spider_bus_rotationMatrix.rotate(spider_bus_rotation, 0, 1, 0);
-    spider_bus_rotationMatrix.translate(4, 0, 0);
-    spider_bus_rotationMatrix.scale(1.5, 1.5, 1.5);
-    drawSpiderBus(spider_bus_rotationMatrix);
-
-
-
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
