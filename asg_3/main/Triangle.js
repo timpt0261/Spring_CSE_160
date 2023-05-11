@@ -51,7 +51,7 @@ function drawTriangle(verticies)
 }
 
 
-function drawTriangle3d(verticies)
+function drawTriangle3D(verticies)
 {
     var n = 3; // The number of vertices
 
