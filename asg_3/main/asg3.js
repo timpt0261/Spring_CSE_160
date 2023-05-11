@@ -250,9 +250,9 @@ function initTextures(n) {
     image1.onload = function () { sendTextureToTEXTURE1(image1); }
     image2.onload = function () { sendTextureToTEXTURE2(image2); }
 
-    image0.src = 'paper_1.jpg';
-    image1.src = 'paper_2.jpg';
-    image2.src = 'paper_3.jpg';
+    image0.src = '../img/sky_paper.jpg';
+    image1.src = '../img/paper_3.jpg';
+    image2.src = '../img/paper_2.jpg';
 
     return true;
 }
@@ -415,14 +415,14 @@ function renderScene() {
     skybox.matrix.scale(160, 160, 160);
     skybox.render();
 
-    // spider_bus_rotation = (spider_bus_rotation + 0.5) % 360;
-    // var spider_bus_rotationMatrix = new Matrix4();
-    // spider_bus_rotationMatrix.scale(10, 10, 10);
-    // spider_bus_rotationMatrix.translate(2, 2, 2);
-    // spider_bus_rotationMatrix.rotate(spider_bus_rotation, 0, 1, 0);
-    // spider_bus_rotationMatrix.translate(4, 0, 0);
-    // spider_bus_rotationMatrix.scale(1.5, 1.5, 1.5);
-    // drawSpiderBus(spider_bus_rotationMatrix);
+    spider_bus_rotation = (spider_bus_rotation + 0.5) % 360;
+    var spider_bus_rotationMatrix = new Matrix4();
+    spider_bus_rotationMatrix.scale(10, 10, 10);
+    spider_bus_rotationMatrix.translate(2, 2, 2);
+    spider_bus_rotationMatrix.rotate(spider_bus_rotation, 0, 1, 0);
+    spider_bus_rotationMatrix.translate(4, 0, 0);
+    spider_bus_rotationMatrix.scale(1.5, 1.5, 1.5);
+    drawSpiderBus(spider_bus_rotationMatrix);
 
 
 
