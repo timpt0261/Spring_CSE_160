@@ -3,59 +3,50 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Assignment 2: Blocky Animal</title>
+    <title>CSE 160 - Assignment 3 - World</title>
+    <!-- <div class="container">
+        <font size="100">THE WORLD IS BEING CONSUMED, DON'T GET EATEN BY THE BUS!</font>
+    </div>
+    <div class="container">
+        <font size="100" element id="timeSurvivedText2"></font>
+    </div> -->
 </head>
 
 <body onload="main()">
-    <canvas id="webgl" width="400" height="400">
+    <canvas id="display" width="600" height="500">
         Please use a browser that supports "canvas"
     </canvas>
+    <canvas id="text"></canvas>
 
-    <p id="numdot">XXX</p>
+    <div class="container">
+        <element id="infoText">FPS: 0</element>
+    </div>
 
-    <p>
-        <button type="button" id="square">X</button>
-        <button type="button" id="triangle">X</button>
-        <button type="button" id="circle">X</button>
-    </p>
+    <div class="container">
+        Controls: WASD, spacebar, shift, left click, right click
+    </div>
 
-    <p>
-        <button type="button" id="red">X</button>
-        <button type="button" id="green">X</button>
-        <button type="button" id="blue">X</button>
-    </p>
+    <div class="container">
+        <element id="timeSurvivedText">FPS: 0</element>
+    </div>
 
-    <p>
-        Magenta <input type="range" min="-45" max="45" value="0" class="slide" id="magentaSlider">
-        Animation:
-        <button type="button" id="animationMagentaOnButton">ON</button>
-        <button type="button" id="animationMagentaOffButton">OFF</button>
-        Yellow <input type="range" min="-45" max="45" value="0" class="slide" id="yellowSlider">
-        Animation:
-        <button type="button" id="animationYellowOnButton">ON</button>
-        <button type="button" id="animationYellowOffButton">OFF</button>
-    </p>
+    <input type="checkbox" name="consumption" id="consumptionCheckbox" checked>Enable Consumption</element>
 
-
-
-    <p>
-        Camera Angle <input id="angleSlider" class="slider" type="range" value="5" min="0" max="360">
-    </p>
-        <script src="lib/cuon-matrix-cse160.js"></script>
-        <script src="lib/webgl-utils.js"></script>
-        <script src="lib/webgl-debug.js"></script>
-        <script src="lib/cuon-utils.js"></script>
-        <script src="Point.js"></script>
-        <script src="Triangle.js"></script>
-        <script src="Circle.js"></script>
-        <script src="Cube.js"></script>
-        <script src="Icosphere.js"></script>
-        <!-- <script src="Cylinder.js"></script>
-        <script src="Camera.js"></script> -->
-        <!-- <script src="Chunk.js"></script> -->
-        <script src="asg3.js"></script>
-
-
+    <script src="../lib/cuon-matrix-cse160.js"></script>
+    <script src="../lib/webgl-utils.js"></script>
+    <script src="../lib/webgl-debug.js"></script>
+    <script src="../lib/cuon-utils.js"></script>
+    <script src="Point.js"></script>
+    <script src="Triangle.js"></script>
+    <script src="Circle.js"></script>
+    <script src="Cube.js"></script>
+    <script src="Cylinder.js"></script>
+    <script src="Icosphere.js"></script>
+    <script src="Octopus.js"></script>
+    <script src="bus_utility.js"></script>
+    <script src="Camera.js"></script>
+    <script src="Chunk.js"></script>
+    <script src="asg3.js"></script>
 </body>
 
 </html>
