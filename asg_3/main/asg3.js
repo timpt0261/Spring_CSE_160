@@ -19,7 +19,7 @@ var VSHADER_SOURCE = `
 var FSHADER_SOURCE = `
     precision mediump float;
     varying vec2 v_UV;
-    uniform vec4 u_FragColor;  // uniforrm
+    uniform vec4 u_FragColor;  
     void main() {
       gl_FragColor = u_FragColor;
       gl_FragColor = vec4(v_UV,1.0,1.0);
@@ -31,7 +31,6 @@ let gl;
 let a_Position;
 let a_UV;
 let u_FragColor;
-let u_Size;
 let u_ModelMatrix;
 let u_ProjectionMatrix;
 let u_ViewMatrix;
@@ -43,18 +42,9 @@ const TRIANGLE = 1;
 const CIRCLE = 2;
 
 
-// let g_Clear;
-// let g_selectedType = POINT;
+let g_Clear;
+let g_selectedType = POINT;
 
-// Global Variables for UI elements
-let g_SelectedColor = [1.0, 1.0, 1.0, 1.0];
-let g_SelectedSize = 5;
-let g_SegmentCount = 10;
-let g_globalAngle = 0;
-let g_yellowAngle = 0;
-let g_magentaAngle = 0;
-let g_yellowAnimation = false;
-let g_magentaAnimation = false;
 
 function setupWebGL() {
     // Retrieve <canvas> element
@@ -133,6 +123,16 @@ function connectVariablesGLSL() {
 
 }
 
+// Global Variables for UI elements
+let g_SelectedColor = [1.0, 1.0, 1.0, 1.0];
+let g_SelectedSize = 5;
+let g_SegmentCount = 10;
+let g_globalAngle = 0;
+let g_yellowAngle = 0;
+let g_magentaAngle = 0;
+let g_yellowAnimation = false;
+let g_magentaAnimation = false;
+
 function addActionsFromHtmlUI() {
     // Button Events
     document.getElementById("animationYellowOffButton").onclick = function () { g_yellowAnimation = false; };
@@ -174,7 +174,7 @@ var g_seconds = performance.now() / 1000.0 - g_startTime;
 function tick() {
     // Print some debug information so we know we are running
     g_seconds = performance.now() / 1000.0 - g_startTime;
-    console.log(performance.now());
+    //console.log(performance.now());
 
     // Update Animation Angles
     updateAnimationAngles();
