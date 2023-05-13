@@ -688,25 +688,26 @@ function add_blocks_layers(layers, seperation) {
     }
 }
 
-function add_extra_blocks() {
-    for (x = 0; x < 32; x++) {
-        this.chunk.createBlock(x, 7, 1, 8);
-        this.chunk.createBlock(x, 7, 31, 8);
-    }
-    for (z = 0; z < 32; z++) {
-        this.chunk.createBlock(1, 7, z, 8);
-        this.chunk.createBlock(31, 7, z, 8);
-    }
+function add_maze_block() {
+    // this.chunk.createBlock(0,7,0,1); // top-left corner
+    // this.chunk.createBlock(31, 7, 0, 1); // top-right corner
 
-    for (z = 0; z < 32; z++) {
-        this.chunk.createBlock(14, 10, z, 8);
-        this.chunk.createBlock(8, 10, z, 8);
-    }
+    // this.chunk.createBlock(0, 7, 31, 1); // bottom-left corner
+    // this.chunk.createBlock(31, 7, 31, 1); // bottom-right corner
+    const maze = generateMaze(32,32);
 
-    // for(x = 0; x < 32; x++)
-    // {
-    //   this.chunk.createBlock(x, 12, 17, 3);
-    // }
+    for(i = 0; i < maze.length;i++){
+        for(j=0; j<maze[i].length;j++){
+            if(maze[i][j] === "#"){
+                for(k=0;k<3;k++){
+                    this.chunk.createBlock(i,7+k,j,1);
+                }
+            }
+        }
+    }
+   
+
+    
 }
 
 function testMouse(ev) {
@@ -731,9 +732,8 @@ function main() {
     setupGroundColors();
 
     this.chunk = new Chunk(32, 32, 32, 0, 3);
-    // this.chucnk.createBlock(10,10,10);
     add_blocks_layers(3, 3);
-    // add_extra_blocks();
+    add_maze_block();
 
     //document.onkeydown = keydown;
     g_camera = new Camera();
