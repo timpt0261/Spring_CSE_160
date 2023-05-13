@@ -509,22 +509,22 @@ function tick() {
 
 
 
-    if (g_camera.eye.elements[1] < -10) {
-        console.warn("DEATH!");
-        if (!is_dead) {
-            is_dead = true;
+    // if (g_camera.eye.elements[1] < -10) {
+    //     console.warn("DEATH!");
+    //     if (!is_dead) {
+    //         is_dead = true;
 
-        }
-    }
+    //     }
+    // }
 
-    if (!is_dead) {
-        if (!g_cheater) {
-            timeSurvived += g_deltaTime;
-        }
-    }
-    else {
-        sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2) + " seconds.", "timeSurvivedText2");
-    }
+    // if (!is_dead) {
+    //     if (!g_cheater) {
+    //         timeSurvived += g_deltaTime;
+    //     }
+    // }
+    // else {
+    //     sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2) + " seconds.", "timeSurvivedText2");
+    // }
 
     sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2), "timeSurvivedText");
 
@@ -534,23 +534,23 @@ function tick() {
 
     requestAnimationFrame(tick);
 
-    if (g_consumptionEnabled) {
-        // destroy a random block
-        for (var i = 0; i < max_samples; i++) {
-            var x = Math.round(Math.random() * this.chunk.width);
-            var y = Math.round(Math.random() * this.chunk.height);
-            var z = Math.round(Math.random() * this.chunk.length);
+    // if (g_consumptionEnabled) {
+    //     // destroy a random block
+    //     for (var i = 0; i < max_samples; i++) {
+    //         var x = Math.round(Math.random() * this.chunk.width);
+    //         var y = Math.round(Math.random() * this.chunk.height);
+    //         var z = Math.round(Math.random() * this.chunk.length);
 
-            var sucess = this.chunk.deleteBlock(x, y, z);
-            if (sucess) {
-                return;
-            }
-        }
-    }
+    //         var sucess = this.chunk.deleteBlock(x, y, z);
+    //         if (sucess) {
+    //             return;
+    //         }
+    //     }
+    // }
 }
 
 function addEventListeners() {
-    document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
+    // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
 }
 
 function sendTextToHTML(text, htmlID) {
@@ -731,8 +731,9 @@ function main() {
     setupGroundColors();
 
     this.chunk = new Chunk(32, 32, 32, 0, 3);
+    // this.chucnk.createBlock(10,10,10);
     add_blocks_layers(3, 3);
-    add_extra_blocks();
+    // add_extra_blocks();
 
     //document.onkeydown = keydown;
     g_camera = new Camera();

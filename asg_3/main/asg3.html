@@ -13,7 +13,7 @@
 </head>
 
 <body onload="main()">
-    <canvas id="display" width="1000" height="800">
+    <canvas id="display" width="500" height="300">
         Please use a browser that supports "canvas"
     </canvas>
     <canvas id="text"></canvas>
@@ -26,11 +26,16 @@
         Controls: WASD, spacebar, shift, left click, right click
     </div>
 
-    <div class="container">
+    <!-- <div class="container">
         <element id="timeSurvivedText">FPS: 0</element>
-    </div>
+    </div> -->
 
-    <input type="checkbox" name="consumption" id="consumptionCheckbox" checked>Enable Consumption</element>
+    <p>
+        <label for="g_gravity">Gravity</label>
+        <input name="g_gravity" id="g_gravity" type="range" value="8" min="-20" max ="20"> 
+    </p>
+
+    <!-- <input type="checkbox" name="consumption" id="consumptionCheckbox" checked>Enable Consumption</element> -->
 
 
     <script src="../lib/cuon-matrix-cse160.js"></script>
@@ -44,7 +49,6 @@
     <script src="Cylinder.js"></script>
     <script src="Icosphere.js"></script>
     <script src="Octopus.js"></script>
-    <!-- <script src="bus_utility.js"></script> -->
     <script src="Camera.js"></script>
     <script src="Chunk.js"></script>
     <script src="asg3.js"></script>
