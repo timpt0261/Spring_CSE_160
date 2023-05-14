@@ -76,6 +76,7 @@ let u_Sampler1;
 let u_Sampler2;
 
 let g_shapesList = [];
+let g_spawnPoint = [16, 7, 16]
 let g_globalRotationAngle_horizontal = 0;
 let g_globalRotationAngle_vertial = 0;
 let g_selectedType = POINT;
@@ -551,6 +552,10 @@ function tick() {
 
 function addEventListeners() {
     // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
+    document.getElementById('spawn_x').addEventListener("input", function () { g_spawnPoint[0] = this.value; });
+    document.getElementById('spawn_y').addEventListener("input", function () { g_spawnPoint[2] = this.value; });
+    document.getElementById('spawn_z').addEventListener("input", function () { g_spawnPoint[1] = this.value; });
+
 }
 
 function sendTextToHTML(text, htmlID) {
@@ -694,20 +699,20 @@ function add_maze_block() {
 
     // this.chunk.createBlock(0, 7, 31, 1); // bottom-left corner
     // this.chunk.createBlock(31, 7, 31, 1); // bottom-right corner
-    const maze = generateMaze(32,32);
+    const maze = generateMaze(32, 32);
 
-    for(i = 0; i < maze.length;i++){
-        for(j=0; j<maze[i].length;j++){
-            if(maze[i][j] === "#"){
-                for(k=0;k<3;k++){
-                    this.chunk.createBlock(i,7+k,j,1);
+    for (i = 0; i < maze.length; i++) {
+        for (j = 0; j < maze[i].length; j++) {
+            if (maze[i][j] === "#") {
+                for (k = 0; k < 3; k++) {
+                    this.chunk.createBlock(i, 7 + k, j, 1);
                 }
             }
         }
     }
-   
 
-    
+
+
 }
 
 function testMouse(ev) {
@@ -748,9 +753,9 @@ function main() {
     document.body.onclick = function (ev) { if (ev.button == 0) { performClick(1); } canvas.requestPointerLock(); }
     document.addEventListener('mousedown', testMouse);
 
-    g_camera.eye.elements[0] = 16;
-    g_camera.eye.elements[2] = 16;
-    g_camera.eye.elements[1] = 7;
+    g_camera.eye.elements[0] = g_spawnPoint[0];
+    g_camera.eye.elements[2] = g_spawnPoint[1];
+    g_camera.eye.elements[1] = g_spawnPoint[2];
 
     // disable context menu
     window.oncontextmenu = function () { performClick(2); return false; }

@@ -8,8 +8,8 @@ function generateMaze(rows, cols) {
     }
 
     // Starting point
-    const startRow = Math.floor(Math.random() * rows);
-    const startCol = Math.floor(Math.random() * cols);
+    const startRow = g_spawnPoint[0];
+    const startCol = g_spawnPoint[2];
     grid[startRow][startCol] = "S";
 
     // Recursive depth-first search
