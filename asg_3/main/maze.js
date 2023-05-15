@@ -9,7 +9,7 @@ function generateMaze(rows, cols) {
 
     // Starting point
     const startRow = g_spawnPoint[0];
-    const startCol = g_spawnPoint[2];
+    const startCol = g_spawnPoint[1];
     grid[startRow][startCol] = "S";
 
     // Recursive depth-first search

@@ -5,6 +5,7 @@ class Octopus {
       //Create Body
       this.body = new Cube();
       this.body.color = this.color;
+      this.body.textureNum = 0;
       this.body.matrix.translate(-0.05, 0.05, -0.06);
       this.body.matrix.scale(.1, .1, .1);
       var bodyCoordinatematrix = new Matrix4(this.body.matrix);
@@ -15,8 +16,8 @@ class Octopus {
       this.head.color = this.color;
       this.head.matrix = bodyCoordinatematrix;
       this.head.matrix.setTranslate(0, .4, 0);
-      this.head.matrix.rotate(-g_headAngles[0], 1, 0, 0);
-      this.head.matrix.rotate(-g_headAngles[1], 0, 1, 0);
+      this.head.matrix.rotate(0, 1, 0, 0);
+      this.head.matrix.rotate(0, 0, 1, 0);
       // this.head.matrix.rotate(-g_headAngles[2], 0, 0, 1);
       var headMatCoordinates = new Matrix4(this.head.matrix);
       this.head.matrix.scale(headSize/3, 1/3, headSize/3);
@@ -42,13 +43,13 @@ class Octopus {
       const armJointSize = bodySize/1.5;
       const armEndSize = bodySize / 6;
       const armLength = bodySize / 2.4;
-      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 0.1, 0, 0, armLength, bodyCoordinatematrix,g_tentacleAngle_001);
+      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 0.1, 0, 0, armLength, bodyCoordinatematrix,0);
       this.arm1.matrix = new Matrix4(this.body.matrix);
-      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -.3, 0, 0, armLength, bodyCoordinatematrix, g_tentacleAngle_002);
+      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -.3, 0, 0, armLength, bodyCoordinatematrix, 0);
       this.arm2.matrix = new Matrix4(this.body.matrix);
-      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 0.3, armLength, bodyCoordinatematrix, g_tentacleAngle_003);
+      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 0.3, armLength, bodyCoordinatematrix, 0);
       this.arm3.matrix = new Matrix4(this.body.matrix);
-      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -.1, armLength, bodyCoordinatematrix, g_tentacleAngle_004);
+      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -.1, armLength, bodyCoordinatematrix, 0);
       this.arm4.matrix = new Matrix4(this.body.matrix);
 
     }
@@ -62,9 +63,9 @@ class Octopus {
       // arm.base.matrix = matrix;
       arm.base.matrix.translate(x * length, -0.438888, z * length);
       arm.base.matrix.rotate(-90, 1, 0, 0);
-      arm.base.matrix.rotate(rotateAngle[0][0], 1, 0, 0);
-      arm.base.matrix.rotate(rotateAngle[0][1], 0, 1, 0);
-      arm.base.matrix.rotate(rotateAngle[0][2], 0, 0, 1);
+      // arm.base.matrix.rotate(rotateAngle[0][0], 1, 0, 0);
+      // arm.base.matrix.rotate(rotateAngle[0][1], 0, 1, 0);
+      // arm.base.matrix.rotate(rotateAngle[0][2], 0, 0, 1);
       arm.base.matrix.scale(baseSize, baseSize, baseSize+.4);
 
   
@@ -73,9 +74,9 @@ class Octopus {
       arm.segment1.color = this.color;
       arm.segment1.matrix = new Matrix4(arm.base.matrix);
       arm.segment1.matrix.translate(0, 0, 0);
-      arm.segment1.matrix.rotate(rotateAngle[1][0], 1, 0, 0);
-      arm.segment1.matrix.rotate(rotateAngle[1][1], 0, 1, 0);
-      arm.segment1.matrix.rotate(rotateAngle[1][2], 0, 0, 1);
+      // arm.segment1.matrix.rotate(rotateAngle[1][0], 1, 0, 0);
+      // arm.segment1.matrix.rotate(rotateAngle[1][1], 0, 1, 0);
+      // arm.segment1.matrix.rotate(rotateAngle[1][2], 0, 0, 1);
       arm.segment1.matrix.scale(jointSize, jointSize, jointSize*.4);
       arm.segment1.matrix.translate(.3,.3,-.9001);
    
@@ -84,9 +85,9 @@ class Octopus {
       arm.segment2.color = this.color;
       arm.segment2.matrix = new Matrix4(arm.segment1.matrix);
       arm.segment2.matrix.translate(0.2, 0.2, -.9601);
-      arm.segment2.matrix.rotate(rotateAngle[2][0], 1, 0, 0);
-      arm.segment2.matrix.rotate(rotateAngle[2][1], 0, 1, 0);
-      arm.segment2.matrix.rotate(rotateAngle[2][2], 0, 0, 1);
+      // arm.segment2.matrix.rotate(rotateAngle[2][0], 1, 0, 0);
+      // arm.segment2.matrix.rotate(rotateAngle[2][1], 0, 1, 0);
+      // arm.segment2.matrix.rotate(rotateAngle[2][2], 0, 0, 1);
       arm.segment2.matrix.scale(endSize*3.5, endSize*3.5, endSize + .78);
 
       // Create the arm tail
@@ -94,9 +95,9 @@ class Octopus {
       arm.tail.color = this.color;
       arm.tail.matrix = new Matrix4(arm.segment2.matrix);
       arm.tail.matrix.translate(0.3, 0.3, -.6);
-      arm.tail.matrix.rotate(rotateAngle[3][0], 1, 0, 0);
-      arm.tail.matrix.rotate(rotateAngle[3][1], 0, 1, 0);
-      arm.tail.matrix.rotate(rotateAngle[3][2], 0, 0, 1);
+      // arm.tail.matrix.rotate(rotateAngle[3][0], 1, 0, 0);
+      // arm.tail.matrix.rotate(rotateAngle[3][1], 0, 1, 0);
+      // arm.tail.matrix.rotate(rotateAngle[3][2], 0, 0, 1);
       arm.tail.matrix.scale(endSize*3.5, endSize*3.5, endSize*3.5);
       arm.tail.matrix.scale(1, length, 1);
 

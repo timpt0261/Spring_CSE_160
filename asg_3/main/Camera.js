@@ -1,4 +1,5 @@
-// From 
+// Credit: Aaron Brunckhurst-Fust in Hall of Fame
+// https://people.ucsc.edu/~dbrunckh/CSE160-Worldv8/world.html
 class Camera {
     constructor() {
         this.eye = new Vector3([0, 0, 0]);

@@ -1,4 +1,6 @@
-// HelloPint2.js (c) 2012 matsuda
+// Credit: Aaron Brunckhurst-Fust in Hall of Fame
+// https://people.ucsc.edu/~dbrunckh/CSE160-Worldv8/world.html
+
 // Vertex shader program
 var VSHADER_SOURCE =
     `
@@ -25,6 +27,7 @@ var FSHADER_SOURCE =
   uniform sampler2D u_Sampler0;
   uniform sampler2D u_Sampler1;
   uniform sampler2D u_Sampler2;
+  uniform sampler2D u_Sampler3;
 
   uniform int u_whichTexture;
   void main() {
@@ -42,6 +45,9 @@ var FSHADER_SOURCE =
       gl_FragColor = texture2D(u_Sampler2, v_UV);
     }
     else if(u_whichTexture == 3) {
+      gl_FragColor = texture2D(u_Sampler3, v_UV);
+    }
+    else if(u_whichTexture == 4) {
       vec3 brown = vec3(0.38, 0.14, 0.01);
       vec3 color = mix(vec3(v_UV, 1.0), brown, 0.9);
       gl_FragColor = vec4(color, 1.0);
@@ -74,9 +80,12 @@ let u_GlobalRotationMatrix;
 let u_Sampler0;
 let u_Sampler1;
 let u_Sampler2;
+let u_Sampler3;
 
 let g_shapesList = [];
-let g_spawnPoint = [16, 7, 16]
+let g_spawnPoint = [16, 16, 0]
+let g_image = null;
+let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
 let g_globalRotationAngle_vertial = 0;
 let g_selectedType = POINT;
@@ -236,6 +245,12 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_Sampler2');
         return false;
     }
+    u_Sampler3 = gl.getUniformLocation(gl.program, 'u_Sampler3');
+    if (!u_Sampler3) {
+        console.log('Failed to get the storage location of u_Sampler3');
+        return false;
+    }
+
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
     gl.uniformMatrix4fv(u_ViewMatrix, false, identityM.elements);
@@ -246,14 +261,22 @@ function initTextures(n) {
     var image0 = new Image();
     var image1 = new Image();
     var image2 = new Image();
+    var image3 = new Image()
 
     image0.onload = function () { sendTextureToTEXTURE0(image0); }
     image1.onload = function () { sendTextureToTEXTURE1(image1); }
     image2.onload = function () { sendTextureToTEXTURE2(image2); }
+    image3.onload = function () { sendTextureToTEXTURE3(image3); }
 
     image0.src = '../img/sky_paper.jpg';
-    image1.src = '../img/paper_3.jpg';
+    image1.src = '../img/paper_1.jpg';
     image2.src = '../img/paper_2.jpg';
+    if(g_image === null){
+        image3.src = '../img/paper_3.jpg';
+    } else {
+        image3.src = g_image.src;
+    }
+    
 
     return true;
 }
@@ -277,7 +300,7 @@ function sendTextureToTEXTURE0(image0) {
 
     gl.uniform1i(u_Sampler0, 0);
 
-    console.log("Finished lading texture0.");
+    console.log("Finished loading texture0.");
 }
 
 function sendTextureToTEXTURE1(image1) {
@@ -299,7 +322,7 @@ function sendTextureToTEXTURE1(image1) {
 
     gl.uniform1i(u_Sampler1, 1);
 
-    console.log("Finished lading texture1.");
+    console.log("Finished loading texture1.");
 }
 
 function sendTextureToTEXTURE2(image2) {
@@ -321,7 +344,29 @@ function sendTextureToTEXTURE2(image2) {
 
     gl.uniform1i(u_Sampler2, 2);
 
-    console.log("Finished lading texture2.");
+    console.log("Finished loading texture2.");
+}
+
+function sendTextureToTEXTURE3(image3) {
+    var texture3 = gl.createTexture();
+    if (!texture3) {
+        console.log("Failed to create a texture object.");
+        return false;
+    }
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis.
+
+    gl.activeTexture(gl.TEXTURE3);
+
+    gl.bindTexture(gl.TEXTURE_2D, texture3);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image3);
+
+    gl.uniform1i(u_Sampler3, 3);
+
+    console.log("Finished loading texture3.");
 }
 
 function clearCanvas() {
@@ -416,6 +461,8 @@ function renderScene() {
     skybox.matrix.scale(160, 160, 160);
     skybox.render();
 
+    var octo = new Octopus(.5, 1.1, [1, 0.75, 0, 1]);
+    octo.render(rootMatrix);
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
@@ -550,11 +597,40 @@ function tick() {
     // }
 }
 
+function resizeImage(fileInput, outputWidth, outputHeight) {
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var img = new Image();
+        img.onload = function () {
+            var canvas = document.createElement("canvas");
+            canvas.width = outputWidth;
+            canvas.height = outputHeight;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, outputWidth, outputHeight);
+            var resizedImage = canvas.toDataURL("image/jpeg");
+            // You can replace "image/jpeg" with "image/png" for PNG format
+
+            // Example usage: display the resized image in an <img> tag
+            var imgElement = document.createElement("img");
+            imgElement.src = resizedImage;
+            document.body.appendChild(imgElement);
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+
 function addEventListeners() {
     // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
-    document.getElementById('spawn_x').addEventListener("input", function () { g_spawnPoint[0] = this.value; });
-    document.getElementById('spawn_y').addEventListener("input", function () { g_spawnPoint[2] = this.value; });
-    document.getElementById('spawn_z').addEventListener("input", function () { g_spawnPoint[1] = this.value; });
+    document.getElementById('g_gravity').addEventListener("mousemove", function () { g_gravity = this.value; renderScene(); });
+    document.getElementById("custom").addEventListener("change", function () { g_image = this; renderScene(); })
+
+
+    // document.getElementById('spawn_x').addEventListener("mousemove", function () { g_spawnPoint[0] = this.value; renderScene(); });
+    // document.getElementById('spawn_y').addEventListener("mousemove", function () { g_spawnPoint[1] = this.value; renderScene(); });
+    // document.getElementById('spawn_z').addEventListener("mousemove", function () { g_spawnPoint[2] = this.value; renderScene(); });
 
 }
 
@@ -641,6 +717,7 @@ function mousemove(ev) {
 }
 
 function performClick(button) {
+
     var x = Math.round(g_camera.eye.elements[0]);
     var y = Math.round(g_camera.eye.elements[1]);
     var z = Math.round(g_camera.eye.elements[2]);
@@ -668,6 +745,7 @@ function performClick(button) {
     if (direction == 3) {
         x_offset = -1;
     }
+
 
     if (button == 1) { // left click
         this.chunk.deleteBlock(x, y, z);
@@ -703,9 +781,13 @@ function add_maze_block() {
 
     for (i = 0; i < maze.length; i++) {
         for (j = 0; j < maze[i].length; j++) {
+            if (maze[i][j] === "E") {
+                this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, 2);
+            }
+
             if (maze[i][j] === "#") {
                 for (k = 0; k < 3; k++) {
-                    this.chunk.createBlock(i, 7 + k, j, 1);
+                    this.chunk.createBlock(i, g_spawnPoint[2] + k, j, 3);
                 }
             }
         }
@@ -736,9 +818,9 @@ function main() {
 
     setupGroundColors();
 
-    this.chunk = new Chunk(32, 32, 32, 0, 3);
-    add_blocks_layers(3, 3);
-    add_maze_block();
+    this.chunk = new Chunk(32, 32, 32, 0, 1);
+    // add_blocks_layers(10, 1);
+    // add_maze_block();
 
     //document.onkeydown = keydown;
     g_camera = new Camera();

@@ -1,3 +1,5 @@
+// Credit chaGPT
+// Creates Icosphere mesh
 const X = 0.525731112119133606;
 const Z = 0.850650808352039932;
 

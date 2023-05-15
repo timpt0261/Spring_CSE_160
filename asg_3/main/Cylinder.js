@@ -1,3 +1,5 @@
+// Credit: Aaron Brunckhurst-Fust in Hall of Fame
+// https://people.ucsc.edu/~dbrunckh/CSE160-Worldv8/world.html
 class Cylinder {
     constructor(segments) {
         this.type = 'cylinder';
