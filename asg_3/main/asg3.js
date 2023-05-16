@@ -83,7 +83,7 @@ let u_Sampler2;
 let u_Sampler3;
 
 let g_shapesList = [];
-let g_spawnPoint = [16, 16, 0]
+let g_spawnPoint = [2, 2, 0]
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -271,11 +271,12 @@ function initTextures(n) {
     image0.src = '../img/sky_paper.jpg';
     image1.src = '../img/paper_1.jpg';
     image2.src = '../img/paper_2.jpg';
-    if(g_image === null){
-        image3.src = '../img/paper_3.jpg';
-    } else {
-        image3.src = g_image.src;
-    }
+    image3.src = '../img/paper_3.jpg';
+    // if(g_image === null){
+    //     image3.src = '../img/paper_3.jpg';
+    // } else {
+    //     image3.src = g_image.src;
+    // }
     
 
     return true;
@@ -454,15 +455,18 @@ function renderScene() {
     ground.matrix.scale(1.5, 0, 1.5);
     ground.render();
 
-    var skybox = new Cube();
-    skybox.color = [1.0, 0.0, 0.0, 1.0];
-    skybox.textureNum = 0;
-    skybox.matrix.translate(0, -0.75, 0.0);
-    skybox.matrix.scale(160, 160, 160);
-    skybox.render();
+    // var skybox = new Cube();
+    // skybox.color = [1.0, 0.0, 0.0, 1.0];
+    // skybox.textureNum = 0;
+    // skybox.matrix.translate(0, -0.75, 0.0);
+    // skybox.matrix.scale(160, 160, 160);
+    // skybox.render();
 
-    var octo = new Octopus(.5, 1.1, [1, 0.75, 0, 1]);
-    octo.render(rootMatrix);
+    var test = new Octopus(1, 5);
+    // test.color = [1.0, 0.0, 0.0, 1.0];
+    // test.matrix.translate(1,1,1);
+    // test.matrix.scale(160,160,160);
+    test.render();
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
@@ -625,7 +629,7 @@ function resizeImage(fileInput, outputWidth, outputHeight) {
 function addEventListeners() {
     // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
     document.getElementById('g_gravity').addEventListener("mousemove", function () { g_gravity = this.value; renderScene(); });
-    document.getElementById("custom").addEventListener("change", function () { g_image = this; renderScene(); })
+    // document.getElementById("custom").addEventListener("change", function () { g_image = this; renderScene(); })
 
 
     // document.getElementById('spawn_x').addEventListener("mousemove", function () { g_spawnPoint[0] = this.value; renderScene(); });

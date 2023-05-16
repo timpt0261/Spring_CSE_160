@@ -1,27 +1,25 @@
 class Octopus {
-    constructor(headSize, bodySize, color) {
-      this.color = color;
+    constructor(headSize, bodySize) {
 
-      //Create Body
+      this.color = [1,0,0,1];
+      // this.matrix = new Matrix4();
+
+      // Create Body
       this.body = new Cube();
       this.body.color = this.color;
-      this.body.textureNum = 0;
+      this.body.matrix = new Matrix4(this.matrix);
       this.body.matrix.translate(-0.05, 0.05, -0.06);
       this.body.matrix.scale(.1, .1, .1);
       var bodyCoordinatematrix = new Matrix4(this.body.matrix);
 
-
       // Create the head
       this.head = new Icosphere();
       this.head.color = this.color;
-      this.head.matrix = bodyCoordinatematrix;
+      this.head.matrix = new Matrix4(this.matrix);
       this.head.matrix.setTranslate(0, .4, 0);
-      this.head.matrix.rotate(0, 1, 0, 0);
-      this.head.matrix.rotate(0, 0, 1, 0);
-      // this.head.matrix.rotate(-g_headAngles[2], 0, 0, 1);
       var headMatCoordinates = new Matrix4(this.head.matrix);
-      this.head.matrix.scale(headSize/3, 1/3, headSize/3);
-  
+      this.head.matrix.scale(headSize / 3, 1 / 3, headSize / 3);
+      
       // Create the eyes
       const eyeSize = headSize/12;
       this.eye1 = new Icosphere();
@@ -43,24 +41,25 @@ class Octopus {
       const armJointSize = bodySize/1.5;
       const armEndSize = bodySize / 6;
       const armLength = bodySize / 2.4;
-      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 0.1, 0, 0, armLength, bodyCoordinatematrix,0);
+      this.arm1 = this.createArm(armBaseSize, armJointSize, armEndSize, 0.1, 0, 0, armLength, bodyCoordinatematrix);
       this.arm1.matrix = new Matrix4(this.body.matrix);
-      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -.3, 0, 0, armLength, bodyCoordinatematrix, 0);
+      this.arm2 = this.createArm(armBaseSize, armJointSize, armEndSize, -.3, 0, 0, armLength, bodyCoordinatematrix);
       this.arm2.matrix = new Matrix4(this.body.matrix);
-      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 0.3, armLength, bodyCoordinatematrix, 0);
+      this.arm3 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, 0.3, armLength, bodyCoordinatematrix);
       this.arm3.matrix = new Matrix4(this.body.matrix);
-      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -.1, armLength, bodyCoordinatematrix, 0);
+      this.arm4 = this.createArm(armBaseSize, armJointSize, armEndSize, 0, 0, -.1, armLength, bodyCoordinatematrix);
       this.arm4.matrix = new Matrix4(this.body.matrix);
 
     }
   
-    createArm(baseSize, jointSize, endSize, x, y, z, length, matrix, rotateAngle) {
+    createArm(baseSize, jointSize, endSize, x, y, z, length, matrix) {
       const arm = {};
   
       // Create the base
       arm.base = new Cube();
       arm.base.color = this.color;
-      // arm.base.matrix = matrix;
+      arm.base.textureNum = -1;
+      arm.base.matrix = matrix;
       arm.base.matrix.translate(x * length, -0.438888, z * length);
       arm.base.matrix.rotate(-90, 1, 0, 0);
       // arm.base.matrix.rotate(rotateAngle[0][0], 1, 0, 0);
@@ -72,6 +71,7 @@ class Octopus {
       // Create the joints
       arm.segment1 = new Cube();
       arm.segment1.color = this.color;
+      arm.segment1.textureNum = -1;
       arm.segment1.matrix = new Matrix4(arm.base.matrix);
       arm.segment1.matrix.translate(0, 0, 0);
       // arm.segment1.matrix.rotate(rotateAngle[1][0], 1, 0, 0);
@@ -83,6 +83,7 @@ class Octopus {
   
       arm.segment2 = new Cube();
       arm.segment2.color = this.color;
+      arm.segment2.textureNum = -1;
       arm.segment2.matrix = new Matrix4(arm.segment1.matrix);
       arm.segment2.matrix.translate(0.2, 0.2, -.9601);
       // arm.segment2.matrix.rotate(rotateAngle[2][0], 1, 0, 0);
@@ -93,6 +94,7 @@ class Octopus {
       // Create the arm tail
       arm.tail = new Cube();
       arm.tail.color = this.color;
+      arm.tail.textureNum = -1;
       arm.tail.matrix = new Matrix4(arm.segment2.matrix);
       arm.tail.matrix.translate(0.3, 0.3, -.6);
       // arm.tail.matrix.rotate(rotateAngle[3][0], 1, 0, 0);
@@ -104,9 +106,9 @@ class Octopus {
       return arm;
     }
 
-    render(parentMatrix) {
-        const matrix = new Matrix4(parentMatrix);
-        matrix.translate(0, -0.5, 0);
+    render() {
+      // this.matrix = new Matrix4(matrix);
+      // this.matrix.translate(0, -0.5, 0);
         
         // Render the head
         this.head.render();
@@ -118,14 +120,14 @@ class Octopus {
         this.body.render();
     
         //Render the arms
-        this.renderArm(this.arm1, matrix);
-        this.renderArm(this.arm2, matrix);
-        this.renderArm(this.arm3, matrix);
-        this.renderArm(this.arm4, matrix);
+      this.renderArm(this.arm1);
+      this.renderArm(this.arm2);
+      this.renderArm(this.arm3);
+      this.renderArm(this.arm4);
     }
     
-    renderArm(arm, parentMatrix) {
-        const matrix = new Matrix4(parentMatrix);
+    renderArm(arm) {
+        const matrix = new Matrix4(this.matrix);
         matrix.multiply(arm.base.matrix);
         arm.base.render();
     

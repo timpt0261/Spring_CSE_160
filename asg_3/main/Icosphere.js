@@ -76,7 +76,7 @@ class Icosphere {
             gl.uniform4f(u_FragColor, rgba[0]*.9,rgba[1]*.9,rgba[2]*.9,rgba[3]);
 
         }
-       drawTriangle3d(triangleCoor);
+       drawTriangle3D(triangleCoor);
                          
       }
       
