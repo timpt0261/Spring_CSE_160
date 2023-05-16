@@ -9,6 +9,7 @@ class Icosphere {
       this.radius = radius;
       this.subdivisions = subdivisions;
       this.color = [1,1,1,1];
+      this.textureNum = 1;
       this.verticies = [
         [-X, 0.0, Z],
         [X, 0.0, Z],
@@ -54,6 +55,9 @@ class Icosphere {
       var indices = this.indices
       var radius = this.radius;
 
+      // pass the selected texture number
+      gl.uniform1i(u_whichTexture, this.textureNum);
+
       // Pass the color of a point to u_FragColor variable
       gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
 
@@ -71,11 +75,7 @@ class Icosphere {
                             verticies[verts_2][0], verticies[verts_2][1], verticies[verts_2][2],
                             verticies[verts_3][0], verticies[verts_3][1], verticies[verts_3][2],
                             ];
-        if(i==10){
-            // Pass the color of a point to FragColor uniform variable
-            gl.uniform4f(u_FragColor, rgba[0]*.9,rgba[1]*.9,rgba[2]*.9,rgba[3]);
-
-        }
+     
        drawTriangle3D(triangleCoor);
                          
       }

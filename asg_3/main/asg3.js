@@ -83,7 +83,7 @@ let u_Sampler2;
 let u_Sampler3;
 
 let g_shapesList = [];
-let g_spawnPoint = [2, 2, 0]
+let g_spawnPoint = [.5, .5, 0]
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -124,11 +124,14 @@ var g_camera = new Camera();
 let g_max_view_down = 90;
 let g_max_view_up = 90;
 
-let g_gravity = 8;
+let g_gravity = 0;
 let g_max_gravity = 8;
 let g_jump_volocity = 5;
 
 let spider_bus_rotation = 0;
+// // Octo head
+// let g_headAngles = [90, 90, 0];
+// let g_headAnimation = [false, false, false];
 let is_dead = false;
 let timeSurvived = 0;
 
@@ -462,11 +465,11 @@ function renderScene() {
     // skybox.matrix.scale(160, 160, 160);
     // skybox.render();
 
-    var test = new Octopus(1, 5);
-    // test.color = [1.0, 0.0, 0.0, 1.0];
-    // test.matrix.translate(1,1,1);
-    // test.matrix.scale(160,160,160);
-    test.render();
+    var octo_spawn_matrix = new Matrix4(rootMatrix);
+    octo_spawn_matrix.translate(0, 0, 0);
+    octo_spawn_matrix.scale(.2,.2,.2);
+    var test = new Octopus(.5,1.1);
+    test.render(octo_spawn_matrix);
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
@@ -822,7 +825,7 @@ function main() {
 
     setupGroundColors();
 
-    this.chunk = new Chunk(32, 32, 32, 0, 1);
+    this.chunk = new Chunk(0, 2, 32, 0, 1);
     // add_blocks_layers(10, 1);
     // add_maze_block();
 
