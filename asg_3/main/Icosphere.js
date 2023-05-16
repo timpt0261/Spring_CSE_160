@@ -9,7 +9,7 @@ class Icosphere {
       this.radius = radius;
       this.subdivisions = subdivisions;
       this.color = [1,1,1,1];
-      this.textureNum = 1;
+      this.textureNum = 44;
       this.verticies = [
         [-X, 0.0, Z],
         [X, 0.0, Z],

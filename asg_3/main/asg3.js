@@ -83,7 +83,7 @@ let u_Sampler2;
 let u_Sampler3;
 
 let g_shapesList = [];
-let g_spawnPoint = [.5, .5, 0]
+let g_spawnPoint = [16, 16, 0]
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -118,20 +118,19 @@ let max_samples = 100;
 let g_grounded = false;
 let g_consumptionEnabled = true;
 let g_cheater = false;
+let g_winner = false;
+let g_winnerPoint = [];
 
 var g_camera = new Camera();
 
 let g_max_view_down = 90;
 let g_max_view_up = 90;
 
-let g_gravity = 0;
+let g_gravity = 8;
 let g_max_gravity = 8;
 let g_jump_volocity = 5;
 
-let spider_bus_rotation = 0;
-// // Octo head
-// let g_headAngles = [90, 90, 0];
-// let g_headAnimation = [false, false, false];
+
 let is_dead = false;
 let timeSurvived = 0;
 
@@ -261,10 +260,10 @@ function connectVariablesToGLSL() {
 }
 
 function initTextures(n) {
-    var image0 = new Image();
-    var image1 = new Image();
-    var image2 = new Image();
-    var image3 = new Image()
+    var image0 = new Image(256,256);
+    var image1 = new Image(256,256);
+    var image2 = new Image(256,256);
+    var image3 = new Image(256,256)
 
     image0.onload = function () { sendTextureToTEXTURE0(image0); }
     image1.onload = function () { sendTextureToTEXTURE1(image1); }
@@ -272,15 +271,10 @@ function initTextures(n) {
     image3.onload = function () { sendTextureToTEXTURE3(image3); }
 
     image0.src = '../img/sky_paper.jpg';
-    image1.src = '../img/paper_1.jpg';
+    image1.src = '../img/ground.jpg';
     image2.src = '../img/paper_2.jpg';
-    image3.src = '../img/paper_3.jpg';
-    // if(g_image === null){
-    //     image3.src = '../img/paper_3.jpg';
-    // } else {
-    //     image3.src = g_image.src;
-    // }
-    
+    image3.src = '../img/brick.jpg';
+
 
     return true;
 }
@@ -458,18 +452,12 @@ function renderScene() {
     ground.matrix.scale(1.5, 0, 1.5);
     ground.render();
 
-    // var skybox = new Cube();
-    // skybox.color = [1.0, 0.0, 0.0, 1.0];
-    // skybox.textureNum = 0;
-    // skybox.matrix.translate(0, -0.75, 0.0);
-    // skybox.matrix.scale(160, 160, 160);
-    // skybox.render();
-
-    var octo_spawn_matrix = new Matrix4(rootMatrix);
-    octo_spawn_matrix.translate(0, 0, 0);
-    octo_spawn_matrix.scale(.2,.2,.2);
-    var test = new Octopus(.5,1.1);
-    test.render(octo_spawn_matrix);
+    var skybox = new Cube();
+    skybox.color = [1.0, 0.0, 0.0, 1.0];
+    skybox.textureNum = 0;
+    skybox.matrix.translate(0, -0.75, 0.0);
+    skybox.matrix.scale(160, 160, 160);
+    skybox.render();
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
@@ -478,11 +466,6 @@ function renderScene() {
     sendTextToHTML("ms: " + Math.floor(renderTime_ms) + "  fps: " + Math.floor((1000.0 / renderTime_ms)), "infoText");
 
     return;
-
-    // var len = g_shapesList.length;
-    // for(var i = 0; i < len; i++) {
-    //   g_shapesList[i].render();
-    // }
 }
 
 function updateAnimationAngle() {
@@ -561,83 +544,75 @@ function tick() {
     }
 
 
+//    for(var i = 0; i <3;i++){
+//        if (g_camera.elements[i] === g_winnerPoint[i]){
+//         g_winner = true;
+//        }else{
+//         g_winner = false;
+//        }
+//    }
 
+//    if(g_winner){
+//         console.log("You escaped the maze");
+//    }
 
+    if (g_camera.eye.elements[1] < -10) {
+        console.warn("DEATH!");
+        if (!is_dead) {
+            is_dead = true;
 
-    // if (g_camera.eye.elements[1] < -10) {
-    //     console.warn("DEATH!");
-    //     if (!is_dead) {
-    //         is_dead = true;
+        }
+    }
 
-    //     }
-    // }
-
-    // if (!is_dead) {
-    //     if (!g_cheater) {
-    //         timeSurvived += g_deltaTime;
-    //     }
-    // }
-    // else {
-    //     sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2) + " seconds.", "timeSurvivedText2");
-    // }
+    if (!is_dead) {
+        if (!g_cheater) {
+            timeSurvived += g_deltaTime;
+        }
+    }
+    else {
+        window.location.reload(true);// reloads page on death
+    }
 
     sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2), "timeSurvivedText");
 
-    updateAnimationAngle();
+    updateAnimationAngle(); 
 
     renderScene();
 
     requestAnimationFrame(tick);
-
-    // if (g_consumptionEnabled) {
-    //     // destroy a random block
-    //     for (var i = 0; i < max_samples; i++) {
-    //         var x = Math.round(Math.random() * this.chunk.width);
-    //         var y = Math.round(Math.random() * this.chunk.height);
-    //         var z = Math.round(Math.random() * this.chunk.length);
-
-    //         var sucess = this.chunk.deleteBlock(x, y, z);
-    //         if (sucess) {
-    //             return;
-    //         }
-    //     }
-    // }
 }
 
-function resizeImage(fileInput, outputWidth, outputHeight) {
-    var file = fileInput.files[0];
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        var img = new Image();
-        img.onload = function () {
-            var canvas = document.createElement("canvas");
-            canvas.width = outputWidth;
-            canvas.height = outputHeight;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, outputWidth, outputHeight);
-            var resizedImage = canvas.toDataURL("image/jpeg");
-            // You can replace "image/jpeg" with "image/png" for PNG format
+function resizeImageFromURL(imageURL, outputWidth, outputHeight, callback) {
+    var img = new Image();
+    img.crossOrigin = "Anonymous"; // Enable cross-origin image loading, if required
+    img.onload = function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = outputWidth;
+        canvas.height = outputHeight;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, outputWidth, outputHeight);
+        var resizedImage = canvas.toDataURL("image/jpeg");
+        // You can replace "image/jpeg" with "image/png" for PNG format
 
-            // Example usage: display the resized image in an <img> tag
-            var imgElement = document.createElement("img");
-            imgElement.src = resizedImage;
-            document.body.appendChild(imgElement);
-        };
-        img.src = e.target.result;
+        // Invoke the callback with the resized image source
+        callback(resizedImage);
     };
-    reader.readAsDataURL(file);
+    img.src = imageURL;
 }
 
 
 function addEventListeners() {
     // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
     document.getElementById('g_gravity').addEventListener("mousemove", function () { g_gravity = this.value; renderScene(); });
-    // document.getElementById("custom").addEventListener("change", function () { g_image = this; renderScene(); })
+    // document.getElementById("custom").addEventListener("change", function () { 
+    //     g_image = new Image(256,256);
+    //     g_image.src = this.value;
+    //     initTextures(0);
+    //     // renderScene();
+    // });
 
 
-    // document.getElementById('spawn_x').addEventListener("mousemove", function () { g_spawnPoint[0] = this.value; renderScene(); });
-    // document.getElementById('spawn_y').addEventListener("mousemove", function () { g_spawnPoint[1] = this.value; renderScene(); });
-    // document.getElementById('spawn_z').addEventListener("mousemove", function () { g_spawnPoint[2] = this.value; renderScene(); });
+    
 
 }
 
@@ -789,7 +764,8 @@ function add_maze_block() {
     for (i = 0; i < maze.length; i++) {
         for (j = 0; j < maze[i].length; j++) {
             if (maze[i][j] === "E") {
-                this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, 2);
+                g_winnerPoint = [i,0,j];
+                this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, -1);
             }
 
             if (maze[i][j] === "#") {
@@ -825,9 +801,8 @@ function main() {
 
     setupGroundColors();
 
-    this.chunk = new Chunk(0, 2, 32, 0, 1);
-    // add_blocks_layers(10, 1);
-    // add_maze_block();
+    this.chunk = new Chunk(32, 32, 32, 0, 1);
+    add_maze_block();
 
     //document.onkeydown = keydown;
     g_camera = new Camera();
