@@ -7,9 +7,7 @@ var VSHADER_SOURCE =
   precision mediump float;
   attribute vec4 a_Position;
   attribute vec2 a_UV;
-  attribute vec3 a_Normal;
   varying vec2 v_UV;
-  varying vec3 v_Normal;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotationMatrix;
   uniform mat4 u_ViewMatrix;
@@ -17,7 +15,6 @@ var VSHADER_SOURCE =
   void main() {
     gl_Position = u_ProjectionMatrix * u_GlobalRotationMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
-    v_Normal = a_Normal;
   }`;
 
 // Fragment shader program
@@ -25,7 +22,6 @@ var FSHADER_SOURCE =
     `
   precision mediump float;
   varying vec2 v_UV;
-  varying vec3 v_Normal;
   uniform vec4 u_FragColor;
 
   uniform sampler2D u_Sampler0;
@@ -35,39 +31,34 @@ var FSHADER_SOURCE =
 
   uniform int u_whichTexture;
   void main() {
-    if(u_whichTexture = -3){
-        gl_FragColor = vec4((v_Normal+1.0)/2.0, 1.0); // Use Normal
-    }
-    else if(u_whichexture == -2){
-        gl_FragColor = u_FragColor; // Use color
-    }
-    else if(u_whichTexture == -1) {
-      gl_FragColor = vec4(v_UV, 1.0, 1.0); // Use UV Debug color
+
+    if(u_whichTexture == -1) {
+      gl_FragColor = vec4(v_UV, 1.0, 1.0);
     }
     else if(u_whichTexture == 0) {
-      gl_FragColor = texture2D(u_Sampler0, v_UV); // Use texture0
+      gl_FragColor = texture2D(u_Sampler0, v_UV);
     }
     else if(u_whichTexture == 1) {
-      gl_FragColor = texture2D(u_Sampler1, v_UV); // Use texture1
+      gl_FragColor = texture2D(u_Sampler1, v_UV);
     }
     else if(u_whichTexture == 2) {
-      gl_FragColor = texture2D(u_Sampler2, v_UV); // Use texture2
+      gl_FragColor = texture2D(u_Sampler2, v_UV);
     }
     else if(u_whichTexture == 3) {
-      gl_FragColor = texture2D(u_Sampler3, v_UV); // Use texture3
+      gl_FragColor = texture2D(u_Sampler3, v_UV);
     }
     else if(u_whichTexture == 4) {
       vec3 brown = vec3(0.38, 0.14, 0.01);
-      vec3 color = mix(vec3(v_UV, 1.0), brown, 0.9); // Use brown color mixer
+      vec3 color = mix(vec3(v_UV, 1.0), brown, 0.9);
       gl_FragColor = vec4(color, 1.0);
     }  
     else if(u_whichTexture == 8) {
       vec3 white = vec3(0.8, 0.9, 0.8);
-      vec3 color = mix(vec3(v_UV, 1.0), white, 0.9); // Use white color mixer
+      vec3 color = mix(vec3(v_UV, 1.0), white, 0.9);
       gl_FragColor = vec4(color, 1.0);
     }
     else {
-      gl_FragColor = vec4(1,.2,.2,1); // Error 
+      gl_FragColor = u_FragColor;
     }
   }`;
 
@@ -80,7 +71,6 @@ let canvas;
 let gl;
 let a_Position;
 let a_UV;
-let a_Normal;
 let u_ModelMatrix;
 let u_FragColor;
 let u_whichTexture;
@@ -198,13 +188,6 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    // Get storage Location of a_Normal
-    a_Normal = gl.getAttribLocation(gl.program, 'a_Normal');
-    if (a_Normal < 0) {
-        console.log('Failed to get the storage location of a_Normal');
-        return;
-    }
-
     // Get the storage location of u_FragColor
     u_FragColor = gl.getUniformLocation(gl.program, 'u_FragColor');
     if (!u_FragColor) {
@@ -277,10 +260,10 @@ function connectVariablesToGLSL() {
 }
 
 function initTextures(n) {
-    var image0 = new Image(256, 256);
-    var image1 = new Image(256, 256);
-    var image2 = new Image(256, 256);
-    var image3 = new Image(256, 256)
+    var image0 = new Image(256,256);
+    var image1 = new Image(256,256);
+    var image2 = new Image(256,256);
+    var image3 = new Image(256,256)
 
     image0.onload = function () { sendTextureToTEXTURE0(image0); }
     image1.onload = function () { sendTextureToTEXTURE1(image1); }
@@ -561,17 +544,17 @@ function tick() {
     }
 
 
-    //    for(var i = 0; i <3;i++){
-    //        if (g_camera.elements[i] === g_winnerPoint[i]){
-    //         g_winner = true;
-    //        }else{
-    //         g_winner = false;
-    //        }
-    //    }
+//    for(var i = 0; i <3;i++){
+//        if (g_camera.elements[i] === g_winnerPoint[i]){
+//         g_winner = true;
+//        }else{
+//         g_winner = false;
+//        }
+//    }
 
-    //    if(g_winner){
-    //         console.log("You escaped the maze");
-    //    }
+//    if(g_winner){
+//         console.log("You escaped the maze");
+//    }
 
     if (g_camera.eye.elements[1] < -10) {
         console.warn("DEATH!");
@@ -592,7 +575,7 @@ function tick() {
 
     sendTextToHTML("Time Survived: " + timeSurvived.toFixed(2), "timeSurvivedText");
 
-    updateAnimationAngle();
+    updateAnimationAngle(); 
 
     renderScene();
 
@@ -629,7 +612,7 @@ function addEventListeners() {
     // });
 
 
-
+    
 
 }
 
@@ -781,7 +764,7 @@ function add_maze_block() {
     for (i = 0; i < maze.length; i++) {
         for (j = 0; j < maze[i].length; j++) {
             if (maze[i][j] === "E") {
-                g_winnerPoint = [i, 0, j];
+                g_winnerPoint = [i,0,j];
                 this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, -1);
             }
 

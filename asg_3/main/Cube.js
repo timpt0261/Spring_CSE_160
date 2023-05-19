@@ -9,12 +9,10 @@ class Cube {
         this.matrix = new Matrix4();
         this.buffer = null;
         this.uvBuffer = null;
-        this.normalBuffer = null;
         this.textureNum = 44;
 
         this.setVertices();
         this.setUvs();
-        this.setNormals();
     }
 
     // took some code here from the lab3, this is a MUCH better way to to it
@@ -57,29 +55,6 @@ class Cube {
             0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0,
             // BOTTOM
             0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1,
-        ]);
-    }
-
-    setNormals() {
-        this.normals = new Float32Array([
-            // FRONT
-            0, 0, 1, 0, 0, 1, 0, 0, 1,
-            0, 0, 1, 0, 0, 1, 0, 0, 1,
-            // LEFT
-            -1, 0, 0, -1, 0, 0, -1, 0, 0,
-            -1, 0, 0, -1, 0, 0, -1, 0, 0,
-            // RIGHT
-            1, 0, 0, 1, 0, 0, 1, 0, 0,
-            1, 0, 0, 1, 0, 0, 1, 0, 0,
-            // TOP
-            0, 1, 0, 0, 1, 0, 0, 1, 0,
-            0, 1, 0, 0, 1, 0, 0, 1, 0,
-            // BACK
-            0, 0, -1, 0, 0, -1, 0, 0, -1,
-            0, 0, -1, 0, 0, -1, 0, 0, -1,
-            // BOTTOM
-            0, -1, 0, 0, -1, 0, 0, -1, 0,
-            0, -1, 0, 0, -1, 0, 0, -1, 0,
         ]);
     }
 
@@ -166,29 +141,6 @@ class Cube {
 
         gl.drawArrays(gl.TRIANGLES, 0, this.uvs.length / 2);
 
-        
-        if (this.normalBuffer === null) {
-            // Create a buffer object
-            this.normalBuffer = gl.createBuffer();
-            if (!this.normalBuffer) {
-                console.log("Failed to create the uvBuffer object");
-                return -1;
-            }
-        }
-
-        // Bind the uvBuffer object to target
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
-
-        // Write date into the uvBuffer object
-        gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.DYNAMIC_DRAW);
-
-        // Assign the uvBuffer object to aPosition variable
-        gl.vertexAttribPointer(a_Normal, 2, gl.FLOAT, false, 0, 0);
-
-        // Enable the assignment to aPosition variable
-        gl.enableVertexAttribArray(a_Normal);
-
-        gl.drawArrays(gl.TRIANGLES, 0, this.normals.length / 3);
 
 
         // // draw front
