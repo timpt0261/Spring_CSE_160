@@ -475,8 +475,14 @@ function renderScene() {
     skybox.color = [1.0, 0.0, 0.0, 1.0];
     skybox.textureNum = g_normalOn ? -3 : 0;
     skybox.matrix.translate(0, -0.75, 0.0);
-    skybox.matrix.scale(160, 160, 160);
+    skybox.matrix.scale(-160, -160, -160);
     skybox.render();
+
+    var sphere = new Sphere();
+    sphere.color = [0, 1, 0, 1];
+    sphere.matrix.translate(14, 2, 12);
+    sphere.matrix.scale(1, 1, 1);
+    sphere.render();
 
     //drawMap(g_map);
     this.chunk.render(rootMatrix);
