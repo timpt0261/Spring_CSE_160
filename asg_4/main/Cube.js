@@ -10,7 +10,7 @@ class Cube {
         this.buffer = null;
         this.uvBuffer = null;
         this.normalBuffer = null;
-        this.textureNum = 0;
+        this.textureNum = -2;
 
         this.setVertices();
         this.setUvs();

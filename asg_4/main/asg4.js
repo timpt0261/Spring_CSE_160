@@ -94,7 +94,7 @@ let u_Sampler2;
 let u_Sampler3;
 
 let g_shapesList = [];
-let g_spawnPoint = [16, 16, 0]
+let g_spawnPoint = [0, 0, 0]
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -142,6 +142,7 @@ let g_max_gravity = 8;
 let g_jump_volocity = 5;
 
 let g_normalOn = false;
+let g_lightPos = [1, 0, -2];
 
 
 let is_dead = false;
@@ -465,6 +466,14 @@ function renderScene() {
         rootMatrix.rotate(g_animationAngle, 1, 0, 0);
     }
 
+    var light = new Cube();
+    light.color = [2, 2, 0, 1];
+    light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+    light.matrix.scale(.1, .1, .1);
+    light.matrix.translate(-.5, -.5, -.5);
+    light.render();
+
+
     var ground = new Cube();
     ground.color = [1.0, 0.0, 0.0, 1.0];
     ground.textureNum = g_normalOn ? -3 : 0;
@@ -472,17 +481,17 @@ function renderScene() {
     ground.matrix.scale(1.5, 0, 1.5);
     ground.render();
 
-    var skybox = new Cube();
-    skybox.color = [1.0, 0.0, 0.0, 1.0];
-    skybox.textureNum = g_normalOn ? -3 : 0;
-    skybox.matrix.translate(0, -0.75, 0.0);
-    skybox.matrix.scale(-160, -160, -160);
-    skybox.render();
+    // var skybox = new Cube();
+    // skybox.color = [1.0, 0.0, 0.0, 1.0];
+    // skybox.textureNum = g_normalOn ? -3 : 0;
+    // skybox.matrix.translate(0, -0.75, 0.0);
+    // skybox.matrix.scale(10, 10, 10);
+    // skybox.render();
 
     var sphere = new Sphere();
     sphere.textureNum = g_normalOn ? -3 : 2;
-    sphere.matrix.translate(14, 2, 16);
-    sphere.matrix.scale(1, 1, 1);
+    sphere.matrix.translate(1, 2, 1);
+    sphere.matrix.scale(.11, .11, .11);
     sphere.render();
 
     //drawMap(g_map);
@@ -633,6 +642,9 @@ function addEventListeners() {
     document.getElementById('normalOn').onclick = function () { g_normalOn = true; }
     document.getElementById('normalOff').onclick = function () { g_normalOn = false; }
 
+    document.getElementById('light_x').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[0] = this.value / 100 }; renderScene(); });
+    document.getElementById('light_y').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[1] = this.value / 100 }; renderScene(); });
+    document.getElementById('light_z').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[2] = this.value / 100 }; renderScene(); });
 }
 
 function sendTextToHTML(text, htmlID) {
@@ -748,18 +760,18 @@ function performClick(button) {
     }
 
 
-    if (button == 1) { // left click
-        this.chunk.deleteBlock(x, y, z);
-        //this.chunk.deleteBlock(x, y-1, z);
+    // if (button == 1) { // left click
+    //     this.chunk.deleteBlock(x, y, z);
+    //     //this.chunk.deleteBlock(x, y-1, z);
 
-        this.chunk.deleteBlock(x + x_offset, y, z + z_offset);
-        this.chunk.deleteBlock(x + x_offset, y - 1, z + z_offset);
-    }
+    //     this.chunk.deleteBlock(x + x_offset, y, z + z_offset);
+    //     this.chunk.deleteBlock(x + x_offset, y - 1, z + z_offset);
+    // }
 
-    if (button == 2) { // right click
-        //this.chunk.createBlock(x + x_offset, y, z + z_offset, 16);
-        this.chunk.createBlock(x + x_offset, y, z + z_offset, 2);
-    }
+    // if (button == 2) { // right click
+    //     //this.chunk.createBlock(x + x_offset, y, z + z_offset, 16);
+    //     this.chunk.createBlock(x + x_offset, y, z + z_offset, 2);
+    // }
 }
 
 function add_blocks_layers(layers, seperation) {
@@ -820,7 +832,7 @@ function main() {
 
     setupGroundColors();
 
-    this.chunk = new Chunk(32, 32, 32, 0, 1);
+    this.chunk = new Chunk(3, 3, 3, 0, 1);
     // add_maze_block();
 
     //document.onkeydown = keydown;
