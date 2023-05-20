@@ -28,6 +28,7 @@ var FSHADER_SOURCE =
   varying vec3 v_Normal;
   uniform vec4 u_FragColor;
 
+  uniform sampler2D u_SamplerN;
   uniform sampler2D u_Sampler0;
   uniform sampler2D u_Sampler1;
   uniform sampler2D u_Sampler2;
@@ -291,7 +292,7 @@ function initTextures(n) {
 
     image0.src = '../img/sky_paper.jpg';
     image1.src = '../img/ground.jpg';
-    image2.src = '../img/paper_2.jpg';
+    image2.src = '../img/uv_checker.png';
     image3.src = '../img/brick.jpg';
 
 
@@ -479,8 +480,8 @@ function renderScene() {
     skybox.render();
 
     var sphere = new Sphere();
-    sphere.color = [0, 1, 0, 1];
-    sphere.matrix.translate(14, 2, 12);
+    sphere.textureNum = g_normalOn ? -3 : 2;
+    sphere.matrix.translate(14, 2, 16);
     sphere.matrix.scale(1, 1, 1);
     sphere.render();
 
@@ -820,7 +821,7 @@ function main() {
     setupGroundColors();
 
     this.chunk = new Chunk(32, 32, 32, 0, 1);
-    add_maze_block();
+    // add_maze_block();
 
     //document.onkeydown = keydown;
     g_camera = new Camera();
