@@ -10,7 +10,7 @@ class Cube {
         this.buffer = null;
         this.uvBuffer = null;
         this.normalBuffer = null;
-        this.textureNum = 44;
+        this.textureNum = 0;
 
         this.setVertices();
         this.setUvs();
@@ -171,7 +171,7 @@ class Cube {
             // Create a buffer object
             this.normalBuffer = gl.createBuffer();
             if (!this.normalBuffer) {
-                console.log("Failed to create the uvBuffer object");
+                console.log("Failed to create the normalBuffer object");
                 return -1;
             }
         }
@@ -183,7 +183,7 @@ class Cube {
         gl.bufferData(gl.ARRAY_BUFFER, this.normals, gl.DYNAMIC_DRAW);
 
         // Assign the uvBuffer object to aPosition variable
-        gl.vertexAttribPointer(a_Normal, 2, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(a_Normal, 3, gl.FLOAT, false, 0, 0);
 
         // Enable the assignment to aPosition variable
         gl.enableVertexAttribArray(a_Normal);

@@ -35,10 +35,10 @@ var FSHADER_SOURCE =
 
   uniform int u_whichTexture;
   void main() {
-    if(u_whichTexture = -3){
+    if(u_whichTexture == -3){
         gl_FragColor = vec4((v_Normal+1.0)/2.0, 1.0); // Use Normal
     }
-    else if(u_whichexture == -2){
+    else if(u_whichTexture == -2){
         gl_FragColor = u_FragColor; // Use color
     }
     else if(u_whichTexture == -1) {
@@ -139,6 +139,8 @@ let g_max_view_up = 90;
 let g_gravity = 8;
 let g_max_gravity = 8;
 let g_jump_volocity = 5;
+
+let g_normalOn = false;
 
 
 let is_dead = false;
@@ -464,14 +466,14 @@ function renderScene() {
 
     var ground = new Cube();
     ground.color = [1.0, 0.0, 0.0, 1.0];
-    ground.textureNum = 0;
+    ground.textureNum = g_normalOn ? -3 : 0;
     ground.matrix.translate(0, -0.75, 0.0);
     ground.matrix.scale(1.5, 0, 1.5);
     ground.render();
 
     var skybox = new Cube();
     skybox.color = [1.0, 0.0, 0.0, 1.0];
-    skybox.textureNum = 0;
+    skybox.textureNum = g_normalOn ? -3 : 0;
     skybox.matrix.translate(0, -0.75, 0.0);
     skybox.matrix.scale(160, 160, 160);
     skybox.render();
@@ -621,15 +623,8 @@ function resizeImageFromURL(imageURL, outputWidth, outputHeight, callback) {
 function addEventListeners() {
     // document.getElementById('consumptionCheckbox').addEventListener('change', function () { g_consumptionEnabled = this.checked; g_cheater = true; timeSurvived = 0; });
     document.getElementById('g_gravity').addEventListener("mousemove", function () { g_gravity = this.value; renderScene(); });
-    // document.getElementById("custom").addEventListener("change", function () { 
-    //     g_image = new Image(256,256);
-    //     g_image.src = this.value;
-    //     initTextures(0);
-    //     // renderScene();
-    // });
-
-
-
+    document.getElementById('normalOn').onclick = function () { g_normalOn = true; }
+    document.getElementById('normalOff').onclick = function () { g_normalOn = false; }
 
 }
 
@@ -782,7 +777,7 @@ function add_maze_block() {
         for (j = 0; j < maze[i].length; j++) {
             if (maze[i][j] === "E") {
                 g_winnerPoint = [i, 0, j];
-                this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, -1);
+                this.chunk.createBlock(i, g_spawnPoint[2] + 3, j, 0);
             }
 
             if (maze[i][j] === "#") {
