@@ -10,14 +10,16 @@ var VSHADER_SOURCE =
   attribute vec3 a_Normal;
   varying vec2 v_UV;
   varying vec3 v_Normal;
+  varying vec4 v_VertPos;
   uniform mat4 u_ModelMatrix;
   uniform mat4 u_GlobalRotationMatrix;
   uniform mat4 u_ViewMatrix;
   uniform mat4 u_ProjectionMatrix;
   void main() {
-    gl_Position = u_ProjectionMatrix * u_GlobalRotationMatrix * u_ViewMatrix * u_ModelMatrix * a_Position;
+    gl_Position = u_ProjectionMatrix  * u_ViewMatrix * u_GlobalRotationMatrix * u_ModelMatrix * a_Position;
     v_UV = a_UV;
     v_Normal = a_Normal;
+    v_VertPos = u_ModelMatrix * a_Position;
   }`;
 
 // Fragment shader program
@@ -32,9 +34,10 @@ var FSHADER_SOURCE =
   uniform sampler2D u_Sampler0;
   uniform sampler2D u_Sampler1;
   uniform sampler2D u_Sampler2;
-  uniform sampler2D u_Sampler3;
-
   uniform int u_whichTexture;
+  uniform vec3 u_lightPos;
+  varying vec4 v_VertPos;
+
   void main() {
     if(u_whichTexture == -3){
         gl_FragColor = vec4((v_Normal+1.0)/2.0, 1.0); // Use Normal
@@ -55,9 +58,6 @@ var FSHADER_SOURCE =
       gl_FragColor = texture2D(u_Sampler2, v_UV); // Use texture2
     }
     else if(u_whichTexture == 3) {
-      gl_FragColor = texture2D(u_Sampler3, v_UV); // Use texture3
-    }
-    else if(u_whichTexture == 4) {
       vec3 brown = vec3(0.38, 0.14, 0.01);
       vec3 color = mix(vec3(v_UV, 1.0), brown, 0.9); // Use brown color mixer
       gl_FragColor = vec4(color, 1.0);
@@ -69,6 +69,14 @@ var FSHADER_SOURCE =
     }
     else {
       gl_FragColor = vec4(1,.2,.2,1); // Error 
+    }
+
+    vec3 lightVector = u_lightPos - vec3(v_VertPos);
+    float r=length(lightVector);
+    if(r<1.0){
+        gl_FragColor = vec4(1,0,0,1);
+    }else if(r<2.0){
+        gl_FragColor = vec4(0,1,0,1);
     }
   }`;
 
@@ -91,10 +99,10 @@ let u_GlobalRotationMatrix;
 let u_Sampler0;
 let u_Sampler1;
 let u_Sampler2;
-let u_Sampler3;
+let u_lightPos;
 
 let g_shapesList = [];
-let g_spawnPoint = [0, 0, 0]
+let g_spawnPoint = [3, 3, 0]
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -142,7 +150,7 @@ let g_max_gravity = 8;
 let g_jump_volocity = 5;
 
 let g_normalOn = false;
-let g_lightPos = [1, 0, -2];
+let g_lightPos = [3, 2, 2];
 
 
 let is_dead = false;
@@ -216,6 +224,13 @@ function connectVariablesToGLSL() {
         return;
     }
 
+    // Get the storage location of u_lightPos
+    u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
+    if (!u_lightPos) {
+        console.log('Failed to get the storage location of u_lightPos');
+        return;
+    }
+
     // Get the storage location of u_whichTexture
     u_whichTexture = gl.getUniformLocation(gl.program, 'u_whichTexture');
     if (!u_whichTexture) {
@@ -268,11 +283,6 @@ function connectVariablesToGLSL() {
         console.log('Failed to get the storage location of u_Sampler2');
         return false;
     }
-    u_Sampler3 = gl.getUniformLocation(gl.program, 'u_Sampler3');
-    if (!u_Sampler3) {
-        console.log('Failed to get the storage location of u_Sampler3');
-        return false;
-    }
 
     var identityM = new Matrix4();
     gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
@@ -284,17 +294,14 @@ function initTextures(n) {
     var image0 = new Image(256, 256);
     var image1 = new Image(256, 256);
     var image2 = new Image(256, 256);
-    var image3 = new Image(256, 256)
 
     image0.onload = function () { sendTextureToTEXTURE0(image0); }
     image1.onload = function () { sendTextureToTEXTURE1(image1); }
     image2.onload = function () { sendTextureToTEXTURE2(image2); }
-    image3.onload = function () { sendTextureToTEXTURE3(image3); }
 
     image0.src = '../img/sky_paper.jpg';
     image1.src = '../img/ground.jpg';
     image2.src = '../img/uv_checker.png';
-    image3.src = '../img/brick.jpg';
 
 
     return true;
@@ -366,27 +373,6 @@ function sendTextureToTEXTURE2(image2) {
     console.log("Finished loading texture2.");
 }
 
-function sendTextureToTEXTURE3(image3) {
-    var texture3 = gl.createTexture();
-    if (!texture3) {
-        console.log("Failed to create a texture object.");
-        return false;
-    }
-
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis.
-
-    gl.activeTexture(gl.TEXTURE3);
-
-    gl.bindTexture(gl.TEXTURE_2D, texture3);
-
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image3);
-
-    gl.uniform1i(u_Sampler3, 3);
-
-    console.log("Finished loading texture3.");
-}
 
 function clearCanvas() {
     g_shapesList = [];
@@ -455,6 +441,8 @@ function renderScene() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
+    gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+
     if (is_dead) {
         var renderTime_ms = performance.now() - renderStartTime;
         sendTextToHTML("ms: " + Math.floor(renderTime_ms) + "  fps: " + Math.floor((1000.0 / renderTime_ms)), "infoText");
@@ -468,6 +456,7 @@ function renderScene() {
 
     var light = new Cube();
     light.color = [2, 2, 0, 1];
+    console.log(g_lightPos);
     light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
     light.matrix.scale(.1, .1, .1);
     light.matrix.translate(-.5, -.5, -.5);
@@ -481,16 +470,16 @@ function renderScene() {
     ground.matrix.scale(1.5, 0, 1.5);
     ground.render();
 
-    // var skybox = new Cube();
-    // skybox.color = [1.0, 0.0, 0.0, 1.0];
-    // skybox.textureNum = g_normalOn ? -3 : 0;
-    // skybox.matrix.translate(0, -0.75, 0.0);
-    // skybox.matrix.scale(10, 10, 10);
-    // skybox.render();
+    var skybox = new Cube();
+    skybox.color = [1.0, 0.0, 0.0, 1.0];
+    skybox.textureNum = g_normalOn ? -3 : 0;
+    skybox.matrix.translate(0, -0.75, 0.0);
+    skybox.matrix.scale(10, 10, 10);
+    skybox.render();
 
     var sphere = new Sphere();
     sphere.textureNum = g_normalOn ? -3 : 2;
-    sphere.matrix.translate(1, 2, 1);
+    sphere.matrix.translate(3, 3, 0);
     sphere.matrix.scale(.11, .11, .11);
     sphere.render();
 
@@ -642,9 +631,9 @@ function addEventListeners() {
     document.getElementById('normalOn').onclick = function () { g_normalOn = true; }
     document.getElementById('normalOff').onclick = function () { g_normalOn = false; }
 
-    document.getElementById('light_x').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[0] = this.value / 100 }; renderScene(); });
-    document.getElementById('light_y').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[1] = this.value / 100 }; renderScene(); });
-    document.getElementById('light_z').addEventListener("mousemove", function (ev) { if (ev.button == 1) { g_lightPos[2] = this.value / 100 }; renderScene(); });
+    document.getElementById('light_x').addEventListener("mousemove", function (ev) { if (ev.button == 0) { g_lightPos[0] = Number(this.value) }; renderScene(); });
+    document.getElementById('light_y').addEventListener("mousemove", function (ev) { if (ev.button == 0) { g_lightPos[1] = Number(this.value) }; renderScene(); });
+    document.getElementById('light_z').addEventListener("mousemove", function (ev) { if (ev.button == 0) { g_lightPos[2] = Number(this.value) }; renderScene(); });
 }
 
 function sendTextToHTML(text, htmlID) {
@@ -832,7 +821,7 @@ function main() {
 
     setupGroundColors();
 
-    this.chunk = new Chunk(3, 3, 3, 0, 1);
+    this.chunk = new Chunk(10, 10, 10, 0, 1);
     // add_maze_block();
 
     //document.onkeydown = keydown;
@@ -856,7 +845,7 @@ function main() {
     window.oncontextmenu = function () { performClick(2); return false; }
 
     // Register function (event handler) to be called on a mouse press
-    canvas.onmousemove = mousemove;
+    // canvas.onmousemove = mousemove;
 
     // Pass vertex position to attribute variable
     gl.vertexAttrib3f(a_Position, 0.0, 0.0, 0.0);
