@@ -189,35 +189,5 @@ class Cube {
         gl.enableVertexAttribArray(a_Normal);
 
         gl.drawArrays(gl.TRIANGLES, 0, this.normals.length / 3);
-
-
-        // // draw front
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   -0.5,0.5,-0.5,   0.5,0.5,-0.5 ], [0,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   0.5,-0.5,-0.5,   0.5,0.5,-0.5 ], [0,0,  1,0,  1,1]);
-
-        // // draw right
-        // drawTriangle3DUV([ 0.5,-0.5,-0.5,   0.5,0.5,0.5,   0.5,0.5,-0.5 ], [1,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ 0.5,-0.5,-0.5,   0.5,0.5,0.5,   0.5,-0.5,0.5 ], [1,0,  0,1,  1,1]);
-
-        // // draw left
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   -0.5,0.5,0.5,   -0.5,0.5,-0.5 ], [1,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   -0.5,0.5,0.5,   -0.5,-0.5,0.5 ], [1,0,  0,1,  1,1]);
-
-        // // draw back
-        // drawTriangle3DUV([ -0.5,-0.5,0.5,   -0.5,0.5,0.5,   0.5,-0.5,0.5 ], [1,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ 0.5,0.5,0.5,   -0.5,0.5,0.5,   0.5,-0.5,0.5 ], [1,0,  0,1,  1,1]);
-
-        // // make top slightly darker
-        // gl.uniform4f(u_FragColor, rgba[0] *0.8, rgba[1] *0.8, rgba[2] *0.8, rgba[3]);
-        // // draw top
-        // drawTriangle3DUV([ 0.5,0.5,0.5,   -0.5,0.5,-0.5,   0.5,0.5,-0.5 ], [1,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ 0.5,0.5,0.5,   -0.5,0.5,-0.5,   -0.5,0.5,0.5 ], [1,0,  0,1,  1,1]);
-
-        // // make bottom darker
-        // gl.uniform4f(u_FragColor, rgba[0] *0.5, rgba[1] *0.5, rgba[2] *0.5, rgba[3]);
-
-        // // draw bottom
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   0.5,-0.5,0.5,   0.5,-0.5,-0.5 ], [1,0,  0,1,  1,1]);
-        // drawTriangle3DUV([ -0.5,-0.5,-0.5,   0.5,-0.5,0.5,   -0.5,-0.5,0.5 ], [1,0,  0,1,  1,1]);
     }
 }
