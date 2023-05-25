@@ -38,6 +38,7 @@ var FSHADER_SOURCE =
   uniform vec3 u_lightPos;
   uniform vec3 u_cameraPos;
   varying vec4 v_VertPos;
+  uniform bool u_lightOn;
 
   void main() {
     if(u_whichTexture == -3){
@@ -74,14 +75,6 @@ var FSHADER_SOURCE =
 
     vec3 lightVector = u_lightPos- vec3(v_VertPos);
     float r=length(lightVector);
-    // if(r<1.0){
-    //     gl_FragColor = vec4(1,0,0,1);
-    // }else if(r<2.0){
-    //     gl_FragColor = vec4(0,1,0,1);
-    // }
-
-    // Light Falloff Visualization
-    // gl_FragColor = vec4(vec3(gl_FragColor)/(r*r),1);
 
     // N dot L 
     vec3 L = normalize(lightVector);
@@ -95,11 +88,18 @@ var FSHADER_SOURCE =
     vec3 E = normalize(u_cameraPos-vec3(v_VertPos));
 
     // Specular 
-    float specular = pow(max(dot(E,R),0.0),10.0);
+    float specular = pow(max(dot(E,R),0.0),64.0) * 0.8;
 
-    vec3 diffuse = vec3(gl_FragColor) *  nDotL;
-    vec3 ambient = vec3(gl_FragColor) * 0.3;
-    gl_FragColor = vec4(specular +diffuse + ambient, 1.0);
+    vec3 diffuse = vec3(1.0,1.0,0.9) * vec3(gl_FragColor) *  nDotL * 0.7;
+    vec3 ambient = vec3(gl_FragColor) * 0.2;
+
+    if(u_lightOn){
+        if(u_whichTexture == 0){
+            gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
+        }else{
+            gl_FragColor = vec4(diffuse + ambient, 1.0);
+        }      
+    }
 
   }`;
 
@@ -124,6 +124,7 @@ let u_Sampler1;
 let u_Sampler2;
 let u_lightPos;
 let u_cameraPos;
+let u_lightOn;
 
 let g_shapesList = [];
 let g_spawnPoint = [2, 4, 0]
@@ -174,7 +175,9 @@ let g_max_gravity = 8;
 let g_jump_volocity = 5;
 
 let g_normalOn = false;
+let g_lightOn = true;
 let g_lightPos = [3, 2, 2];
+
 
 
 let is_dead = false;
@@ -252,6 +255,13 @@ function connectVariablesToGLSL() {
     u_lightPos = gl.getUniformLocation(gl.program, 'u_lightPos');
     if (!u_lightPos) {
         console.log('Failed to get the storage location of u_lightPos');
+        return;
+    }
+
+    // Get the storage location of u_lightOn
+    u_lightOn = gl.getUniformLocation(gl.program, 'u_lightOn');
+    if (!u_lightOn) {
+        console.log('Failed to get the storage location of u_lightOn');
         return;
     }
 
@@ -478,6 +488,9 @@ function renderScene() {
     // Pass the CameraPos to  GLSL
     gl.uniform3f(u_cameraPos, g_camera.eye.x, g_camera.eye.y, g_camera.eye.z);
 
+    // Pass the light status
+    gl.uniform1i(u_lightOn, g_lightOn);
+
 
     if (is_dead) {
         var renderTime_ms = performance.now() - renderStartTime;
@@ -546,7 +559,7 @@ function updateAnimationAngle() {
         }
     }
 
-    g_lightPos[0] = Math.cos(g_seconds) + 2;
+    // g_lightPos[0] = Math.cos(g_seconds) + 2;
 }
 
 function degrees_to_radians(degrees) {
@@ -668,6 +681,9 @@ function addEventListeners() {
     document.getElementById('g_gravity').addEventListener("mousemove", function () { g_gravity = this.value; renderScene(); });
     document.getElementById('normalOn').onclick = function () { g_normalOn = true; }
     document.getElementById('normalOff').onclick = function () { g_normalOn = false; }
+
+    document.getElementById('lightOn').onclick = function () { g_lightOn = true; }
+    document.getElementById('lightOff').onclick = function () { g_lightOn = false; }
 
     document.getElementById('light_x').addEventListener("mousemove", function (ev) { if (ev.button == 0) { g_lightPos[0] = Number(this.value) }; renderScene(); });
     document.getElementById('light_y').addEventListener("mousemove", function (ev) { if (ev.button == 0) { g_lightPos[1] = Number(this.value) }; renderScene(); });
