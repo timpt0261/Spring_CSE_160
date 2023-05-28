@@ -23,8 +23,7 @@ var VSHADER_SOURCE =
   }`;
 
 // Fragment shader program
-var FSHADER_SOURCE =
-    `
+var FSHADER_SOURCE = `
   precision mediump float;
   varying vec2 v_UV;
   varying vec3 v_Normal;
@@ -39,6 +38,14 @@ var FSHADER_SOURCE =
   uniform vec3 u_cameraPos;
   varying vec4 v_VertPos;
   uniform bool u_lightOn;
+
+  // Define the spotlight properties
+  uniform bool u_spotlightOn;
+  uniform vec3 u_spotlightPos;
+  uniform vec3 u_spotlightDirection;
+  uniform float u_spotlightAngle;
+  uniform vec3 u_spotlightColor;
+  uniform float u_spotlightIntensity;
 
   void main() {
     if(u_whichTexture == -3){
@@ -73,41 +80,70 @@ var FSHADER_SOURCE =
       gl_FragColor = vec4(1,.2,.2,1); // Error 
     }
 
-    vec3 lightVector = u_lightPos- vec3(v_VertPos);
-    float r=length(lightVector);
+    vec3 lightVector = u_lightPos - vec3(v_VertPos);
+    float r = length(lightVector);
 
     // N dot L 
     vec3 L = normalize(lightVector);
     vec3 N = normalize(v_Normal);
-    float nDotL = max(dot(N,L),0.0);
+    float nDotL = max(dot(N, L), 0.0);
 
     // Reflection
-    vec3 R = reflect(-L,N);
+    vec3 R = reflect(-L, N);
 
-    // eye
-    vec3 E = normalize(u_cameraPos-vec3(v_VertPos));
+    // Eye
+    vec3 E = normalize(u_cameraPos - vec3(v_VertPos));
 
     // Specular 
-    float specular = pow(max(dot(E,R),0.0),64.0) * 0.8;
+    float specular = pow(max(dot(E, R), 0.0), 64.0) * 0.8;
 
-    vec3 diffuse = vec3(1.0,1.0,0.9) * vec3(gl_FragColor) *  nDotL * 0.7;
+    vec3 diffuse = vec3(1.0, 1.0, 0.9) * vec3(gl_FragColor) * nDotL * 0.7;
     vec3 ambient = vec3(gl_FragColor) * 0.2;
 
-    if(u_lightOn){
-        if(u_whichTexture == 0){
-            gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
-        }else{
-            gl_FragColor = vec4(diffuse + ambient, 1.0);
-        }      
+    // Apply spotlight if it is turned on
+    if (u_lightOn && u_spotlightOn) {
+      // Calculate the vector from the current fragment to the spotlight position
+      vec3 spotlightVector = u_spotlightPos - vec3(v_VertPos);
+
+      // Calculate the distance from the current fragment to the spotlight
+      float spotlightDistance = length(spotlightVector);
+
+      // Calculate the direction from the current fragment to the spotlight
+      vec3 spotlightDirection = normalize(spotlightVector);
+
+      // Calculate the angle between the spotlight direction and the fragment's normal
+      float spotlightAngle = acos(dot(N, -spotlightDirection));
+
+      // Check if the fragment is within the spotlight cone
+      if (spotlightDistance < r && spotlightAngle < u_spotlightAngle) {
+        // Calculate the falloff factor based on the angle
+        float falloff = smoothstep(0.0, u_spotlightAngle, spotlightAngle);
+
+        // Calculate the spotlight intensity based on the distance
+        float intensity = (u_spotlightIntensity / (spotlightDistance * spotlightDistance));
+
+        // Apply the spotlight color and intensity to the final color
+        vec3 spotlightColor = u_spotlightColor * intensity;
+        gl_FragColor.rgb *= (falloff * spotlightColor);
+      }
     }
 
+    // Apply the lighting calculation without the spotlight
+    if (u_lightOn && !u_spotlightOn) {
+      if (u_whichTexture == 0) {
+        gl_FragColor = vec4(specular + diffuse + ambient, 1.0);
+      } else {
+        gl_FragColor = vec4(diffuse + ambient, 1.0);
+      }
+    }
   }`;
+
 
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
 
-// Global Vairables
+// Global Variables
 let canvas;
 let gl;
 let a_Position;
@@ -126,8 +162,16 @@ let u_lightPos;
 let u_cameraPos;
 let u_lightOn;
 
+// New Uniform Variables
+let u_spotlightOn;
+let u_spotlightPos;
+let u_spotlightDirection;
+let u_spotlightAngle;
+let u_spotlightColor;
+let u_spotlightIntensity;
+
 let g_shapesList = [];
-let g_spawnPoint = [2, 4, 0]
+let g_spawnPoint = [2, 4, 0];
 let g_image = null;
 let g_mouseOnCanvas = false;
 let g_globalRotationAngle_horizontal = 0;
@@ -178,6 +222,14 @@ let g_normalOn = false;
 let g_lightOn = true;
 let g_lightPos = [3, 2, 2];
 
+// New Global Variables for Spotlight
+let g_spotlightOn = false;
+let g_spotlightPos = [0, 0, 0];
+let g_spotlightDirection = [0, 0, -1];
+let g_spotlightAngle = 45;
+let g_spotlightColor = [1, 1, 1];
+let g_spotlightIntensity = 1;
+
 
 
 let is_dead = false;
@@ -216,6 +268,7 @@ function setupWebGL() {
     //gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 }
+
 function connectVariablesToGLSL() {
     // Initialize shaders
     if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
@@ -300,28 +353,73 @@ function connectVariablesToGLSL() {
         return;
     }
 
-    // Get the storage location of u_ViewMatrix
+    // Get the storage location of u_ProjectionMatrix
     u_ProjectionMatrix = gl.getUniformLocation(gl.program, 'u_ProjectionMatrix');
     if (!u_ProjectionMatrix) {
         console.log('Failed to get the storage location of u_ProjectionMatrix');
         return;
     }
 
+    // Get the storage location of u_Sampler0
     u_Sampler0 = gl.getUniformLocation(gl.program, 'u_Sampler0');
     if (!u_Sampler0) {
         console.log('Failed to get the storage location of u_Sampler0');
         return false;
     }
 
+    // Get the storage location of u_Sampler1
     u_Sampler1 = gl.getUniformLocation(gl.program, 'u_Sampler1');
     if (!u_Sampler1) {
         console.log('Failed to get the storage location of u_Sampler1');
         return false;
     }
 
+    // Get the storage location of u_Sampler2
     u_Sampler2 = gl.getUniformLocation(gl.program, 'u_Sampler2');
     if (!u_Sampler2) {
         console.log('Failed to get the storage location of u_Sampler2');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightOn
+    u_spotlightOn = gl.getUniformLocation(gl.program, 'u_spotlightOn');
+    if (!u_spotlightOn) {
+        console.log('Failed to get the storage location of u_spotlightOn');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightPos
+    u_spotlightPos = gl.getUniformLocation(gl.program, 'u_spotlightPos');
+    if (!u_spotlightPos) {
+        console.log('Failed to get the storage location of u_spotlightPos');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightDirection
+    u_spotlightDirection = gl.getUniformLocation(gl.program, 'u_spotlightDirection');
+    if (!u_spotlightDirection) {
+        console.log('Failed to get the storage location of u_spotlightDirection');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightAngle
+    u_spotlightAngle = gl.getUniformLocation(gl.program, 'u_spotlightAngle');
+    if (!u_spotlightAngle) {
+        console.log('Failed to get the storage location of u_spotlightAngle');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightColor
+    u_spotlightColor = gl.getUniformLocation(gl.program, 'u_spotlightColor');
+    if (!u_spotlightColor) {
+        console.log('Failed to get the storage location of u_spotlightColor');
+        return false;
+    }
+
+    // Get the storage location of u_spotlightIntensity
+    u_spotlightIntensity = gl.getUniformLocation(gl.program, 'u_spotlightIntensity');
+    if (!u_spotlightIntensity) {
+        console.log('Failed to get the storage location of u_spotlightIntensity');
         return false;
     }
 
@@ -330,6 +428,7 @@ function connectVariablesToGLSL() {
     gl.uniformMatrix4fv(u_ViewMatrix, false, identityM.elements);
     gl.uniformMatrix4fv(u_ProjectionMatrix, false, identityM.elements);
 }
+
 
 function initTextures(n) {
     var image0 = new Image(256, 256);
@@ -492,6 +591,15 @@ function renderScene() {
     gl.uniform1i(u_lightOn, g_lightOn);
 
 
+    // Pass the spotlight status and parameters
+    gl.uniform1i(u_spotlightOn, g_spotlightOn);
+    gl.uniform3f(u_spotlightPos, g_spotlightPos[0], g_spotlightPos[1], g_spotlightPos[2]);
+    gl.uniform3f(u_spotlightDirection, g_spotlightDirection[0], g_spotlightDirection[1], g_spotlightDirection[2]);
+    gl.uniform1f(u_spotlightAngle, g_spotlightAngle);
+    gl.uniform4f(u_spotlightColor, g_spotlightColor[0], g_spotlightColor[1], g_spotlightColor[2], g_spotlightColor[3]);
+    gl.uniform1f(u_spotlightIntensity, g_spotlightIntensity);
+
+
     if (is_dead) {
         var renderTime_ms = performance.now() - renderStartTime;
         sendTextToHTML("ms: " + Math.floor(renderTime_ms) + "  fps: " + Math.floor((1000.0 / renderTime_ms)), "infoText");
@@ -504,7 +612,7 @@ function renderScene() {
     }
 
     var light = new Cube();
-    light.color = [2, 2, 0, 1];
+    light.color = [0, 0, 2, 1];
     console.log(g_lightPos);
     light.matrix.translate(g_lightPos[0], g_lightPos[1], g_lightPos[2]);
     light.matrix.scale(.1, .1, .1);
