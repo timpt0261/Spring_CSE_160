@@ -9,7 +9,8 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// const control = new THREE.OrbitControls(camera, renderer.domElement);
+// Create OrbitControls
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Create geometry for the room
 const roomWidth = 8;
@@ -44,7 +45,7 @@ const bottleGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 6);
 const bottleMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const bottle = new THREE.Mesh(bottleGeometry, bottleMaterial);
 bottle.position.y = 0.5; // Adjust the bottle's position to be above the floor
-// scene.add(bottle);
+scene.add(bottle);
 
 // Set initial camera position and look at the bottle
 camera.position.set(0, 1, 5);
@@ -64,6 +65,9 @@ scene.add(pointLight);
 // Function to animate the scene
 function animate() {
     requestAnimationFrame(animate);
+
+    // Update the OrbitControls
+    controls.update();
 
     // Render the scene
     renderer.render(scene, camera);
