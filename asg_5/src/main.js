@@ -3,7 +3,7 @@ const scene = new THREE.Scene();
 
 // Create a camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-scene.background = new THREE.Color().setHSL(0.6, 0, 1);
+scene.background = new THREE.Color().setHSL(0.6, 0, 0);
 scene.fog = new THREE.Fog(scene.background, 1, 5000);
 
 // Create renderer
@@ -13,8 +13,6 @@ document.body.appendChild(renderer.domElement);
 
 // Create OrbitControls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-
 
 // LIGHTS
 
@@ -52,12 +50,24 @@ dirLight.shadow.bias = - 0.0001;
 const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
 scene.add(dirLightHelper);
 
-// Create geometry for the room
-const roomWidth = 10;
-const roomHeight = 10;
-const roomDepth = 100;
+// GROUND
 
-const room = createRoom(roomWidth,roomHeight, roomDepth, scene);
+const groundGeo = new THREE.PlaneGeometry(10000, 10000);
+const groundMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
+groundMat.color.setHSL(0.095, 1, 0.75);
+
+const ground = new THREE.Mesh(groundGeo, groundMat);
+ground.position.y = - 33;
+ground.rotation.x = - Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Create geometry for the room
+let roomWidth = 10;
+let roomHeight = 10;
+let roomDepth = 100;
+
+let room = createRoom(roomWidth,roomHeight, roomDepth, scene);
 
 // Create bottle geometry
 const bottleGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 6);
@@ -95,47 +105,52 @@ function animate() {
     renderer.render(scene, camera);
 }
 
+// Call animate function to start rendering
+animate();
+
 
 // Initialize dat.GUI
 const gui = new dat.GUI();
 
-// Create object to store GUI controls
-const room_gui_Controls = {
-    roomWidth: roomWidth,
-    roomHeight: roomHeight,
-    roomDepth: roomDepth,
+// GUI for Hemisphere Light
+const hemisphereLightFolder = gui.addFolder('Hemisphere Light');
+hemisphereLightFolder.addColor(hemiLight, 'color').name('Color');
+hemisphereLightFolder.addColor(hemiLight, 'groundColor').name('Ground Color');
+hemisphereLightFolder.add(hemiLight, 'intensity', 0, 1).name('Intensity');
+hemisphereLightFolder.open();
+
+// GUI for Directional Light
+const directionalLightFolder = gui.addFolder('Directional Light');
+directionalLightFolder.addColor(dirLight, 'color').name('Color');
+directionalLightFolder.add(dirLight, 'intensity', 0, 2).name('Intensity');
+directionalLightFolder.add(dirLight.position, 'x', -100, 100).name('X Position');
+directionalLightFolder.add(dirLight.position, 'y', -100, 100).name('Y Position');
+directionalLightFolder.add(dirLight.position, 'z', -100, 100).name('Z Position');
+directionalLightFolder.open();
+
+// GUI for Point Light
+const pointLightFolder = gui.addFolder('Point Light');
+pointLightFolder.addColor(pointLight, 'color').name('Color');
+pointLightFolder.add(pointLight, 'intensity', 0, 2).name('Intensity');
+pointLightFolder.add(pointLight.position, 'x', -100, 100).name('X Position');
+pointLightFolder.add(pointLight.position, 'y', -100, 100).name('Y Position');
+pointLightFolder.add(pointLight.position, 'z', -100, 100).name('Z Position');
+pointLightFolder.open();
+
+const room_GUI_Controls = {
+    width: roomWidth,
+    height: roomHeight,
+    depth: roomDepth
 };
 
-// Create GUI control for room width
-gui.add(room_gui_Controls, "roomWidth", 5, 15)
-    .name("Room Width")
-    .onChange(function (value) {
-        roomWidth = value;
-        deleteRoom(room);
-        room = createRoom(roomWidth, roomHeight, roomDepth, scene);
-        animate();
-    });
+const roomGUI = new dat.GUI();
 
-// Create GUI control for room height
-gui.add(room_gui_Controls, "roomHeight", 5, 15)
-    .name("Room Height")
-    .onChange(function (value) {
-        roomHeight = value;
-        deleteRoom(room);
-        room = createRoom(roomWidth, roomHeight, roomDepth, scene);
-        animate();
-    });
+const roomDimensions = roomGUI.addFolder("Room DImesions");
+roomDimensions.add(room_GUI_Controls, "width", 2, 15).name("Room's Width");
+roomDimensions.add(room_GUI_Controls, "height", 2, 15).name("Room's Height");
+roomDimensions.add(room_GUI_Controls, "depth", 10, 120).name("Room's Depth");
+roomDimensions.open();
 
-// Create GUI control for room depth
-gui.add(room_gui_Controls, "roomDepth", 10, 120)
-    .name("Room Depth")
-    .onChange(function (value) {
-        roomDepth = value;
-        deleteRoom(room);
-        room = createRoom(roomWidth, roomHeight, roomDepth, scene);
-        animate();
-        
-    });
-
-// Call animate function to start rendering
-animate();
+roomWidth = room_GUI_Controls.width;
+// room = deleteRoom();
+room = createRoom(roomWidth, roomHeight, roomDepth, scene);

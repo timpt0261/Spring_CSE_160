@@ -30,12 +30,14 @@ function createRoom(width, height, depth,scene) {
 
 }
 
-function deleteRoom(room)
+function deleteRoom()
 {
     for(let i = 0; i < 4; i++)
     {
         scene.remove(room[i]);
     }
+
+    return null;
     
 }
 
