@@ -14,31 +14,10 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Create geometry for the room
 const roomWidth = 8;
-const roomHeight = 4;
-const roomDepth = 8;
+const roomHeight = 9;
+const roomDepth = 20;
 
-const floorGeometry = new THREE.PlaneGeometry(roomWidth, roomDepth);
-const wallGeometry = new THREE.PlaneGeometry(roomWidth, roomHeight);
-
-// Create materials for the room
-const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 });
-const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
-
-// Create meshes for the room
-const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
-floorMesh.rotation.x = -Math.PI / 2; // Rotate the floor to be horizontal
-scene.add(floorMesh);
-
-const wallMesh1 = new THREE.Mesh(wallGeometry, wallMaterial);
-wallMesh1.position.y = roomHeight / 2;
-wallMesh1.position.z = -roomDepth / 2;
-scene.add(wallMesh1);
-
-const wallMesh2 = new THREE.Mesh(wallGeometry, wallMaterial);
-wallMesh2.position.y = roomHeight / 2;
-wallMesh2.position.z = roomDepth / 2;
-wallMesh2.rotation.y = Math.PI;
-scene.add(wallMesh2);
+const room = createRoom(roomWidth,roomHeight, roomDepth, scene);
 
 // Create bottle geometry
 const bottleGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 6);
@@ -48,8 +27,11 @@ bottle.position.y = 0.5; // Adjust the bottle's position to be above the floor
 scene.add(bottle);
 
 // Set initial camera position and look at the bottle
-camera.position.set(0, 1, 5);
+camera.position.set(0, 0, -5);
 camera.lookAt(bottle.position);
+
+const directionalLight = new THREE.DirectionalLight(0x121212, 0.5);
+scene.add(directionalLight);
 
 // Create ambient light
 const ambientLight = new THREE.AmbientLight(0x404040);
@@ -75,3 +57,22 @@ function animate() {
 
 // Call animate function to start rendering
 animate();
+
+// Initialize dat.GUI
+const gui = new dat.GUI();
+
+// Create object to store GUI controls
+const guiControls = {
+    backgroundColor: "#ffffff",
+    directionalLightColor: "#121212",
+};
+
+// Create GUI control for background color
+gui.addColor(guiControls, "backgroundColor").name("Background Color").onChange(function (color) {
+    renderer.setClearColor(color);
+});
+
+// Create GUI control for directional light color
+gui.addColor(guiControls, "directionalLightColor").name("Directional Light Color").onChange(function (color) {
+    directionalLight.color.set(color);
+});
