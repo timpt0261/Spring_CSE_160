@@ -13,9 +13,9 @@ document.body.appendChild(renderer.domElement);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 // Create geometry for the room
-const roomWidth = 8;
-const roomHeight = 9;
-const roomDepth = 20;
+const roomWidth = 10;
+const roomHeight = 11;
+const roomDepth = 60;
 
 const room = createRoom(roomWidth,roomHeight, roomDepth, scene);
 
@@ -27,7 +27,7 @@ bottle.position.y = 0.5; // Adjust the bottle's position to be above the floor
 scene.add(bottle);
 
 // Set initial camera position and look at the bottle
-camera.position.set(0, 0, -5);
+camera.position.set(0, 0, -29);
 camera.lookAt(bottle.position);
 
 const directionalLight = new THREE.DirectionalLight(0x121212, 0.5);

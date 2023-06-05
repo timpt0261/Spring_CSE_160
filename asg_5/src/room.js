@@ -1,6 +1,7 @@
 function createRoom(width, height, depth,scene) {
     const floorGeometry = new THREE.BoxGeometry(width, 0.1, depth);
-    const wallGeometry = new THREE.BoxGeometry(0.1, height, depth);
+    const wallGeometry_01 = new THREE.BoxGeometry(0.1, height, depth);
+    const wallGeometry_02 = new THREE.BoxGeometry(0.1, height, width);
 
     const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 });
     const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
@@ -9,20 +10,43 @@ function createRoom(width, height, depth,scene) {
     floorMesh.position.y = -height / 2;
     scene.add(floorMesh);
 
-    const wallMesh1 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wallMesh1 = new THREE.Mesh(wallGeometry_01, wallMaterial);
     wallMesh1.position.x = -width / 2 + 0.05;
     scene.add(wallMesh1);
 
-    const wallMesh2 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wallMesh2 = new THREE.Mesh(wallGeometry_01, wallMaterial);
     wallMesh2.position.x = width / 2 - 0.05;
     scene.add(wallMesh2);
 
-    const wallMesh3 = new THREE.Mesh(wallGeometry, wallMaterial);
+    const wallMesh3 = new THREE.Mesh(wallGeometry_02, wallMaterial);
     wallMesh3.position.z = depth / 2 - 0.05;
     wallMesh3.rotation.y = Math.PI / 2;
     scene.add(wallMesh3);
 
-    createTorch(scene);
+    createDoors(4,8,10, scene);
+
+}
+
+function createDoors(width, height, step, scene) {
+    const doorGeometry = new THREE.BoxGeometry(width, height, 1);
+    const doorMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+
+    const leftDoorCount = Math.floor(roomDepth / step);
+    const rightDoorCount = Math.floor(roomDepth / step);
+
+    for (let i = 0; i < leftDoorCount; i++) {
+        const door = new THREE.Mesh(doorGeometry, doorMaterial);
+        door.position.set(-roomWidth / 2, height / 2 - 5, -roomDepth / 2 + i * step + step / 2);
+        door.rotation.y = Math.PI / 2;
+        scene.add(door);
+    }
+
+    for (let i = 0; i < rightDoorCount; i++) {
+        const door = new THREE.Mesh(doorGeometry, doorMaterial);
+        door.position.set(roomWidth / 2, height / 2 - 5, -roomDepth / 2 + i * step + step / 2);
+        door.rotation.y = Math.PI/2;
+        scene.add(door);
+    }
 }
 
 // Function to create a low-poly torch
