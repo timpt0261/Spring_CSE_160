@@ -23,8 +23,20 @@ function createRoom(width, height, depth,scene) {
     wallMesh3.rotation.y = Math.PI / 2;
     scene.add(wallMesh3);
 
+    // create doors
     createDoors(4,8,10, scene);
 
+    return [floorMesh, wallMesh1, wallMesh2, wallMesh3];
+
+}
+
+function deleteRoom(room)
+{
+    for(let i = 0; i < 4; i++)
+    {
+        scene.remove(room[i]);
+    }
+    
 }
 
 function createDoors(width, height, step, scene) {
