@@ -67,7 +67,8 @@ let roomWidth = 10;
 let roomHeight = 10;
 let roomDepth = 100;
 
-let room = createRoom(roomWidth,roomHeight, roomDepth, scene);
+let room = new Room(roomWidth,roomHeight,roomDepth,scene);
+room.createRoom();
 
 // Create bottle geometry
 const bottleGeometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 6);
@@ -151,6 +152,3 @@ roomDimensions.add(room_GUI_Controls, "height", 2, 15).name("Room's Height");
 roomDimensions.add(room_GUI_Controls, "depth", 10, 120).name("Room's Depth");
 roomDimensions.open();
 
-roomWidth = room_GUI_Controls.width;
-// room = deleteRoom();
-room = createRoom(roomWidth, roomHeight, roomDepth, scene);
