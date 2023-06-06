@@ -61,7 +61,7 @@ class Room{
         scene.add(wallMesh3);
 
         // create doors
-        this.doors.createDoors();
+        this.doors.createDoors(this.width, this.depth);
 
        this.room = [floorMesh, wallMesh1, wallMesh2, wallMesh3];
 
