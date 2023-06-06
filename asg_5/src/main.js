@@ -26,29 +26,29 @@ const hemiLightHelper = new THREE.HemisphereLightHelper(hemiLight, 10);
 scene.add(hemiLightHelper);
 
 
-const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-dirLight.color.setHSL(0.1, 1, 0.95);
-dirLight.position.set(- 1, 1.75, 1);
-dirLight.position.multiplyScalar(30);
-scene.add(dirLight);
+// const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+// dirLight.color.setHSL(0.1, 1, 0.95);
+// dirLight.position.set(- 1, 1.75, 1);
+// dirLight.position.multiplyScalar(30);
+// scene.add(dirLight);
 
-dirLight.castShadow = true;
+// dirLight.castShadow = true;
 
-dirLight.shadow.mapSize.width = 2048;
-dirLight.shadow.mapSize.height = 2048;
+// dirLight.shadow.mapSize.width = 2048;
+// dirLight.shadow.mapSize.height = 2048;
 
-const d = 50;
+// const d = 50;
 
-dirLight.shadow.camera.left = - d;
-dirLight.shadow.camera.right = d;
-dirLight.shadow.camera.top = d;
-dirLight.shadow.camera.bottom = - d;
+// dirLight.shadow.camera.left = - d;
+// dirLight.shadow.camera.right = d;
+// dirLight.shadow.camera.top = d;
+// dirLight.shadow.camera.bottom = - d;
 
-dirLight.shadow.camera.far = 3500;
-dirLight.shadow.bias = - 0.0001;
+// dirLight.shadow.camera.far = 3500;
+// dirLight.shadow.bias = - 0.0001;
 
-const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
-scene.add(dirLightHelper);
+// const dirLightHelper = new THREE.DirectionalLightHelper(dirLight, 10);
+// scene.add(dirLightHelper);
 
 // GROUND
 
@@ -110,33 +110,33 @@ function animate() {
 animate();
 
 
-// Initialize dat.GUI
-const gui = new dat.GUI();
+// // Initialize dat.GUI
+// const gui = new dat.GUI();
 
-// GUI for Hemisphere Light
-const hemisphereLightFolder = gui.addFolder('Hemisphere Light');
-hemisphereLightFolder.addColor(hemiLight, 'color').name('Color');
-hemisphereLightFolder.addColor(hemiLight, 'groundColor').name('Ground Color');
-hemisphereLightFolder.add(hemiLight, 'intensity', 0, 1).name('Intensity');
-hemisphereLightFolder.open();
+// // GUI for Hemisphere Light
+// const hemisphereLightFolder = gui.addFolder('Hemisphere Light');
+// hemisphereLightFolder.addColor(hemiLight, 'color').name('Color');
+// hemisphereLightFolder.addColor(hemiLight, 'groundColor').name('Ground Color');
+// hemisphereLightFolder.add(hemiLight, 'intensity', 0, 1).name('Intensity');
+// hemisphereLightFolder.open();
 
-// GUI for Directional Light
-const directionalLightFolder = gui.addFolder('Directional Light');
-directionalLightFolder.addColor(dirLight, 'color').name('Color');
-directionalLightFolder.add(dirLight, 'intensity', 0, 2).name('Intensity');
-directionalLightFolder.add(dirLight.position, 'x', -100, 100).name('X Position');
-directionalLightFolder.add(dirLight.position, 'y', -100, 100).name('Y Position');
-directionalLightFolder.add(dirLight.position, 'z', -100, 100).name('Z Position');
-directionalLightFolder.open();
+// // GUI for Directional Light
+// const directionalLightFolder = gui.addFolder('Directional Light');
+// directionalLightFolder.addColor(dirLight, 'color').name('Color');
+// directionalLightFolder.add(dirLight, 'intensity', 0, 2).name('Intensity');
+// directionalLightFolder.add(dirLight.position, 'x', -100, 100).name('X Position');
+// directionalLightFolder.add(dirLight.position, 'y', -100, 100).name('Y Position');
+// directionalLightFolder.add(dirLight.position, 'z', -100, 100).name('Z Position');
+// directionalLightFolder.open();
 
-// GUI for Point Light
-const pointLightFolder = gui.addFolder('Point Light');
-pointLightFolder.addColor(pointLight, 'color').name('Color');
-pointLightFolder.add(pointLight, 'intensity', 0, 2).name('Intensity');
-pointLightFolder.add(pointLight.position, 'x', -100, 100).name('X Position');
-pointLightFolder.add(pointLight.position, 'y', -100, 100).name('Y Position');
-pointLightFolder.add(pointLight.position, 'z', -100, 100).name('Z Position');
-pointLightFolder.open();
+// // GUI for Point Light
+// const pointLightFolder = gui.addFolder('Point Light');
+// pointLightFolder.addColor(pointLight, 'color').name('Color');
+// pointLightFolder.add(pointLight, 'intensity', 0, 2).name('Intensity');
+// pointLightFolder.add(pointLight.position, 'x', -100, 100).name('X Position');
+// pointLightFolder.add(pointLight.position, 'y', -100, 100).name('Y Position');
+// pointLightFolder.add(pointLight.position, 'z', -100, 100).name('Z Position');
+// pointLightFolder.open();
 
 const roomGUI = new dat.GUI();
 

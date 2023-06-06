@@ -42,8 +42,8 @@ class Room {
         const wallGeometry_01 = new THREE.BoxGeometry(0.1, this.height, this.depth);
         const wallGeometry_02 = new THREE.BoxGeometry(0.1, this.height, this.width);
 
-        const floorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
-        const wallMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc });
+        const floorMaterial = new THREE.MeshToonMaterial({ color: 0x808080, flatShading: true });
+        const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc, flatShading: true });
 
         const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
         floorMesh.position.y = -this.height / 2;
