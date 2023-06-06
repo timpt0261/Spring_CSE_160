@@ -43,7 +43,7 @@ class Room {
         const wallGeometry_02 = new THREE.BoxGeometry(0.1, this.height, this.width);
 
         const floorMaterial = new THREE.MeshToonMaterial({ color: 0x808080, flatShading: true });
-        const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc, flatShading: true });
+        const wallMaterial = new THREE.MeshToonMaterial({ color: 0xcccccc, flatShading: true });
 
         const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
         floorMesh.position.y = -this.height / 2;
@@ -64,14 +64,14 @@ class Room {
 
         // Create ceiling
         const ceilingGeometry = new THREE.BoxGeometry(this.width, 0.1, this.depth);
-        const ceilingMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC });
+        const ceilingMaterial = new THREE.MeshToonMaterial({ color: 0xCCCCCC, flatShading: true });
         this.ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
         this.ceiling.position.y = this.height/2;
         this.scene.add(this.ceiling);
 
         // Create back wall
         const backWallGeometry = new THREE.BoxGeometry(this.width, this.height, 0.1);
-        const backWallMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC });
+        const backWallMaterial = new THREE.MeshToonMaterial({ color: 0xCCCCCC, flatShading: true });
         this.backWall = new THREE.Mesh(backWallGeometry, backWallMaterial);
         this.backWall.position.z = -this.depth / 2;
         this.scene.add(this.backWall);
@@ -100,18 +100,18 @@ class Room {
 // Function to create a low-poly torch
 function createTorch(scene) {
     const baseGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 6);
-    const baseMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513 });
+    const baseMaterial = new THREE.MeshToonMaterial({ color: 0x8B4513 });
     const baseMesh = new THREE.Mesh(baseGeometry, baseMaterial);
     scene.add(baseMesh);
 
     const poleGeometry = new THREE.CylinderGeometry(0.2, 0.2, 2, 6);
-    const poleMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513 });
+    const poleMaterial = new THREE.MeshToonMaterial({ color: 0x8B4513 });
     const poleMesh = new THREE.Mesh(poleGeometry, poleMaterial);
     poleMesh.position.y = 1.1;
     scene.add(poleMesh);
 
     const flameGeometry = new THREE.ConeGeometry(0.6, 1, 6);
-    const flameMaterial = new THREE.MeshBasicMaterial({ color: 0xFF4500 });
+    const flameMaterial = new THREE.MeshToonMaterial({ color: 0xFF4500 });
     const flameMesh = new THREE.Mesh(flameGeometry, flameMaterial);
     flameMesh.position.y = 2.1;
     scene.add(flameMesh);
