@@ -1,18 +1,20 @@
-class Room{
-    constructor(width, height, depth, scene){
-        this.width = 10;
-        this.height = 10;
-        this.depth = 10;
+class Room {
+    constructor(width, height, depth, scene) {
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
         this.scene = scene;
         this.room = [];
         this.doors = new Door(4, 8, 10, scene);
+        this.ceiling = null;
+        this.backWall = null;
     }
 
-    get getWidth(){
+    get getWidth() {
         return this.width;
     }
 
-    set setWidth(value){
+    set setWidth(value) {
         this.width = value;
         this.createRoom();
     }
@@ -40,45 +42,58 @@ class Room{
         const wallGeometry_01 = new THREE.BoxGeometry(0.1, this.height, this.depth);
         const wallGeometry_02 = new THREE.BoxGeometry(0.1, this.height, this.width);
 
-        const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 });
-        const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+        const floorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
+        const wallMaterial = new THREE.MeshPhongMaterial({ color: 0xcccccc });
 
         const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
         floorMesh.position.y = -this.height / 2;
-        scene.add(floorMesh);
+        this.scene.add(floorMesh);
 
         const wallMesh1 = new THREE.Mesh(wallGeometry_01, wallMaterial);
         wallMesh1.position.x = -this.width / 2 + 0.05;
-        scene.add(wallMesh1);
+        this.scene.add(wallMesh1);
 
         const wallMesh2 = new THREE.Mesh(wallGeometry_01, wallMaterial);
         wallMesh2.position.x = this.width / 2 - 0.05;
-        scene.add(wallMesh2);
+        this.scene.add(wallMesh2);
 
         const wallMesh3 = new THREE.Mesh(wallGeometry_02, wallMaterial);
         wallMesh3.position.z = this.depth / 2 - 0.05;
         wallMesh3.rotation.y = Math.PI / 2;
-        scene.add(wallMesh3);
+        this.scene.add(wallMesh3);
+
+        // Create ceiling
+        const ceilingGeometry = new THREE.BoxGeometry(this.width, 0.1, this.depth);
+        const ceilingMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC });
+        this.ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
+        this.ceiling.position.y = this.height/2;
+        this.scene.add(this.ceiling);
+
+        // Create back wall
+        const backWallGeometry = new THREE.BoxGeometry(this.width, this.height, 0.1);
+        const backWallMaterial = new THREE.MeshBasicMaterial({ color: 0xCCCCCC });
+        this.backWall = new THREE.Mesh(backWallGeometry, backWallMaterial);
+        this.backWall.position.z = -this.depth / 2;
+        this.scene.add(this.backWall);
 
         // create doors
         this.doors.createDoors(this.width, this.depth);
 
-       this.room = [floorMesh, wallMesh1, wallMesh2, wallMesh3];
-
+        this.room = [floorMesh, wallMesh1, wallMesh2, wallMesh3];
     }
 
     deleteRoom() {
-
         this.doors.deleteRoom();
 
+        this.scene.remove(this.ceiling);
+        this.scene.remove(this.backWall);
+
         for (let i = 0; i < 4; i++) {
-            scene.remove(this.room[i]);
+            this.scene.remove(this.room[i]);
         }
 
         this.room = null;
-
     }
-
 }
 
 

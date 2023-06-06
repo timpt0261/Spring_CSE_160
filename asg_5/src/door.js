@@ -28,7 +28,7 @@ class Door{
 
     createDoors(r_width,r_depth) {
         const doorGeometry = new THREE.BoxGeometry(this.width, this.height, .9);
-        const doorMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        const doorMaterial = new THREE.MeshPhongMaterial({ color: 0x0000ff });
 
         const leftDoorCount = Math.floor(r_depth / this.step);
         const rightDoorCount = Math.floor(r_depth / this.step);

@@ -138,17 +138,18 @@ pointLightFolder.add(pointLight.position, 'y', -100, 100).name('Y Position');
 pointLightFolder.add(pointLight.position, 'z', -100, 100).name('Z Position');
 pointLightFolder.open();
 
-const room_GUI_Controls = {
-    width: roomWidth,
-    height: roomHeight,
-    depth: roomDepth
-};
-
 const roomGUI = new dat.GUI();
 
+
 const roomDimensions = roomGUI.addFolder("Room DImesions");
-roomDimensions.add(room_GUI_Controls, "width", 2, 15).name("Room's Width");
-roomDimensions.add(room_GUI_Controls, "height", 2, 15).name("Room's Height");
-roomDimensions.add(room_GUI_Controls, "depth", 10, 120).name("Room's Depth");
+roomDimensions.add(room, "width", 2, 15).name("Room's Width").onChange(function(value){
+    room.createRoom();
+});
+roomDimensions.add(room, "height", 2, 15).name("Room's Height").onChange(function (value) {
+    room.createRoom();
+});
+roomDimensions.add(room, "depth", 10, 120).name("Room's Depth").onChange(function (value) {
+    room.createRoom();
+});
 roomDimensions.open();
 
