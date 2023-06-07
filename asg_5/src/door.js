@@ -1,11 +1,9 @@
-class Door{
-    constructor(width,height, step,scene){
+class Door {
+    constructor(width, height, step) {
         this.width = width;
         this.height = height;
         this.step = step;
-        this.scene = scene;
-
-        this.doors = new Map();
+        this.doors = [];
     }
 
     get getWidth() {
@@ -14,7 +12,7 @@ class Door{
 
     set setWidth(value) {
         this.width = value;
-        this.createRoom();
+        this.createDoors();
     }
 
     get getHeight() {
@@ -23,12 +21,19 @@ class Door{
 
     set setHeight(value) {
         this.height = value;
-        this.createRoom();
+        this.createDoors();
     }
 
-    createDoors(r_width,r_depth) {
-        const doorGeometry = new THREE.BoxGeometry(this.width, this.height, .9);
-        const doorMaterial = new THREE.MeshToonMaterial({ color: 0x0000ff, flatShading: true });
+    createDoors(r_width, r_depth, useTexture = false, textureUrl = "") {
+        const doorGeometry = new THREE.BoxGeometry(this.width, this.height, 0.6);
+        let doorMaterial;
+
+        if (useTexture) {
+            const texture = new THREE.TextureLoader().load(textureUrl);
+            doorMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        } else {
+            doorMaterial = new THREE.MeshToonMaterial({ color: 0x0000ff, flatShading: true });
+        }
 
         const leftDoorCount = Math.floor(r_depth / this.step);
         const rightDoorCount = Math.floor(r_depth / this.step);
@@ -38,9 +43,7 @@ class Door{
             door.position.set(-r_width / 2, this.height / 2 - 5, -r_depth / 2 + i * this.step + this.step / 2);
             door.rotation.y = Math.PI / 2;
             scene.add(door);
-            let name = "left_door_" + String(i);
-            this.doors.set(name,door);
-
+            this.doors.push(door);
         }
 
         for (let i = 0; i < rightDoorCount; i++) {
@@ -48,22 +51,40 @@ class Door{
             door.position.set(r_width / 2, this.height / 2 - 5, -r_depth / 2 + i * this.step + this.step / 2);
             door.rotation.y = Math.PI / 2;
             scene.add(door);
-            let name = "right_door_" + String(i);
-            this.doors.set(name, door);
+            this.doors.push(door);
         }
     }
 
-    deleteDoors(){
-        const doorCount = Math.floor(r_depth / this.step);
+    openDoors() {
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            door.userData.originalRotation = door.rotation.clone();
+            const targetRotation = door.userData.originalRotation.clone();
+            targetRotation.y += Math.PI / 2;
 
-        for(const value in this.door.values()){
-            this.scene.remove(value);
+            new TWEEN.Tween(door.rotation)
+                .to(targetRotation, 1000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start();
         }
-
-        this.doors = null;
-
     }
 
-    
+    closeDoors() {
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            const targetRotation = door.userData.originalRotation.clone();
 
+            new TWEEN.Tween(door.rotation)
+                .to(targetRotation, 1000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start();
+        }
+    }
+
+    deleteDoors() {
+        for (let i = 0; i < this.doors.length; i++) {
+            scene.remove(this.doors[i]);
+        }
+        this.doors = [];
+    }
 }

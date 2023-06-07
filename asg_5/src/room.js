@@ -1,13 +1,12 @@
 class Room {
-    constructor(width, height, depth, scene) {
+    constructor(width, height, depth) {
         this.width = width;
         this.height = height;
         this.depth = depth;
-        this.scene = scene;
         this.room = [];
-        this.doors = new Door(4, 8, 10, scene);
-        this.ceiling = null;
-        this.backWall = null;
+        this.doors = new Door(4, 8, 10);
+        this.lamps = new Lamps(roomSpotlight, 10);
+  
     }
 
     get getWidth() {
@@ -37,87 +36,100 @@ class Room {
         this.createRoom();
     }
 
-    createRoom() {
+    createRoom(useTexture = false, floorTexturePath = "", wallTexture_01Path= "", ceilingTexturePath="") {
         const floorGeometry = new THREE.BoxGeometry(this.width, 0.1, this.depth);
         const wallGeometry_01 = new THREE.BoxGeometry(0.1, this.height, this.depth);
         const wallGeometry_02 = new THREE.BoxGeometry(0.1, this.height, this.width);
 
-        const floorMaterial = new THREE.MeshToonMaterial({ color: 0x808080, flatShading: true });
-        const wallMaterial = new THREE.MeshToonMaterial({ color: 0xcccccc, flatShading: true });
+        let floorMaterial, wallMaterial_01, wallMaterial_02, ceilingMaterial;
+
+        if (useTexture) {
+            const textureLoader = new THREE.TextureLoader();
+            const floorTexture = textureLoader.load(floorTexturePath);
+            const wallTexture_01 = textureLoader.load(wallTexture_01Path);
+            const wallTexture_02 = textureLoader.load(wallTexture_01Path);
+            const ceilingTexture = textureLoader.load(ceilingTexturePath);
+
+            floorTexture.minFilter = THREE.NearestFilter;
+            wallTexture_01.minFilter = THREE.NearestFilter;
+            ceilingTexture.minFilter = THREE.NearestFilter;
+
+            floorTexture.wrapS = THREE.RepeatWrapping;
+            floorTexture.wrapT = THREE.RepeatWrapping;
+            floorTexture.repeat.set(this.width / 10, this.depth / 10);
+
+            wallTexture_01.wrapS = THREE.RepeatWrapping;
+            wallTexture_01.wrapT = THREE.RepeatWrapping;
+            wallTexture_01.repeat.set(1, this.height / 10);
+
+            wallTexture_02.wrapS = THREE.RepeatWrapping;
+            wallTexture_02.wrapT = THREE.RepeatWrapping;
+            wallTexture_02.repeat.set(this.width , this.height / 10);
+
+            ceilingTexture.wrapS = THREE.RepeatWrapping;
+            ceilingTexture.wrapT = THREE.RepeatWrapping;
+            ceilingTexture.repeat.set(this.width / 10, this.depth / 10);
+
+            floorMaterial = new THREE.MeshToonMaterial({ map: floorTexture, flatShading: true });
+            wallMaterial_01 = new THREE.MeshToonMaterial({ map: wallTexture_01, flatShading: true });
+            wallMaterial_02 = new THREE.MeshToonMaterial({ map: wallTexture_02, flatShading: true });
+            ceilingMaterial = new THREE.MeshToonMaterial({ map: ceilingTexture, flatShading: true });
+        } else {
+            floorMaterial = new THREE.MeshToonMaterial({ color: 0x808080, flatShading: true });
+            wallMaterial_01 = new THREE.MeshToonMaterial({ color: 0xcccccc, flatShading: true });
+            wallMaterial_02 = new THREE.MeshToonMaterial({ color: 0xcccccc, flatShading: true });
+            ceilingMaterial = new THREE.MeshToonMaterial({ color: 0xffffff, flatShading: true });
+        }
 
         const floorMesh = new THREE.Mesh(floorGeometry, floorMaterial);
         floorMesh.position.y = -this.height / 2;
-        this.scene.add(floorMesh);
+        scene.add(floorMesh);
 
-        const wallMesh1 = new THREE.Mesh(wallGeometry_01, wallMaterial);
-        wallMesh1.position.x = -this.width / 2 + 0.05;
-        this.scene.add(wallMesh1);
+        const ceilingMesh = new THREE.Mesh(floorGeometry, ceilingMaterial);
+        ceilingMesh.position.y = this.height / 2;
+        scene.add(ceilingMesh);
 
-        const wallMesh2 = new THREE.Mesh(wallGeometry_01, wallMaterial);
-        wallMesh2.position.x = this.width / 2 - 0.05;
-        this.scene.add(wallMesh2);
+        const frontWall = new THREE.Mesh(wallGeometry_02, wallMaterial_01);
+        frontWall.position.z = this.depth / 2 - 0.05;
+        frontWall.rotation.y = Math.PI / 2;
+        scene.add(frontWall);
 
-        const wallMesh3 = new THREE.Mesh(wallGeometry_02, wallMaterial);
-        wallMesh3.position.z = this.depth / 2 - 0.05;
-        wallMesh3.rotation.y = Math.PI / 2;
-        this.scene.add(wallMesh3);
+        const backWall = new THREE.Mesh(wallGeometry_02, wallMaterial_01);
+        backWall.position.z = -this.depth / 2;
+        backWall.rotation.y = Math.PI / 2;
+        scene.add(backWall);
 
-        // Create ceiling
-        const ceilingGeometry = new THREE.BoxGeometry(this.width, 0.1, this.depth);
-        const ceilingMaterial = new THREE.MeshToonMaterial({ color: 0xCCCCCC, flatShading: true });
-        this.ceiling = new THREE.Mesh(ceilingGeometry, ceilingMaterial);
-        this.ceiling.position.y = this.height/2;
-        this.scene.add(this.ceiling);
+        const rightWall = new THREE.Mesh(wallGeometry_01, wallMaterial_02);
+        rightWall.position.x = -this.width / 2 + 0.05;
+        scene.add(rightWall);
 
-        // Create back wall
-        const backWallGeometry = new THREE.BoxGeometry(this.width, this.height, 0.1);
-        const backWallMaterial = new THREE.MeshToonMaterial({ color: 0xCCCCCC, flatShading: true });
-        this.backWall = new THREE.Mesh(backWallGeometry, backWallMaterial);
-        this.backWall.position.z = -this.depth / 2;
-        this.scene.add(this.backWall);
+        const leftWall = new THREE.Mesh(wallGeometry_01, wallMaterial_02);
+        leftWall.position.x = this.width / 2 - 0.05;
+        scene.add(leftWall);
+
+        
+
 
         // create doors
-        this.doors.createDoors(this.width, this.depth);
+        this.doors.createDoors(this.width, this.depth, true, "../public/textures/door_texture.jpg");
+        this.room = [floorMesh, rightWall, leftWall, frontWall, backWall, ceilingMesh];
 
-        this.room = [floorMesh, wallMesh1, wallMesh2, wallMesh3];
+        // create lamps
+        this.lamps.createLampsRow(this.width, this.height, this.depth);
+
     }
+
 
     deleteRoom() {
         this.doors.deleteRoom();
 
-        this.scene.remove(this.ceiling);
-        this.scene.remove(this.backWall);
+        scene.remove(this.ceiling);
+        scene.remove(this.backWall);
 
         for (let i = 0; i < 4; i++) {
-            this.scene.remove(this.room[i]);
+            scene.remove(this.room[i]);
         }
 
         this.room = null;
     }
-}
-
-
-// Function to create a low-poly torch
-function createTorch(scene) {
-    const baseGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.1, 6);
-    const baseMaterial = new THREE.MeshToonMaterial({ color: 0x8B4513 });
-    const baseMesh = new THREE.Mesh(baseGeometry, baseMaterial);
-    scene.add(baseMesh);
-
-    const poleGeometry = new THREE.CylinderGeometry(0.2, 0.2, 2, 6);
-    const poleMaterial = new THREE.MeshToonMaterial({ color: 0x8B4513 });
-    const poleMesh = new THREE.Mesh(poleGeometry, poleMaterial);
-    poleMesh.position.y = 1.1;
-    scene.add(poleMesh);
-
-    const flameGeometry = new THREE.ConeGeometry(0.6, 1, 6);
-    const flameMaterial = new THREE.MeshToonMaterial({ color: 0xFF4500 });
-    const flameMesh = new THREE.Mesh(flameGeometry, flameMaterial);
-    flameMesh.position.y = 2.1;
-    scene.add(flameMesh);
-
-    // Create a point light at the flame tip
-    const flameLight = new THREE.PointLight(0x00FF00, 1, 2);
-    flameLight.position.copy(flameMesh.position);
-    scene.add(flameLight);
 }
