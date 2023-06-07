@@ -6,6 +6,7 @@ class Room {
         this.room = [];
         this.doors = new Door(4, 8, 10);
         this.lamps = new Lamps(roomSpotlight, 10);
+        this. furniture = [];
   
     }
 

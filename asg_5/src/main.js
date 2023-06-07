@@ -80,42 +80,42 @@ const spotlightFolder = gui.addFolder('Spotlights');
 spotlightFolder.addColor(spotlightParm, 'color').name('Color').onChange(function (val) {
     roomSpotlight.color.setStyle(val);
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'intensity', 0, 1).name('Intensity').onChange(function (val) {
     roomSpotlight.intensity = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'distance', 0, 200).name('Distance').onChange(function (val) {
     roomSpotlight.distance = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'angle', 0, Math.PI / 2).name('Angle').onChange(function (val) {
     roomSpotlight.angle = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'penumbra', 0, 1).name('Penumbra').onChange(function (val) {
     roomSpotlight.penumbra = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'decay', 0, 2).name('Decay').onChange(function (val) {
     roomSpotlight.decay = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'focus', 0, 1).name('Focus').onChange(function (val) {
     roomSpotlight.shadow.focus = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 spotlightFolder.add(spotlightParm, 'shadows').name('Shadows').onChange(function (val) {
     roomSpotlight.castShadow = val;
     room.deleteRoom();
-    room.createRoom();
+    room.createRoom(true, floorURL, wallURL, ceilingURL);;
 });
 
 spotlightFolder.open();
