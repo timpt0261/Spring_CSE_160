@@ -15,42 +15,28 @@ document.body.appendChild(renderer.domElement);
 // Create OrbitControls
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-
-// // GROUND
-
-// const groundGeo = new THREE.PlaneGeometry(10000, 10000);
-// const groundMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
-// groundMat.color.setHSL(0.095, 1, 0.75);
-
-// const ground = new THREE.Mesh(groundGeo, groundMat);
-// ground.position.y = - 33;
-// ground.rotation.x = - Math.PI / 2;
-// ground.receiveShadow = true;
-// scene.add(ground);
-
-// Create Global Spotlight for Room
-
-
-
-
 // Create geometry for the room
 let roomWidth = 15;
 let roomHeight = 10;
 let roomDepth = 100;
 
 
-
+// Create Global Spotlight for Room
 const spotlightColor = 0x8C602A;
 const spotlightDistance = 30;
 const spotlightAngle = Math.PI / 4;
 
-const roomSpotlight = new THREE.SpotLight(0x8C602A);
+let roomSpotlight = new THREE.SpotLight(0x8C602A);
+
 roomSpotlight.distance = spotlightDistance;
 roomSpotlight.angle = spotlightAngle;
 
 
-let room = new Room(roomWidth,roomHeight,roomDepth,scene);
-room.createRoom(true, "../public/textures/floor_texture.jpg", "../public/textures/wall_texture.jpg", "../public/textures/wall_texture.jpg");
+let room = new Room(roomWidth, roomHeight, roomDepth, scene);
+const floorURL = "../public/textures/floor_texture.jpg";
+const wallURL = "../public/textures/wall_texture.jpg";
+const ceilingURL = "../public/textures/wall_texture.jpg"
+room.createRoom(true, floorURL, wallURL, ceilingURL);
 
 // Set initial camera position and look at the 
 camera.position.set(0, 0, -50);
@@ -74,6 +60,65 @@ function animate() {
 
 // Call animate function to start rendering
 animate();
+
+
+const gui = new dat.GUI();
+
+const spotlightParm = {
+    color: roomSpotlight.color.getStyle(),
+    intensity: roomSpotlight.intensity,
+    distance: roomSpotlight.distance,
+    angle: roomSpotlight.angle,
+    penumbra: roomSpotlight.penumbra,
+    decay: roomSpotlight.decay,
+    focus: roomSpotlight.shadow.focus,
+    shadows: true,
+};
+
+// GUI for Spotlight
+const spotlightFolder = gui.addFolder('Spotlights');
+spotlightFolder.addColor(spotlightParm, 'color').name('Color').onChange(function (val) {
+    roomSpotlight.color.setStyle(val);
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'intensity', 0, 1).name('Intensity').onChange(function (val) {
+    roomSpotlight.intensity = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'distance', 0, 200).name('Distance').onChange(function (val) {
+    roomSpotlight.distance = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'angle', 0, Math.PI / 2).name('Angle').onChange(function (val) {
+    roomSpotlight.angle = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'penumbra', 0, 1).name('Penumbra').onChange(function (val) {
+    roomSpotlight.penumbra = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'decay', 0, 2).name('Decay').onChange(function (val) {
+    roomSpotlight.decay = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'focus', 0, 1).name('Focus').onChange(function (val) {
+    roomSpotlight.shadow.focus = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+spotlightFolder.add(spotlightParm, 'shadows').name('Shadows').onChange(function (val) {
+    roomSpotlight.castShadow = val;
+    room.deleteRoom();
+    room.createRoom();
+});
+
+spotlightFolder.open();
 
 
 

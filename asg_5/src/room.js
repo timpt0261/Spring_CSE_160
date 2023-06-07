@@ -111,25 +111,26 @@ class Room {
 
 
         // create doors
-        this.doors.createDoors(this.width, this.depth, true, "../public/textures/door_texture.jpg");
+        const doorURL = "../public/textures/door_texture.jpg";
+        this.doors.createDoors(this.width, this.depth, true, doorURL);
         this.room = [floorMesh, rightWall, leftWall, frontWall, backWall, ceilingMesh];
 
         // create lamps
         this.lamps.createLampsRow(this.width, this.height, this.depth);
 
+        this.room = [floorMesh, frontWall, backWall, leftWall,rightWall,backWall];
+
     }
 
 
     deleteRoom() {
-        this.doors.deleteRoom();
+        this.lamps.deleteLampsRow();
+        this.doors.deleteDoors();
 
-        scene.remove(this.ceiling);
-        scene.remove(this.backWall);
-
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < this.room.length; i++) {
             scene.remove(this.room[i]);
         }
 
-        this.room = null;
+        this.room = [];
     }
 }
