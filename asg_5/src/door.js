@@ -55,31 +55,7 @@ class Door {
         }
     }
 
-    openDoors() {
-        for (let i = 0; i < this.doors.length; i++) {
-            const door = this.doors[i];
-            door.userData.originalRotation = door.rotation.clone();
-            const targetRotation = door.userData.originalRotation.clone();
-            targetRotation.y += Math.PI / 2;
-
-            new TWEEN.Tween(door.rotation)
-                .to(targetRotation, 1000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .start();
-        }
-    }
-
-    closeDoors() {
-        for (let i = 0; i < this.doors.length; i++) {
-            const door = this.doors[i];
-            const targetRotation = door.userData.originalRotation.clone();
-
-            new TWEEN.Tween(door.rotation)
-                .to(targetRotation, 1000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .start();
-        }
-    }
+  
 
     deleteDoors() {
         for (let i = 0; i < this.doors.length; i++) {
@@ -87,4 +63,9 @@ class Door {
         }
         this.doors = [];
     }
+
+    
+
+
+
 }

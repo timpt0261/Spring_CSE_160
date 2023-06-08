@@ -31,5 +31,3 @@ class Loader {
         this.fbxLoader.load(fbxPath, onSuccess, onProgress, onError);
     }
 }
-
-

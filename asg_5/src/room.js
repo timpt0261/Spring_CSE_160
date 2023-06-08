@@ -6,8 +6,8 @@ class Room {
         this.room = [];
         this.doors = new Door(4, 8, 10);
         this.lamps = new Lamps(roomSpotlight, 10);
-        this. furniture = [];
-  
+        this.furniture = new Furniture();
+
     }
 
     get getWidth() {
@@ -37,7 +37,20 @@ class Room {
         this.createRoom();
     }
 
-    createRoom(useTexture = false, floorTexturePath = "", wallTexture_01Path= "", ceilingTexturePath="") {
+
+
+    createFurniture() {
+
+        this.furniture.placeCoffeTable(this.depth);
+
+        this.furniture.placePaintings();
+    }
+
+
+
+
+
+    createRoom(useTexture = false, floorTexturePath = "", wallTexture_01Path = "", ceilingTexturePath = "") {
         const floorGeometry = new THREE.BoxGeometry(this.width, 0.1, this.depth);
         const wallGeometry_01 = new THREE.BoxGeometry(0.1, this.height, this.depth);
         const wallGeometry_02 = new THREE.BoxGeometry(0.1, this.height, this.width);
@@ -65,7 +78,7 @@ class Room {
 
             wallTexture_02.wrapS = THREE.RepeatWrapping;
             wallTexture_02.wrapT = THREE.RepeatWrapping;
-            wallTexture_02.repeat.set(this.width , this.height / 10);
+            wallTexture_02.repeat.set(this.width, this.height / 10);
 
             ceilingTexture.wrapS = THREE.RepeatWrapping;
             ceilingTexture.wrapT = THREE.RepeatWrapping;
@@ -108,18 +121,20 @@ class Room {
         leftWall.position.x = this.width / 2 - 0.05;
         scene.add(leftWall);
 
-        
 
 
-        // create doors
-        const doorURL = "../public/textures/door_texture.jpg";
+
+       
         this.doors.createDoors(this.width, this.depth, true, doorURL);
         this.room = [floorMesh, rightWall, leftWall, frontWall, backWall, ceilingMesh];
 
         // create lamps
         this.lamps.createLampsRow(this.width, this.height, this.depth);
 
-        this.room = [floorMesh, frontWall, backWall, leftWall,rightWall,backWall];
+        this.room = [floorMesh, frontWall, backWall, leftWall, rightWall, backWall];
+
+        // crate furniture 
+        this.createFurniture();
 
     }
 
@@ -127,6 +142,7 @@ class Room {
     deleteRoom() {
         this.lamps.deleteLampsRow();
         this.doors.deleteDoors();
+        this.furniture.deleteItems();
 
         for (let i = 0; i < this.room.length; i++) {
             scene.remove(this.room[i]);
@@ -134,4 +150,15 @@ class Room {
 
         this.room = [];
     }
+
+    animate() {
+
+
+        // Call animateLights() for the lamps
+        setTimeout(() => {
+            this.lamps.animateLights();
+        }, 3000); // Adjust the timing as needed
+    }
+
+
 }

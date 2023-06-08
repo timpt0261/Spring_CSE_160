@@ -10,7 +10,7 @@ class Lamps {
         const lampSpacing = 10;
         const lampRadius = 1;
         const lampDepth = 0.2;
-        const lampColor = this.lamp === null? 0xFFFF00: this.lamp.color;
+        const lampColor = this.lamp === null ? 0xFFFF00 : this.lamp.color;
 
         const lightCount = Math.floor(r_depth / this.step);
 
@@ -21,7 +21,7 @@ class Lamps {
 
             const lampX = r_width / 2 - 7;
             const lampY = r_height - 5.51;
-            const lampZ = -r_depth / 2 + (i+.5) * lampSpacing;
+            const lampZ = -r_depth / 2 + (i + 0.5) * lampSpacing;
 
             lamp.position.set(lampX, lampY, lampZ);
             scene.add(lamp);
@@ -52,10 +52,25 @@ class Lamps {
         const randomIndex = Math.floor(Math.random() * this.lamps.length);
         const { spotlight } = this.lamps[randomIndex];
 
-        new TWEEN.Tween(spotlight)
-            .to({ intensity: 0 }, 500)
-            .repeat(3)
-            .yoyo(true)
-            .start();
+        let intensity = spotlight.intensity; // Get the current intensity value
+        const duration = 1000; // Animation duration in milliseconds
+        const steps = 3; // Number of steps (including yoyo)
+
+        let currentStep = 0;
+        const animate = () => {
+            if (currentStep === steps) return;
+
+            const targetIntensity = currentStep % 2 === 0 ? 0 : intensity; // Toggle between 0 and original intensity
+            const delay = currentStep === 0 ? 0 : duration; // Delay between each step
+
+            setTimeout(() => {
+                spotlight.intensity = targetIntensity;
+                animate();
+            }, delay);
+
+            currentStep++;
+        };
+
+        animate();
     }
 }
