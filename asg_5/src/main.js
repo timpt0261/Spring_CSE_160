@@ -76,7 +76,7 @@ let room = new Room(roomWidth, roomHeight, roomDepth, scene);
 
 room.createRoom(true, floorURL, wallURL, ceilingURL);
 
-const geometry = new THREE.SphereGeometry(, 32, 16);
+const geometry = new THREE.SphereGeometry(5, 32, 16);
 const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 const sphere = new THREE.Mesh(geometry, material); scene.add(sphere);
 
